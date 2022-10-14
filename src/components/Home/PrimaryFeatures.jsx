@@ -3,11 +3,11 @@ import { Tab } from '@headlessui/react'
 import clsx from 'clsx'
 
 import { Container } from '../Misc/Container'
-import backgroundImage from '../../images/background-features.jpg'
 import screenshotExpenses from '../../images/screenshots/expenses.png'
 import screenshotPayroll from '../../images/screenshots/payroll.png'
 import screenshotReporting from '../../images/screenshots/reporting.png'
 import screenshotVatReturns from '../../images/screenshots/vat-returns.png'
+import BgFeatures from '../Backgrounds/BgFeatures'
 
 const features = [
   {
@@ -60,13 +60,10 @@ export function PrimaryFeatures() {
       aria-label="Features for running your books"
       className="relative overflow-hidden bg-emerald-600 pt-20 pb-28 sm:py-32"
     >
-      <img
-        className="absolute top-1/2 left-1/2 max-w-none translate-x-[-44%] translate-y-[-42%]"
-        src={backgroundImage}
+      <BgFeatures
+        className="absolute top-0 max-w-none"
         alt=""
-        width={2245}
-        height={1636}
-      />
+        height="100%" />
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
           <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl md:text-5xl">
@@ -124,7 +121,7 @@ export function PrimaryFeatures() {
               </div>
               <Tab.Panels className="lg:col-span-7">
                 {features.map((feature) => (
-                  <Tab.Panel key={feature.title} unmount={false}>
+                  <Tab.Panel className="outline-none" key={feature.title} unmount={false}>
                     <div className="relative sm:px-6 lg:hidden">
                       <div className="absolute -inset-x-4 top-[-6.5rem] bottom-[-4.25rem] bg-white/10 ring-1 ring-inset ring-white/10 sm:inset-x-0 sm:rounded-t-xl" />
                       <p className="relative mx-auto max-w-2xl text-base text-white sm:text-center">
