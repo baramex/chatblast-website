@@ -1,7 +1,7 @@
-import { AuthLayout } from '../components/AuthLayout'
-import { Button } from '../components/Button'
-import { SelectField, TextField } from '../components/Fields'
-import { Logo } from '../components/Logo'
+import { AuthLayout } from '../Misc/AuthLayout'
+import { Button } from '../Misc/Button'
+import { SelectField, TextField } from '../Misc/Fields'
+import logo from '../../images/logo.png'
 import { Link } from 'react-router-dom'
 
 export default function Register() {
@@ -10,7 +10,7 @@ export default function Register() {
       <AuthLayout>
         <div className="flex flex-col">
           <Link to="/" aria-label="Home">
-            <Logo className="h-10 w-auto" />
+            <img src={logo} className="h-10 w-auto" />
           </Link>
           <div className="mt-20">
             <h2 className="text-lg font-semibold text-gray-900">
@@ -20,7 +20,7 @@ export default function Register() {
               Already registered?{' '}
               <Link
                 to="/login"
-                className="font-medium text-blue-600 hover:underline"
+                className="font-medium text-emerald-600 hover:underline"
               >
                 Sign in
               </Link>{' '}
@@ -81,7 +81,7 @@ export default function Register() {
             <Button
               type="submit"
               variant="solid"
-              color="blue"
+              color="emerald"
               className="w-full"
             >
               <span>

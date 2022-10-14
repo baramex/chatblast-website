@@ -1,8 +1,8 @@
-import { AuthLayout } from '../components/AuthLayout'
-import { Button } from '../components/Button'
-import { TextField } from '../components/Fields'
-import { Logo } from '../components/Logo'
+import logo from '../../images/logo.png'
 import { Link } from 'react-router-dom'
+import { TextField } from '../Misc/Fields'
+import { AuthLayout } from '../Misc/AuthLayout'
+import { Button } from '../Misc/Button'
 
 export default function Login() {
   return (
@@ -10,7 +10,7 @@ export default function Login() {
       <AuthLayout>
         <div className="flex flex-col">
           <Link to="/" aria-label="Home">
-            <Logo className="h-10 w-auto" />
+            <img src={logo} className="h-10 w-auto" />
           </Link>
           <div className="mt-20">
             <h2 className="text-lg font-semibold text-gray-900">
@@ -20,7 +20,7 @@ export default function Login() {
               Don’t have an account?{' '}
               <Link
                 to="/register"
-                className="font-medium text-blue-600 hover:underline"
+                className="font-medium text-emerald-600 hover:underline"
               >
                 Sign up
               </Link>{' '}
@@ -49,7 +49,7 @@ export default function Login() {
             <Button
               type="submit"
               variant="solid"
-              color="blue"
+              color="emerald"
               className="w-full"
             >
               <span>

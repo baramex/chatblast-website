@@ -1,11 +1,12 @@
 import { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
+import { PlayIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 
-import { Button } from '../components/Button'
-import { Container } from '../components/Container'
-import { Logo } from '../components/Logo'
-import { NavLink } from '../components/NavLink'
+import { Button } from '../Misc/Button'
+import { Container } from '../Misc/Container'
+import logo from '../../images/logo.png'
+import { NavLink } from '../Misc/NavLink'
 import { Link } from 'react-router-dom'
 
 function MobileNavLink({ href, children }) {
@@ -77,11 +78,11 @@ function MobileNavigation() {
             as="div"
             className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5"
           >
-            <MobileNavLink href="#features">Features</MobileNavLink>
-            <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>
-            <MobileNavLink href="#pricing">Pricing</MobileNavLink>
+            <MobileNavLink href="#features">Fonctionnalités</MobileNavLink>
+            <MobileNavLink href="#about">A propos</MobileNavLink>
+            <MobileNavLink href="#pricing">Prix</MobileNavLink>
             <hr className="m-2 border-slate-300/40" />
-            <MobileNavLink href="/login">Sign in</MobileNavLink>
+            <MobileNavLink href="/login">Se connecter</MobileNavLink>
           </Popover.Panel>
         </Transition.Child>
       </Transition.Root>
@@ -96,21 +97,22 @@ export function Header() {
         <nav className="relative z-50 flex justify-between">
           <div className="flex items-center md:gap-x-12">
             <Link to="#" aria-label="Home">
-              <Logo className="h-10 w-auto" />
+              <img src={logo} className="h-10 w-auto" />
             </Link>
             <div className="hidden md:flex md:gap-x-6">
-              <NavLink href="#features">Features</NavLink>
-              <NavLink href="#testimonials">Testimonials</NavLink>
-              <NavLink href="#pricing">Pricing</NavLink>
+              <NavLink href="#features">Fonctionnalités</NavLink>
+              <NavLink href="#about">A propos</NavLink>
+              <NavLink href="#pricing">Prix</NavLink>
             </div>
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">
             <div className="hidden md:block">
-              <NavLink href="/login">Sign in</NavLink>
+              <NavLink href="/login">Se connecter</NavLink>
             </div>
-            <Button href="/register" color="blue">
-              <span>
-                Get started <span className="hidden lg:inline">today</span>
+            <Button href="/register" color="emerald">
+              <PlayIcon width="18" />
+              <span className='ml-1'>
+                Démarrer
               </span>
             </Button>
             <div className="-mr-1 md:hidden">

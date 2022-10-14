@@ -1,12 +1,12 @@
-import { Button } from '../components/Button'
-import { Container } from '../components/Container'
-import backgroundImage from '../images/background-call-to-action.jpg'
+import backgroundImage from '../../images/background-call-to-action.jpg'
+import { Button } from '../Misc/Button'
+import { Container } from '../Misc/Container'
 
 export function CallToAction() {
   return (
     <section
       id="get-started-today"
-      className="relative overflow-hidden bg-blue-600 py-32"
+      className="relative overflow-hidden bg-emerald-600 py-32"
     >
       <img
         className="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2"
