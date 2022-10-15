@@ -11,27 +11,21 @@ import BgFeatures from '../Backgrounds/BgFeatures'
 
 const features = [
   {
-    title: 'Chatbox circulaire',
+    title: "L'Emplacement",
     description:
-      "Placez le macaron dans n'importe quel coin flottant sur votre site, la chatbox est compacte et ne dérange pas la navigation.",
+      "Placez la chatbox flottante dans un coin, ou alors en bloc dans un élément précis de votre site.",
     image: screenshotPayroll,
   },
   {
-    title: 'Chatbox en bloc',
+    title: 'La Forme',
     description:
-      "Placez directement la chatbox dans un endroit précis sur votre site.",
+      "Choississez plutôt un macaron pour pas déranger la navigation, ou alors une chatbox en bloc pour chatter plus rapidement.",
     image: screenshotExpenses,
   },
   {
-    title: 'Authentification anonyme',
+    title: 'Les Couleurs',
     description:
-      "Authentifier automatiquement le visiteur sur un compte anonyme et lui permettre de discuter rapidement sans être connecté. Il pourra créer un compte définitif sur ChatBlast pour avoir un profil utilisateur.",
-    image: screenshotVatReturns,
-  },
-  {
-    title: 'Authentification customisée',
-    description:
-      "Utiliser le profil utilisateur du membre connecté sur votre site pour l'authentifier sur ChatBlast.",
+      "Utilisez la palette de couleur de vôtre site pour une intégratino parfaite.",
     image: screenshotReporting,
   },
 ]
@@ -57,11 +51,11 @@ export function PrimaryFeatures() {
   return (
     <section
       id="features"
-      aria-label="Features for running your books"
+      aria-label="Intégrez comme vous le souhaitez"
       className="relative overflow-hidden bg-emerald-600 pt-20 pb-28 sm:py-32"
     >
       <BgFeatures
-        className="absolute top-0 max-w-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2"
         alt=""
         height="100%" />
       <Container className="relative">
@@ -70,7 +64,7 @@ export function PrimaryFeatures() {
             Intégrez comme vous le souhaitez.
           </h2>
           <p className="mt-6 text-lg tracking-tight text-emerald-100">
-            Customiser les couleurs et le système d'authentification pour une adhésion parfaite à votre site.
+            Customisez l'emplacement, la forme, les couleurs pour une adhésion parfaite à votre site.
           </p>
         </div>
         <Tab.Group

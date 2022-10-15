@@ -9,13 +9,41 @@ import screenshotProfitLoss from '../../images/screenshots/profit-loss.png'
 
 const features = [
   {
-    name: 'Reporting',
-    summary: 'Stay on top of things with always up-to-date reporting features.',
+    name: 'Authentification',
+    summary: "Choississez la rapidité ou l'authenticité.",
     description:
-      'We talked about reporting in the section above but we needed three items here, so mentioning it one more time for posterity.',
+      "L'authentification anonyme permet d'identifier directement les visiteurs de votre site, mais leur permette aussi de créer un compte sur ChatBlast afin d'avoir un profil utilisateur. L'authentification customisée permet d'utiliser le profil utilisateur du membre connecté sur votre site pour l'authentifier sur ChatBlast.",
     image: screenshotProfitLoss,
     icon: function ReportingIcon() {
-      let id = useId()
+      let id = useId();
+      return (
+        <>
+          <defs>
+            <linearGradient
+              id={id}
+              x1="7"
+              x2="36"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset=".194" stopColor="#fff" />
+              <stop offset={1} stopColor="#059669" />
+            </linearGradient>
+          </defs>
+          <path d="M 24.887 17.8722 v 6.9426 c 0 0.3222 -0.1134 0.5958 -0.3384 0.8208 S 24.05 25.9722 23.7278 25.9722 H 12.1592 c -0.3222 0 -0.5958 -0.1134 -0.8208 -0.3384 S 11 25.1352 11 24.8148 V 17.8722 c 0 -0.3222 0.1134 -0.594 0.3384 -0.8208 c 0.225 -0.225 0.4986 -0.3384 0.8208 -0.3384 h 0.3852 V 14.4 c 0 -1.4778 0.531 -2.7486 1.5912 -3.8088 C 15.1958 9.531 16.4648 9 17.9426 9 s 2.7468 0.531 3.8088 1.5912 C 22.8134 11.6514 23.3426 12.9222 23.3426 14.4 v 2.3148 h 0.3852 c 0.3222 0 0.5958 0.1134 0.8208 0.3384 C 24.7736 17.2782 24.887 17.55 24.887 17.8722 z M 14.8592 16.7148 h 6.1704 V 14.4 c 0 -0.8514 -0.3006 -1.5786 -0.9036 -2.1816 S 18.794 11.3148 17.9426 11.3148 c -0.8532 0 -1.5786 0.3006 -2.1816 0.9036 S 14.8592 13.5486 14.8592 14.4 V 16.7148 z M 19.487 19.8 c 0 -0.4248 -0.1512 -0.7884 -0.4518 -1.0908 c -0.3024 -0.3006 -0.666 -0.4518 -1.0908 -0.4518 S 17.1542 18.4086 16.8518 18.7092 C 16.5512 19.0116 16.4 19.3752 16.4 19.8 c 0 0.2988 0.0774 0.567 0.2304 0.8082 c 0.1512 0.2412 0.3564 0.4302 0.6138 0.567 L 16.4126 23.9346 C 16.3712 24.0552 16.3928 24.1686 16.472 24.2712 c 0.081 0.1044 0.1854 0.1566 0.315 0.1566 H 19.1 c 0.1278 0 0.234 -0.0522 0.315 -0.1566 C 19.4942 24.1686 19.514 24.0552 19.4744 23.9346 L 18.6428 21.1752 c 0.2574 -0.1368 0.4608 -0.3258 0.6138 -0.567 S 19.487 20.0988 19.487 19.8 z"
+            fill={`url(#${id})`} />
+        </>
+      )
+    },
+  },
+  {
+    name: 'Statistiques',
+    summary:
+      'Gardez un oeil sur la chatbox.',
+    description:
+      'ChatBlast vous donne accès à la liste des membres qui se sont connectés sur votre intégration, le nombre de message, les erreurs éventuelles, et bien plus encore.',
+    image: screenshotInventory,
+    icon: function InventoryIcon() {
+      let id = useId();
       return (
         <>
           <defs>
@@ -28,7 +56,7 @@ const features = [
               gradientUnits="userSpaceOnUse"
             >
               <stop offset=".194" stopColor="#fff" />
-              <stop offset={1} stopColor="#6692F1" />
+              <stop offset={1} stopColor="#059669" />
             </linearGradient>
           </defs>
           <path
@@ -41,58 +69,7 @@ const features = [
         </>
       )
     },
-  },
-  {
-    name: 'Inventory',
-    summary:
-      'Never lose track of what’s in stock with accurate inventory tracking.',
-    description:
-      'We don’t offer this as part of our software but that statement is inarguably true. Accurate inventory tracking would help you for sure.',
-    image: screenshotInventory,
-    icon: function InventoryIcon() {
-      return (
-        <>
-          <path
-            opacity=".5"
-            d="M8 17a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2Z"
-            fill="#fff"
-          />
-          <path
-            opacity=".3"
-            d="M8 24a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2Z"
-            fill="#fff"
-          />
-          <path
-            d="M8 10a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2Z"
-            fill="#fff"
-          />
-        </>
-      )
-    },
-  },
-  {
-    name: 'Contacts',
-    summary:
-      'Organize all of your contacts, service providers, and invoices in one place.',
-    description:
-      'This also isn’t actually a feature, it’s just some friendly advice. We definitely recommend that you do this, you’ll feel really organized and professional.',
-    image: screenshotContacts,
-    icon: function ContactsIcon() {
-      return (
-        <>
-          <path
-            opacity=".5"
-            d="M25.778 25.778c.39.39 1.027.393 1.384-.028A11.952 11.952 0 0 0 30 18c0-6.627-5.373-12-12-12S6 11.373 6 18c0 2.954 1.067 5.659 2.838 7.75.357.421.993.419 1.384.028.39-.39.386-1.02.036-1.448A9.959 9.959 0 0 1 8 18c0-5.523 4.477-10 10-10s10 4.477 10 10a9.959 9.959 0 0 1-2.258 6.33c-.35.427-.354 1.058.036 1.448Z"
-            fill="#fff"
-          />
-          <path
-            d="M12 28.395V28a6 6 0 0 1 12 0v.395A11.945 11.945 0 0 1 18 30c-2.186 0-4.235-.584-6-1.605ZM21 16.5c0-1.933-.5-3.5-3-3.5s-3 1.567-3 3.5 1.343 3.5 3 3.5 3-1.567 3-3.5Z"
-            fill="#fff"
-          />
-        </>
-      )
-    },
-  },
+  }
 ]
 
 function Feature({ feature, isActive, className, ...props }) {
@@ -103,8 +80,8 @@ function Feature({ feature, isActive, className, ...props }) {
     >
       <div
         className={clsx(
-          'w-9 rounded-lg',
-          isActive ? 'bg-emerald-600' : 'bg-slate-500'
+          'w-9 rounded-lg bg-emerald-600',
+          isActive ? '' : 'grayscale'
         )}
       >
         <svg aria-hidden="true" className="h-9 w-9" fill="none">
@@ -155,14 +132,14 @@ function FeaturesDesktop() {
     <Tab.Group as="div" className="hidden lg:mt-20 lg:block">
       {({ selectedIndex }) => (
         <>
-          <Tab.List className="grid grid-cols-3 gap-x-8">
+          <Tab.List className="grid grid-cols-[minmax(0,400px)_minmax(0,400px)] justify-center gap-x-8">
             {features.map((feature, featureIndex) => (
               <Feature
                 key={feature.name}
                 feature={{
                   ...feature,
                   name: (
-                    <Tab className="[&:not(:focus-visible)]:focus:outline-none">
+                    <Tab className="[&:not(:focus-visible)]:focus:outline-none outline-none">
                       <span className="absolute inset-0" />
                       {feature.name}
                     </Tab>
@@ -209,17 +186,16 @@ export function SecondaryFeatures() {
   return (
     <section
       id="secondary-features"
-      aria-label="Features for simplifying everyday business tasks"
+      aria-label="Contrôlez la chatbox à votre goût"
       className="pt-20 pb-14 sm:pb-20 sm:pt-32 lg:pb-32"
     >
       <Container>
         <div className="mx-auto max-w-2xl md:text-center">
           <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
-            Simplify everyday business tasks.
+            Contrôlez la chatbox à votre goût.
           </h2>
           <p className="mt-4 text-lg tracking-tight text-slate-700">
-            Because you’d probably be a little confused if we suggested you
-            complicate your everyday business tasks instead.
+            Choississez les aspects pratiques du système de la chatbox et monitorez les statistiques.
           </p>
         </div>
         <FeaturesMobile />
