@@ -21,7 +21,7 @@ function MobileNavIcon({ open }) {
   return (
     <svg
       aria-hidden="true"
-      className="h-3.5 w-3.5 overflow-visible stroke-slate-700"
+      className="h-3.5 w-3.5 overflow-visible stroke-gray-700"
       fill="none"
       strokeWidth={2}
       strokeLinecap="round"
@@ -63,7 +63,7 @@ function MobileNavigation() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Popover.Overlay className="fixed inset-0 bg-slate-300/50" />
+          <Popover.Overlay className="fixed inset-0 bg-gray-300/50" />
         </Transition.Child>
         <Transition.Child
           as={Fragment}
@@ -76,12 +76,12 @@ function MobileNavigation() {
         >
           <Popover.Panel
             as="div"
-            className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-slate-900 shadow-xl ring-1 ring-slate-900/5"
+            className="absolute inset-x-0 top-full mt-4 flex origin-top flex-col rounded-2xl bg-white p-4 text-lg tracking-tight text-gray-900 shadow-xl ring-1 ring-gray-900/5"
           >
             <MobileNavLink href="#features">Fonctionnalités</MobileNavLink>
             <MobileNavLink href="#about">A propos</MobileNavLink>
-            <MobileNavLink href="#pricing">Prix</MobileNavLink>
-            <hr className="m-2 border-slate-300/40" />
+            <MobileNavLink href="#pricing">Tarifs</MobileNavLink>
+            <hr className="m-2 border-gray-300/40" />
             <MobileNavLink href="/login">Se connecter</MobileNavLink>
           </Popover.Panel>
         </Transition.Child>
@@ -102,7 +102,7 @@ export function Header() {
             <div className="hidden md:flex md:gap-x-6">
               <NavLink href="#features">Fonctionnalités</NavLink>
               <NavLink href="#about">A propos</NavLink>
-              <NavLink href="#pricing">Prix</NavLink>
+              <NavLink href="#pricing">Tarifs</NavLink>
             </div>
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">

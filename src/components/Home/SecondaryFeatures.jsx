@@ -26,7 +26,7 @@ const features = [
               gradientUnits="userSpaceOnUse"
             >
               <stop offset=".194" stopColor="#fff" />
-              <stop offset={1} stopColor="#059669" />
+              <stop offset={1} stopColor="#ffffff00" />
             </linearGradient>
           </defs>
           <path d="M 24.887 17.8722 v 6.9426 c 0 0.3222 -0.1134 0.5958 -0.3384 0.8208 S 24.05 25.9722 23.7278 25.9722 H 12.1592 c -0.3222 0 -0.5958 -0.1134 -0.8208 -0.3384 S 11 25.1352 11 24.8148 V 17.8722 c 0 -0.3222 0.1134 -0.594 0.3384 -0.8208 c 0.225 -0.225 0.4986 -0.3384 0.8208 -0.3384 h 0.3852 V 14.4 c 0 -1.4778 0.531 -2.7486 1.5912 -3.8088 C 15.1958 9.531 16.4648 9 17.9426 9 s 2.7468 0.531 3.8088 1.5912 C 22.8134 11.6514 23.3426 12.9222 23.3426 14.4 v 2.3148 h 0.3852 c 0.3222 0 0.5958 0.1134 0.8208 0.3384 C 24.7736 17.2782 24.887 17.55 24.887 17.8722 z M 14.8592 16.7148 h 6.1704 V 14.4 c 0 -0.8514 -0.3006 -1.5786 -0.9036 -2.1816 S 18.794 11.3148 17.9426 11.3148 c -0.8532 0 -1.5786 0.3006 -2.1816 0.9036 S 14.8592 13.5486 14.8592 14.4 V 16.7148 z M 19.487 19.8 c 0 -0.4248 -0.1512 -0.7884 -0.4518 -1.0908 c -0.3024 -0.3006 -0.666 -0.4518 -1.0908 -0.4518 S 17.1542 18.4086 16.8518 18.7092 C 16.5512 19.0116 16.4 19.3752 16.4 19.8 c 0 0.2988 0.0774 0.567 0.2304 0.8082 c 0.1512 0.2412 0.3564 0.4302 0.6138 0.567 L 16.4126 23.9346 C 16.3712 24.0552 16.3928 24.1686 16.472 24.2712 c 0.081 0.1044 0.1854 0.1566 0.315 0.1566 H 19.1 c 0.1278 0 0.234 -0.0522 0.315 -0.1566 C 19.4942 24.1686 19.514 24.0552 19.4744 23.9346 L 18.6428 21.1752 c 0.2574 -0.1368 0.4608 -0.3258 0.6138 -0.567 S 19.487 20.0988 19.487 19.8 z"
@@ -56,7 +56,7 @@ const features = [
               gradientUnits="userSpaceOnUse"
             >
               <stop offset=".194" stopColor="#fff" />
-              <stop offset={1} stopColor="#059669" />
+              <stop offset={1} stopColor="#ffffff00" />
             </linearGradient>
           </defs>
           <path
@@ -80,8 +80,8 @@ function Feature({ feature, isActive, className, ...props }) {
     >
       <div
         className={clsx(
-          'w-9 rounded-lg bg-emerald-600',
-          isActive ? '' : 'grayscale'
+          'w-9 rounded-lg',
+          isActive ? 'bg-emerald-600' : 'bg-gray-500'
         )}
       >
         <svg aria-hidden="true" className="h-9 w-9" fill="none">
@@ -91,15 +91,15 @@ function Feature({ feature, isActive, className, ...props }) {
       <h3
         className={clsx(
           'mt-6 text-sm font-medium',
-          isActive ? 'text-emerald-600' : 'text-slate-600'
+          isActive ? 'text-emerald-600' : 'text-gray-600'
         )}
       >
         {feature.name}
       </h3>
-      <p className="mt-2 font-display text-xl text-slate-900">
+      <p className="mt-2 font-display text-xl text-gray-900">
         {feature.summary}
       </p>
-      <p className="mt-4 text-sm text-slate-600">{feature.description}</p>
+      <p className="mt-4 text-sm text-gray-600">{feature.description}</p>
     </div>
   )
 }
@@ -111,8 +111,8 @@ function FeaturesMobile() {
         <div key={feature.name}>
           <Feature feature={feature} className="mx-auto max-w-2xl" isActive />
           <div className="relative mt-10 pb-10">
-            <div className="absolute -inset-x-4 bottom-0 top-8 bg-slate-200 sm:-inset-x-6" />
-            <div className="relative mx-auto w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
+            <div className="absolute -inset-x-4 bottom-0 top-8 bg-gray-200 sm:-inset-x-6" />
+            <div className="relative mx-auto w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-gray-900/5 ring-1 ring-gray-500/10">
               <img
                 className="w-full"
                 src={feature.image}
@@ -150,7 +150,7 @@ function FeaturesDesktop() {
               />
             ))}
           </Tab.List>
-          <Tab.Panels className="relative mt-20 overflow-hidden rounded-4xl bg-slate-200 px-14 py-16 xl:px-16">
+          <Tab.Panels className="relative mt-20 overflow-hidden rounded-4xl bg-gray-200 px-14 py-16 xl:px-16">
             <div className="-mx-5 flex">
               {features.map((feature, featureIndex) => (
                 <Tab.Panel
@@ -163,7 +163,7 @@ function FeaturesDesktop() {
                   style={{ transform: `translateX(-${selectedIndex * 100}%)` }}
                   aria-hidden={featureIndex !== selectedIndex}
                 >
-                  <div className="w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-slate-900/5 ring-1 ring-slate-500/10">
+                  <div className="w-[52.75rem] overflow-hidden rounded-xl bg-white shadow-lg shadow-gray-900/5 ring-1 ring-gray-500/10">
                     <img
                       className="w-full"
                       src={feature.image}
@@ -174,7 +174,7 @@ function FeaturesDesktop() {
                 </Tab.Panel>
               ))}
             </div>
-            <div className="pointer-events-none absolute inset-0 rounded-4xl ring-1 ring-inset ring-slate-900/10" />
+            <div className="pointer-events-none absolute inset-0 rounded-4xl ring-1 ring-inset ring-gray-900/10" />
           </Tab.Panels>
         </>
       )}
@@ -191,10 +191,10 @@ export function SecondaryFeatures() {
     >
       <Container>
         <div className="mx-auto max-w-2xl md:text-center">
-          <h2 className="font-display text-3xl tracking-tight text-slate-900 sm:text-4xl">
+          <h2 className="font-display text-3xl tracking-tight text-gray-900 sm:text-4xl">
             Contrôlez la chatbox à votre goût.
           </h2>
-          <p className="mt-4 text-lg tracking-tight text-slate-700">
+          <p className="mt-4 text-lg tracking-tight text-gray-700">
             Choississez les aspects pratiques du système de la chatbox et monitorez les statistiques.
           </p>
         </div>

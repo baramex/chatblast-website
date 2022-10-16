@@ -6,7 +6,7 @@ import { Hero } from "./Hero";
 import { Pricing } from "./Pricing";
 import { PrimaryFeatures } from "./PrimaryFeatures";
 import { SecondaryFeatures } from "./SecondaryFeatures";
-import { Testimonials } from "./Testimonials";
+import { About } from "./About";
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
         <PrimaryFeatures />
         <SecondaryFeatures />
         <CallToAction />
-        <Testimonials />
+        <About />
         <Pricing />
         <Faqs />
       </main>

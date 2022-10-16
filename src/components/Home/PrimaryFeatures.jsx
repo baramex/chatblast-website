@@ -6,7 +6,6 @@ import { Container } from '../Misc/Container'
 import screenshotExpenses from '../../images/screenshots/expenses.png'
 import screenshotPayroll from '../../images/screenshots/payroll.png'
 import screenshotReporting from '../../images/screenshots/reporting.png'
-import screenshotVatReturns from '../../images/screenshots/vat-returns.png'
 import BgFeatures from '../Backgrounds/BgFeatures'
 
 const features = [
@@ -56,7 +55,6 @@ export function PrimaryFeatures() {
     >
       <BgFeatures
         className="absolute top-0 left-1/2 -translate-x-1/2"
-        alt=""
         height="100%" />
       <Container className="relative">
         <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
@@ -122,7 +120,7 @@ export function PrimaryFeatures() {
                         {feature.description}
                       </p>
                     </div>
-                    <div className="mt-10 w-[45rem] overflow-hidden rounded-xl bg-slate-50 shadow-xl shadow-emerald-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
+                    <div className="mt-10 w-[45rem] overflow-hidden rounded-xl bg-gray-50 shadow-xl shadow-emerald-900/20 sm:w-auto lg:mt-0 lg:w-[67.8125rem]">
                       <img
                         className="w-full"
                         src={feature.image}
