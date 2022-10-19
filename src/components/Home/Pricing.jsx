@@ -1,3 +1,4 @@
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 
 import { Button } from '../Misc/Button'
@@ -20,38 +21,12 @@ function SwirlyDoodle({ className }) {
   )
 }
 
-function CheckIcon({ className }) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={clsx(
-        'h-6 w-6 flex-none fill-current stroke-current',
-        className
-      )}
-    >
-      <path
-        d="M9.307 12.248a.75.75 0 1 0-1.114 1.004l1.114-1.004ZM11 15.25l-.557.502a.75.75 0 0 0 1.15-.043L11 15.25Zm4.844-5.041a.75.75 0 0 0-1.188-.918l1.188.918Zm-7.651 3.043 2.25 2.5 1.114-1.004-2.25-2.5-1.114 1.004Zm3.4 2.457 4.25-5.5-1.187-.918-4.25 5.5 1.188.918Z"
-        strokeWidth={0}
-      />
-      <circle
-        cx={12}
-        cy={12}
-        r={8.25}
-        fill="none"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-function Plan({ name, price, description, href, features, featured = false }) {
+function Plan({ name, price, description, href, features, excludes, featured = false }) {
   return (
     <section
       className={clsx(
         'flex flex-col rounded-3xl px-6 sm:px-8',
-        featured ? 'order-first bg-emerald-600 py-8 lg:order-none' : 'lg:py-8'
+        featured ? 'order-first bg-emerald-600 py-8 lg:order-none shadow-lg shadow-emerald-900/50' : 'lg:py-8 shadow-lg'
       )}
     >
       <h3 className="mt-5 font-display text-lg text-white">{name}</h3>
@@ -63,8 +38,9 @@ function Plan({ name, price, description, href, features, featured = false }) {
       >
         {description}
       </p>
-      <p className="order-first font-display text-5xl font-light tracking-tight text-white">
-        {price}
+      <p className="order-first font-display text-white">
+        <span className="text-5xl font-light tracking-tight">{price}</span>
+        <span className="ml-1 text-lg text-gray-100">/mo</span>
       </p>
       <ul
         role="list"
@@ -75,19 +51,35 @@ function Plan({ name, price, description, href, features, featured = false }) {
       >
         {features.map((feature) => (
           <li key={feature} className="flex">
-            <CheckIcon className={featured ? 'text-white' : 'text-gray-400'} />
+            <CheckCircleIcon className={clsx(featured ? 'text-white' : 'text-gray-400', "h-6 w-6 flex-none stroke-current")} />
             <span className="ml-4">{feature}</span>
           </li>
         ))}
       </ul>
+      {excludes &&
+        <ul
+          role="list"
+          className={clsx(
+            'order-last mt-5 flex flex-col gap-y-3 text-sm',
+            featured ? 'text-white' : 'text-red-100'
+          )}
+        >
+          {excludes.map((exclude) => (
+            <li key={exclude} className="flex">
+              <XCircleIcon className={clsx(featured ? 'text-white' : 'text-red-100', "h-6 w-6 flex-none stroke-current")} />
+              <span className="ml-4">{exclude}</span>
+            </li>
+          ))}
+        </ul>
+      }
       <Button
         href={href}
         variant={featured ? 'solid' : 'outline'}
         color="white"
         className="mt-8"
-        aria-label={`Get started with the ${name} plan for ${price}`}
+        aria-label={`Commencez avec le plaN ${name} pour ${price}/mois`}
       >
-        Get started
+        Commencer
       </Button>
     </section>
   )
@@ -97,7 +89,7 @@ export function Pricing() {
   return (
     <section
       id="pricing"
-      aria-label="Pricing"
+      aria-label="Tarifs"
       className="bg-gray-900 py-20 sm:py-32"
     >
       <Container>
@@ -105,56 +97,62 @@ export function Pricing() {
           <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl">
             <span className="relative whitespace-nowrap">
               <SwirlyDoodle className="absolute top-1/2 left-0 h-[1em] w-full fill-emerald-400" />
-              <span className="relative">Simple pricing,</span>
+              <span className="relative">Prix adaptés</span>
             </span>{' '}
-            for everyone.
+            à la taille de votre projet
           </h2>
           <p className="mt-4 text-lg text-gray-400">
-            It doesn’t matter what size your business is, our software won’t
-            work well for you.
+            Peu importe le trafic qu'a votre site, nous avons un plan pour vous.
           </p>
         </div>
-        <div className="-mx-4 mt-16 grid max-w-2xl grid-cols-1 gap-y-10 sm:mx-auto lg:-mx-8 lg:max-w-none lg:grid-cols-3 xl:mx-0 xl:gap-x-8">
+        <div className="mt-16 flex flex-wrap justify-center [&>*]:flex-[0_0_100%] lg:[&>*]:flex-[0_0_calc(33%-2rem)] max-w-2xl gap-y-10 mx-auto lg:-mx-8 lg:max-w-none xl:mx-0 xl:gap-x-8">
           <Plan
             name="Starter"
-            price="$9"
-            description="Good for anyone who is self-employed and just getting started."
+            price="7,95 €"
+            description="Bien pour tester le produit sur un petit site avec peu de trafic."
             href="/register"
             features={[
-              'Send 10 quotes and invoices',
-              'Connect up to 2 bank accounts',
-              'Track up to 15 expenses per month',
-              'Manual payroll support',
-              'Export up to 3 reports',
+              'Badge profil client',
+              'Pour 1 site',
+              "De 0 à 1'000 visiteurs uniques par mois",
+              'Authentification anonyme'
             ]}
+            excludes={["Authentification custom"]}
           />
           <Plan
             featured
-            name="Small business"
-            price="$15"
-            description="Perfect for small / medium sized businesses."
+            name="Classic"
+            price="12,95 €"
+            description="Parfait pour un site en croissance."
             href="/register"
             features={[
-              'Send 25 quotes and invoices',
-              'Connect up to 5 bank accounts',
-              'Track up to 50 expenses per month',
-              'Automated payroll support',
-              'Export up to 12 reports',
-              'Bulk reconcile transactions',
-              'Track in multiple currencies',
+              'Badge profil client',
+              'Pour 1 site',
+              "De 1'000 à 10'000 visiteurs uniques par mois",
+              'Authentification anonyme et/ou custom',
             ]}
           />
           <Plan
-            name="Enterprise"
-            price="$39"
-            description="For even the biggest enterprise companies."
+            name="Avancé"
+            price="18,95 €"
+            description="Pour un gros projet et un site à fort trafic."
             href="/register"
             features={[
-              'Send unlimited quotes and invoices',
-              'Connect up to 15 bank accounts',
-              'Track up to 200 expenses per month',
-              'Automated payroll support',
-              'Export up to 25 reports, including TPS',
+              'Badge profil client',
+              'Pour 1 site',
+              "Plus de 10'000 visiteurs uniques par mois",
+              'Authentification anonyme et/ou custom',
+            ]}
+          /><Plan
+            name="Entreprise"
+            price="40,95 €"
+            description="Pour un grand nombre de sites et les revendeurs."
+            href="/register"
+            features={[
+              'Badge profil entreprise',
+              'Inclut 3 sites de type Avancé',
+              'Réduction sur les sites supplémentaires',
+              "Trafic illimité",
             ]}
           />
         </div>

@@ -2,7 +2,7 @@ import { Footer } from "../Layout/Footer";
 import { Header } from "../Layout/Header";
 import { About } from "./About";
 import { CallToAction } from "./CallToAction";
-import { Faqs } from "./Faqs";
+import Contact from "./Contact";
 import { Hero } from "./Hero";
 import { Pricing } from "./Pricing";
 import { PrimaryFeatures } from "./PrimaryFeatures";
@@ -19,7 +19,7 @@ export default function Home() {
         <CallToAction />
         <About />
         <Pricing />
-        <Faqs />
+        <Contact />
       </main>
       <Footer />
     </>
