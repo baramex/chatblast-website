@@ -9,7 +9,7 @@ export default function Contact() {
     return (
         <section
             id="contact"
-            aria-label="Contact us"
+            aria-label="Contactez-nous"
             className="bg-gray-50 py-20 sm:py-32"
         >
             <Container>
@@ -46,6 +46,20 @@ export default function Contact() {
                                     </div>
                                 </div>
                                 <div className="sm:col-span-2">
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                        Sujet
+                                    </label>
+                                    <div className="mt-1">
+                                        <input
+                                            id="subject"
+                                            name="subject"
+                                            type="text"
+                                            className="block w-full rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="sm:col-span-2">
                                     <label htmlFor="message" className="block text-sm font-medium text-gray-700">
                                         Message
                                     </label>
@@ -60,42 +74,6 @@ export default function Contact() {
                                             maxLength={512}
                                             required
                                         />
-                                    </div>
-                                </div>
-                                <div className="sm:col-span-2">
-                                    <div className="flex items-start">
-                                        <div className="flex-shrink-0">
-                                            <Switch
-                                                checked={agreed}
-                                                onChange={setAgreed}
-                                                className={clsx(
-                                                    agreed ? 'bg-emerald-600' : 'bg-gray-200',
-                                                    'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2'
-                                                )}
-                                            >
-                                                <span className="sr-only">Agree to policies</span>
-                                                <span
-                                                    aria-hidden="true"
-                                                    className={clsx(
-                                                        agreed ? 'translate-x-5' : 'translate-x-0',
-                                                        'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
-                                                    )}
-                                                />
-                                            </Switch>
-                                        </div>
-                                        <div className="ml-3">
-                                            <p className="text-base text-gray-500">
-                                                By selecting this, you agree to the{' '}
-                                                <a href="#" className="font-medium text-gray-700 underline">
-                                                    Privacy Policy
-                                                </a>{' '}
-                                                and{' '}
-                                                <a href="#" className="font-medium text-gray-700 underline">
-                                                    Cookie Policy
-                                                </a>
-                                                .
-                                            </p>
-                                        </div>
                                     </div>
                                 </div>
                                 <div className="sm:col-span-2">

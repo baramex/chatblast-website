@@ -4,7 +4,7 @@ export function About() {
   return (
     <section
       id="about"
-      aria-label="About us"
+      aria-label="A propos"
       className="bg-gray-50 py-20 sm:py-32"
     >
       <Container>
