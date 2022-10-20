@@ -126,6 +126,7 @@ export function Pricing() {
             description="Parfait pour un site en croissance."
             href="/register"
             features={[
+              "Essai gratuit de 7 jours",
               'Badge profil client',
               'Pour 1 site',
               "De 1'000 à 10'000 visiteurs uniques par mois",
@@ -138,6 +139,7 @@ export function Pricing() {
             description="Pour un gros projet et un site à fort trafic."
             href="/register"
             features={[
+              "Essai gratuit de 7 jours",
               'Badge profil client',
               'Pour 1 site',
               "Plus de 10'000 visiteurs uniques par mois",
@@ -149,6 +151,7 @@ export function Pricing() {
             description="Pour un grand nombre de sites et les revendeurs."
             href="/register"
             features={[
+              "Essai gratuit de 7 jours",
               'Badge profil entreprise',
               'Inclut 3 sites de type Avancé',
               'Réduction sur les sites supplémentaires',
