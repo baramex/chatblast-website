@@ -17,7 +17,7 @@ export default function Contact() {
                     <svg className="absolute top-0 left-0 -mt-14 hidden md:block -ml-20" width="280" height="220" fill="none" viewBox="0 0 280 220" aria-hidden="true">
                         <rect width="280" height="220" fill="url(#1)" />
                     </svg>
-                    <svg className="absolute bottom-0 right-0 -mb-16 hidden md:block -mr-28" width="280" height="220" fill="none" viewBox="0 0 280 220" aria-hidden="true">
+                    <svg className="absolute bottom-0 right-0 -mb-16 hidden md:block -mr-16" width="280" height="220" fill="none" viewBox="0 0 280 220" aria-hidden="true">
                         <rect width="280" height="220" fill="url(#2)" />
                     </svg>
 

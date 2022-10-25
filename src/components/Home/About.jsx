@@ -13,7 +13,7 @@ export function About() {
             À propos de nous
           </h2>
 
-          <svg className="absolute top-0 right-0 -mr-10 -mt-3 hidden md:block lg:-mr-24" width="360" height="270" fill="none" viewBox="0 0 360 270" aria-hidden="true">
+          <svg className="absolute top-0 right-0 -mr-9 -mt-3 hidden md:block md:-mr-6 xl:-mr-24" width="360" height="270" fill="none" viewBox="0 0 360 270" aria-hidden="true">
             <defs>
               <pattern id="1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
                 <rect x="0" y="0" width="4" height="4" className="text-emerald-300" fill="currentColor" />

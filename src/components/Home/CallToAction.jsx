@@ -22,7 +22,7 @@ export function CallToAction() {
           <p className="mt-4 text-lg tracking-tight text-white">
             Ce sont vos visiteurs qui seront heureux. Débutez en beauté avec 7 jours offerts pour prendre en main notre produit.
           </p>
-          <Button to="/register" color="white" className="mt-10">
+          <Button href="#pricing" color="white" className="mt-10">
             7 jours offerts
           </Button>
         </div>
