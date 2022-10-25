@@ -26,7 +26,7 @@ function Plan({ name, price, description, href, features, excludes, featured = f
     <section
       className={clsx(
         'flex flex-col rounded-3xl px-6 sm:px-8',
-        featured ? 'order-first bg-emerald-600 py-8 lg:order-none shadow-lg shadow-emerald-900/50' : 'lg:py-8 shadow-lg'
+        featured ? 'order-first bg-emerald-600 py-8 lg:order-none shadow-lg shadow-emerald-900/50' : 'py-8 shadow-lg'
       )}
     >
       <h3 className="mt-5 font-display text-lg text-white">{name}</h3>
@@ -40,7 +40,7 @@ function Plan({ name, price, description, href, features, excludes, featured = f
       </p>
       <p className="order-first font-display text-white">
         <span className="text-5xl font-light tracking-tight">{price}</span>
-        <span className="ml-1 text-lg text-gray-100">/mo</span>
+        <span className="ml-1 text-lg text-gray-100">/mois</span>
       </p>
       <ul
         role="list"
@@ -92,7 +92,7 @@ export function Pricing() {
       aria-label="Tarifs"
       className="bg-gray-900 py-20 sm:py-32"
     >
-      <Container>
+      <Container className="max-w-[115rem]">
         <div className="md:text-center">
           <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl">
             <span className="relative whitespace-nowrap">
@@ -105,7 +105,7 @@ export function Pricing() {
             Peu importe le trafic qu'a votre site, nous avons un plan pour vous.
           </p>
         </div>
-        <div className="mt-16 flex flex-wrap justify-center [&>*]:flex-[0_0_100%] lg:[&>*]:flex-[0_0_calc(33%-2rem)] max-w-2xl gap-y-10 mx-auto lg:-mx-8 lg:max-w-none xl:mx-0 xl:gap-x-8">
+        <div className="mt-16 flex flex-wrap justify-center [&>*]:flex-[0_0_100%] md:[&>*]:flex-[0_0_calc(50%-20px)] xl:[&>*]:flex-[0_0_calc(25%-30px)] max-w-2xl gap-y-10 mx-auto md:max-w-none xl:mx-0 gap-x-10">
           <Plan
             name="Starter"
             price="7,95 €"

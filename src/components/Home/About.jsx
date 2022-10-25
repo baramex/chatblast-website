@@ -13,7 +13,7 @@ export function About() {
             À propos de nous
           </h2>
 
-          <svg className="absolute top-0 right-0 -mt-3 -mr-44 hidden sm:block md:-mr-28" width="404" height="384" fill="none" viewBox="0 0 404 384" aria-hidden="true">
+          <svg className="absolute top-0 right-0 -mr-10 -mt-3 hidden md:block lg:-mr-24" width="360" height="270" fill="none" viewBox="0 0 360 270" aria-hidden="true">
             <defs>
               <pattern id="1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
                 <rect x="0" y="0" width="4" height="4" className="text-emerald-300" fill="currentColor" />
@@ -21,7 +21,7 @@ export function About() {
             </defs>
             <rect width="360" height="270" fill="url(#1)" />
           </svg>
-          <svg className="absolute bottom-0 left-0 -mb-44 -ml-32 hidden sm:block md:-ml-12" width="404" height="384" fill="none" viewBox="0 0 404 384" aria-hidden="true">
+          <svg className="absolute bottom-0 left-0 -mb-20 -ml-32 hidden sm:block md:-ml-12" width="360" height="270" fill="none" viewBox="0 0 360 270" aria-hidden="true">
             <defs>
               <pattern id="2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
                 <rect x="0" y="0" width="4" height="4" className="text-emerald-200" fill="currentColor" />
