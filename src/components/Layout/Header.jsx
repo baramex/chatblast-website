@@ -109,7 +109,7 @@ export function Header() {
             <div className="hidden md:block">
               <NavLink to="/login">Se connecter</NavLink>
             </div>
-            <Button to="/register" color="emerald">
+            <Button href="#pricing" color="emerald">
               <PlayIcon width="18" />
               <span className='ml-1'>
                 Démarrer

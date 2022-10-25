@@ -1,6 +1,6 @@
 export default function BgAuth(props) {
     return (<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 600" opacity="0.6" {...props}>
-        <defs><filter id="bbblurry-filter" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <defs><filter id="bbblurry-filter" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
             <feGaussianBlur stdDeviation="95" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" edgeMode="none" result="blur"></feGaussianBlur></filter></defs><g filter="url(#bbblurry-filter)"><ellipse rx="164" ry="150" cx="464.8359264026989" cy="522.1743718927556" fill="hsla(150, 95%, 29%, 1)"></ellipse><ellipse rx="164" ry="150" cx="312.11171098188925" cy="56.27908394553444" fill="hsla(163, 93%, 32%, 1)"></ellipse><ellipse rx="164" ry="150" cx="-9.054469715465189" cy="324.07066206498587" fill="hsla(147, 91%, 54%, 1)"></ellipse><ellipse rx="164" ry="150" cx="424.1319912997159" cy="167.7013563676314" fill="hsla(156, 89%, 88%, 1)"></ellipse><ellipse rx="164" ry="150" cx="761.1287730823863" cy="379.93407232111156" fill="hsla(141, 96%, 75%, 1)"></ellipse></g>
     </svg>);
 }

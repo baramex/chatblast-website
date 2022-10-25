@@ -92,7 +92,7 @@ export function Pricing() {
       aria-label="Tarifs"
       className="bg-gray-900 py-20 sm:py-32"
     >
-      <Container className="max-w-[115rem]">
+      <Container maxWidth="max-w-[115rem]">
         <div className="md:text-center">
           <h2 className="font-display text-3xl tracking-tight text-white sm:text-4xl">
             <span className="relative whitespace-nowrap">
