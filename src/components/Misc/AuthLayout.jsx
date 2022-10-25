@@ -1,4 +1,4 @@
-import backgroundImage from '../../images/background-auth.jpg'
+import BgAuth from "../Backgrounds/BgAuth";
 
 export function AuthLayout({ children }) {
   return (
@@ -9,11 +9,9 @@ export function AuthLayout({ children }) {
             {children}
           </div>
         </div>
-        <div className="hidden sm:contents lg:relative lg:block lg:flex-1">
-          <img
-            className="absolute inset-0 h-full w-full object-cover"
-            src={backgroundImage}
-            alt=""
+        <div className="hidden sm:contents lg:relative lg:block lg:flex-1 bg-emerald-500 overflow-hidden">
+          <BgAuth
+            className="absolute min-w-full min-h-full inset-0"
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 
 const formClasses =
-  'block w-full appearance-none rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:bg-white focus:outline-none focus:ring-emerald-500 sm:text-sm'
+  'block w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 focus:ring-0 sm:text-sm'
 
 function Label({ id, children }) {
   return (
@@ -28,6 +28,20 @@ export function TextField({
     </div>
   )
 }
+
+export function TextAreaField({
+  id,
+  label,
+  className = '',
+  ...props
+}) {
+  return (
+    <div className={className}>
+      {label && <Label id={id}>{label}</Label>}
+      <textarea id={id} {...props} className={clsx(formClasses, "min-h-[60px]")} />
+    </div>
+  );
+};
 
 export function SelectField({ id, label, className = '', ...props }) {
   return (

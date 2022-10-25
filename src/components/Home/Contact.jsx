@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { Switch } from '@headlessui/react'
 import clsx from 'clsx'
 import { Container } from '../Misc/Container'
+import { Button } from '../Misc/Button'
+import { EnvelopeIcon } from '@heroicons/react/24/outline'
+import { TextAreaField, TextField } from '../Misc/Fields'
 
 export default function Contact() {
     const [agreed, setAgreed] = useState(false)
@@ -30,59 +33,44 @@ export default function Contact() {
                         </div>
                         <div className="mt-12">
                             <form className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+                                <TextField
+                                    id="email"
+                                    name="email"
+                                    label="Adresse email"
+                                    type='email'
+                                    autoComplete="email"
+                                    className='sm:col-span-2'
+                                    required
+                                />
+                                <TextField
+                                    id="subject"
+                                    name="subject"
+                                    label="Sujet"
+                                    type='text'
+                                    autoComplete="off"
+                                    className='sm:col-span-2'
+                                    required
+                                />
+                                <TextAreaField
+                                    id="message"
+                                    label="Message"
+                                    name="message"
+                                    rows={4}
+                                    className="sm:col-span-2"
+                                    defaultValue={''}
+                                    autoComplete="off"
+                                    maxLength={512}
+                                    required
+                                />
                                 <div className="sm:col-span-2">
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                        Email
-                                    </label>
-                                    <div className="mt-1">
-                                        <input
-                                            id="email"
-                                            name="email"
-                                            type="email"
-                                            autoComplete="email"
-                                            className="block w-full rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="sm:col-span-2">
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                        Sujet
-                                    </label>
-                                    <div className="mt-1">
-                                        <input
-                                            id="subject"
-                                            name="subject"
-                                            type="text"
-                                            className="block w-full rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="sm:col-span-2">
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                                        Message
-                                    </label>
-                                    <div className="mt-1">
-                                        <textarea
-                                            id="message"
-                                            name="message"
-                                            rows={4}
-                                            className="block w-full rounded-md border-gray-300 py-3 px-4 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
-                                            defaultValue={''}
-                                            autoComplete="off"
-                                            maxLength={512}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="sm:col-span-2">
-                                    <button
+                                    <Button
                                         type="submit"
-                                        className="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-emerald-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                                        variant="solid"
+                                        color="emerald"
+                                        className="w-full py-3.5"
                                     >
-                                        Envoyer
-                                    </button>
+                                        Envoyer <EnvelopeIcon className='ml-2 stroke-2 stroke-current' width="20" />
+                                    </Button>
                                 </div>
                             </form>
                         </div>

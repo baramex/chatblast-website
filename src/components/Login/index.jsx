@@ -14,23 +14,22 @@ export default function Login() {
           </Link>
           <div className="mt-20">
             <h2 className="text-lg font-semibold text-gray-900">
-              Sign in to your account
+              Se contecter
             </h2>
             <p className="mt-2 text-sm text-gray-700">
-              Don’t have an account?{' '}
+              Vous n'avez pas de compte ?{' '}
               <Link
                 to="/register"
                 className="font-medium text-emerald-600 hover:underline"
               >
-                Sign up
-              </Link>{' '}
-              for a free trial.
+                Créer un compte
+              </Link>.
             </p>
           </div>
         </div>
         <form action="#" className="mt-10 grid grid-cols-1 gap-y-8">
           <TextField
-            label="Email address"
+            label="Adresse email"
             id="email"
             name="email"
             type="email"
@@ -38,7 +37,7 @@ export default function Login() {
             required
           />
           <TextField
-            label="Password"
+            label="Mot de passe"
             id="password"
             name="password"
             type="password"
@@ -53,7 +52,7 @@ export default function Login() {
               className="w-full"
             >
               <span>
-                Sign in <span aria-hidden="true">&rarr;</span>
+                Se connecter <span aria-hidden="true">&rarr;</span>
               </span>
             </Button>
           </div>

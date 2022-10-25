@@ -14,17 +14,16 @@ export default function Register() {
           </Link>
           <div className="mt-20">
             <h2 className="text-lg font-semibold text-gray-900">
-              Get started for free
+              Créer un compte
             </h2>
             <p className="mt-2 text-sm text-gray-700">
-              Already registered?{' '}
+              Déjà inscrit ?{' '}
               <Link
                 to="/login"
                 className="font-medium text-emerald-600 hover:underline"
               >
-                Sign in
-              </Link>{' '}
-              to your account.
+                Se connecter
+              </Link>.
             </p>
           </div>
         </div>
@@ -33,24 +32,33 @@ export default function Register() {
           className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2"
         >
           <TextField
-            label="First name"
-            id="first_name"
-            name="first_name"
+            label="Prénom"
+            id="fistname"
+            name="fistname"
             type="text"
             autoComplete="given-name"
             required
           />
           <TextField
-            label="Last name"
-            id="last_name"
-            name="last_name"
+            label="Nom"
+            id="lastname"
+            name="lastname"
             type="text"
             autoComplete="family-name"
             required
           />
           <TextField
             className="col-span-full"
-            label="Email address"
+            label="Pseudo"
+            id="username"
+            name="username"
+            type="text"
+            autoComplete="username"
+            required
+          />
+          <TextField
+            className="col-span-full"
+            label="Adresse email"
             id="email"
             name="email"
             type="email"
@@ -59,24 +67,13 @@ export default function Register() {
           />
           <TextField
             className="col-span-full"
-            label="Password"
+            label="Mot de passe"
             id="password"
             name="password"
             type="password"
             autoComplete="new-password"
             required
           />
-          <SelectField
-            className="col-span-full"
-            label="How did you hear about us?"
-            id="referral_source"
-            name="referral_source"
-          >
-            <option>AltaVista search</option>
-            <option>Super Bowl commercial</option>
-            <option>Our route 34 city bus ad</option>
-            <option>The “Never Use This” podcast</option>
-          </SelectField>
           <div className="col-span-full">
             <Button
               type="submit"
