@@ -24,9 +24,9 @@ export function Hero() {
         Offrez la possibilité à vos visiteurs de discuter entre eux en temps réel ! Permettez leur de poser des questions et d'obtenir des réponses de n'importe quel autre visiteur.
       </p>
       <div className="mt-10 flex justify-center gap-x-6">
-        <Button href="/register">Essai gratuit de 7 jours</Button>
+        <Button href="#pricing">Essai gratuit de 7 jours</Button>
         <Button
-          href="//discord.gg/invite/HzQ6Hk3HQU"
+          href="https://discord.gg/invite/HzQ6Hk3HQU"
           variant="outline"
           target="_blank"
         >
