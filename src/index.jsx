@@ -4,7 +4,8 @@ import { Route, BrowserRouter as Router, Routes, useNavigate } from 'react-route
 import Home from './components/Home';
 import { LoadingScreen } from './components/Layout/Loading';
 import Login from './components/Login';
-import FutherInformationModal from './components/Login/FutherInformation';
+import { AlertContainer } from './components/Misc/Alerts';
+import FutherInformationModal from './components/Misc/FutherInformation';
 import Register from './components/Register';
 import { isLogged } from './lib/service/authentification';
 import { fetchUser, isComplete } from './lib/service/profile';
@@ -18,6 +19,7 @@ root.render(
 
 function App() {
     const [user, setUser] = useState(null);
+    const [alerts, setAlerts] = useState([]);
     const [furtherInformation, setFutherInformation] = useState(false);
 
     useEffect(() => {
@@ -32,14 +34,16 @@ function App() {
                 }
 
                 if (!isComplete(user)) setFutherInformation(true);
+                else if (!user.email.isVerified) setAlerts(a => [...a, { type: "warning", title: "Veuillez vérifier votre adresse email." }]);
             } else if (user) setUser(null);
         })();
     }, [user]);
 
-    const props = { user, setUser };
+    const props = { user, setUser, setAlerts };
 
     return (
         <>
+            <AlertContainer alerts={alerts} setAlerts={setAlerts} />
             <LoadingScreen open={!user && isLogged()} />
             <FutherInformationModal open={furtherInformation} email={user?.email?.address} firstname={user?.name?.firstname} lastname={user?.name?.lastname} onSaved={(nuser) => handleSave(nuser, setUser, setFutherInformation)} />
             <Router>

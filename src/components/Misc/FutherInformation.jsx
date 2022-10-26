@@ -2,10 +2,10 @@ import { pacthUser } from "../../lib/service/profile";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
-import { Button } from "../Misc/Button";
-import { TextField } from "../Misc/Fields";
+import { Button } from "./Button";
+import { TextField } from "./Fields";
 import { handleLastnameChange, handleNameChange, isLastname, isName } from "../../lib/utils/regex";
-import { AlertError } from "../Misc/Alerts";
+import { AlertError } from "./Alerts";
 import { logoutUser } from "../../lib/service/authentification";
 
 export default function FutherInformationModal({ open, onSaved, email, firstname, lastname }) {

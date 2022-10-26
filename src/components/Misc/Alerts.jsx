@@ -1,29 +1,47 @@
-import { XCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { CheckCircleIcon, ExclamationTriangleIcon, XCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 
-export function AlertError({ title, list, className, canClose = true, onClose }) {
+export function AlertError({border, ...props}) {
     return (
-        <div className={clsx("rounded-md bg-red-50 p-4", className)}>
-            <div className="flex items-center">
+        <Alert Icon={XCircleIcon} bgColor="bg-red-50" crossStyle="text-red-500 hover:bg-red-100" iconStyle="text-red-400" textColor="text-red-700" border={border ? "border-red-400" : ""} titleColor={props.list ? "text-red-800" : "text-red-700"} {...props} />
+    );
+}
+
+export function AlertWarning({border, ...props}) {
+    return (
+        <Alert Icon={ExclamationTriangleIcon} bgColor="bg-yellow-50" crossStyle="text-yellow-500 hover:bg-yellow-100" iconStyle="text-yellow-400" textColor="text-yellow-700" border={border ? "border-yellow-400" : ""} titleColor={props.list ? "text-yellow-800" : "text-yellow-700"} {...props} />
+    );
+}
+
+export function AlertSuccess({border, ...props}) {
+    return (
+        <Alert Icon={CheckCircleIcon} bgColor="bg-green-50" crossStyle="text-green-500 hover:bg-green-100" iconStyle="text-green-400" textColor="text-green-700" border={border ? "border-green-400" : ""} titleColor={props.list ? "text-green-800" : "text-green-700"} {...props} />
+    );
+}
+
+export function Alert({ title, list, className, bgColor, iconStyle, titleColor, textColor, Icon, crossStyle, border, canClose = true, onClose, ...props }) {
+    return (
+        <div className={clsx("p-4", className, bgColor, border ? "rounded-r-md border-l-2" : "rounded-md", border)} {...props}>
+            <div className={clsx("flex", list ? "" : "items-center")}>
                 <div className="flex-shrink-0">
-                    <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                    <Icon className={clsx("h-5 w-5", iconStyle)} aria-hidden="true" />
                 </div>
                 <div className="ml-3">
-                    <p className="text-sm font-medium text-red-800">{title}</p>
+                    <p className={clsx("text-sm font-medium", titleColor)}>{title}</p>
                     {list &&
-                        <div className="mt-2 text-sm text-red-700">
+                        <div className={clsx("mt-2 text-sm", textColor)}>
                             <ul role="list" className="list-disc space-y-1 pl-5">
                                 {list.map((item, i) => <li key={i}>{item}</li>)}
                             </ul>
                         </div>
                     }
                 </div>
-                {canClose &&
+                {canClose && onClose &&
                     <div className="ml-auto pl-3">
                         <div className="-mx-1.5 -my-1.5">
                             <button
                                 type="button"
-                                className="inline-flex rounded-md bg-red-50 p-1 text-red-500 hover:bg-red-100 focus:outline-none"
+                                className={clsx("inline-flex rounded-md p-1 focus:outline-none", crossStyle)}
                                 {...(onClose && { onClick: onClose })}
                             >
                                 <span className="sr-only">Fermer</span>
@@ -35,4 +53,22 @@ export function AlertError({ title, list, className, canClose = true, onClose })
             </div>
         </div>
     );
+}
+
+export function AlertContainer({ alerts, setAlerts }) {
+    return (
+        <div className="w-[calc(100%-4rem)] flex flex-col gap-5 fixed top-0 left-0 m-8 z-50">
+            {
+                alerts.map((alert, i) =>
+                    alert.type == "error" ?
+                        <AlertError title={alert.title} list={alert.list} className={clsx(alert.className, "shadow-md")} border={true} onClose={() => setAlerts(a => { a.splice(i, 1); return [...a]; })} key={i} /> :
+                        alert.type == "warning" ?
+                            <AlertWarning title={alert.title} list={alert.list} className={clsx(alert.className, "shadow-md")} border={true} onClose={() => setAlerts(a => { a.splice(i, 1); return [...a]; })} key={i} /> :
+                            alert.type == "success" ?
+                                <AlertSuccess title={alert.title} list={alert.list} className={clsx(alert.className, "shadow-md")} border={true} onClose={() => setAlerts(a => { a.splice(i, 1); return [...a]; })} key={i} /> :
+                                null
+                )
+            }
+        </div>
+    )
 }

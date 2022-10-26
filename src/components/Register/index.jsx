@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getPasswordErros, handleFieldChange, handleLastnameChange, handleNameChange } from '../../lib/utils/regex'
 import { AlertError } from '../Misc/Alerts'
 import { useEffect, useState } from 'react'
-import { isLogged } from '../../lib/service/authentification'
+import { isLogged, registerUser } from '../../lib/service/authentification'
 import { isComplete } from '../../lib/service/profile'
 
 export default function Register({ user, setUser }) {
@@ -44,13 +44,13 @@ export default function Register({ user, setUser }) {
                     </div>
                 </div>
                 <form
-                    action="#"
+                    onSubmit={e => handleRegister(e, setError, setUser, navigate)}
                     className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2"
                 >
                     <TextField
                         label="Prénom"
-                        id="fistname"
-                        name="fistname"
+                        id="firstname"
+                        name="firstname"
                         type="text"
                         autoComplete="given-name"
                         maxLength="32"
@@ -121,4 +121,28 @@ function handlePasswordChange(e, setError) {
 
     if (errors.length == 0) return setError(null);
     setError(["Le mot de passe ne respecte pas ces critères", ...errors]);
+}
+
+async function handleRegister(e, setError, setUser, navigate) {
+    e.preventDefault();
+
+    const elements = e.target.querySelectorAll("input, textarea, button, select");
+    elements.forEach(el => el.disabled = true);
+
+    const firstname = e.target.firstname.value.trim();
+    const lastname = e.target.lastname.value.trim();
+    const username = e.target.username.value.trim();
+    const email = e.target.email.value.trim();
+    const password = e.target.password.value.trim();
+
+    try {
+        const user = await registerUser(email, firstname, lastname, username, password);
+        setError(null);
+        setUser(user);
+
+        navigate("/dashboard");
+    } catch (error) {
+        setError(error.message || "Une erreur est survenue.");
+        elements.forEach(el => el.disabled = false);
+    }
 }
