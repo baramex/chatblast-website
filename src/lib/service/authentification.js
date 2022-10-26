@@ -35,7 +35,3 @@ export function logoutUser() {
 export function isLogged() {
     return !!getCookie("token");
 }
-
-export function resetSession() {
-    sessionStorage.clear();
-}

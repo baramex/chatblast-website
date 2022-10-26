@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { resetSession } from './authentification';
 
 export function api(endpoint, method, data = undefined, customHeader = undefined) {
     return new Promise((res, rej) => {
@@ -26,7 +25,6 @@ export function api(endpoint, method, data = undefined, customHeader = undefined
                 }, time * 1000);
             }
             else if (status === 401) {
-                resetSession();
                 if (response.data === "refresh") document.location.reload();
                 rej(new Error(response.data));
             }

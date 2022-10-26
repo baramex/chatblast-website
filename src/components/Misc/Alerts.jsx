@@ -1,7 +1,7 @@
 import { XCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 
-export function AlertError({ title, list, className, onClose }) {
+export function AlertError({ title, list, className, canClose = true, onClose }) {
     return (
         <div className={clsx("rounded-md bg-red-50 p-4", className)}>
             <div className="flex items-center">
@@ -18,18 +18,20 @@ export function AlertError({ title, list, className, onClose }) {
                         </div>
                     }
                 </div>
-                <div className="ml-auto pl-3">
-                    <div className="-mx-1.5 -my-1.5">
-                        <button
-                            type="button"
-                            className="inline-flex rounded-md bg-red-50 p-1 text-red-500 hover:bg-red-100 focus:outline-none"
-                            {...(onClose && { onClick: onClose })}
-                        >
-                            <span className="sr-only">Fermer</span>
-                            <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-                        </button>
+                {canClose &&
+                    <div className="ml-auto pl-3">
+                        <div className="-mx-1.5 -my-1.5">
+                            <button
+                                type="button"
+                                className="inline-flex rounded-md bg-red-50 p-1 text-red-500 hover:bg-red-100 focus:outline-none"
+                                {...(onClose && { onClick: onClose })}
+                            >
+                                <span className="sr-only">Fermer</span>
+                                <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                            </button>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     );

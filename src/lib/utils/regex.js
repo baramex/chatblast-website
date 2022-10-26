@@ -1,3 +1,9 @@
+const passwordRegex = {
+    total: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,32}$)/,
+    length: /^.{6,32}$/,
+    chars: /^((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9]))/
+};
+
 export function isName(name) {
     return /^[A-ZÀ-ÿ][a-zà-ÿ]{1,31}$/.test(name);
 }
@@ -20,5 +26,12 @@ export function handleLastnameChange(e) {
 }
 
 export function handleFieldChange(e) {
-    e.target.value = e.target.value.replace(/[^a-z0-9]/g, "");
+    e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+export function getPasswordErros(password) {
+    const errors = [];
+    if (!passwordRegex.length.test(password)) errors.push("Entre 6 et 32 caractères.");
+    if (!passwordRegex.chars.test(password)) errors.push("Au moins deux des caractères: chiffre, lettre minuscule, lettre majuscule.");
+    return errors;
 }

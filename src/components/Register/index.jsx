@@ -2,10 +2,25 @@ import { AuthLayout } from '../Misc/AuthLayout'
 import { Button } from '../Misc/Button'
 import { TextField } from '../Misc/Fields'
 import logo from '../../images/logo.png'
-import { Link } from 'react-router-dom'
-import { handleFieldChange, handleLastnameChange, handleNameChange } from '../../lib/utils/regex'
+import { Link, useNavigate } from 'react-router-dom'
+import { getPasswordErros, handleFieldChange, handleLastnameChange, handleNameChange } from '../../lib/utils/regex'
+import { AlertError } from '../Misc/Alerts'
+import { useEffect, useState } from 'react'
+import { isLogged } from '../../lib/service/authentification'
+import { isComplete } from '../../lib/service/profile'
 
-export default function Register() {
+export default function Register({ user, setUser }) {
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        (async () => {
+            if (isLogged() && user) {
+                if (isComplete(user)) navigate("/dashboard");
+            }
+        })();
+    }, [user]);
+
     return (
         <>
             <AuthLayout>
@@ -79,8 +94,10 @@ export default function Register() {
                         name="password"
                         type="password"
                         autoComplete="new-password"
+                        onChange={(e) => handlePasswordChange(e, setError)}
                         required
                     />
+                    {error && <AlertError className="col-span-full" title={typeof error == "string" ? error : error[0]} list={Array.isArray(error) ? error.slice(1) : undefined} canClose={typeof error == "string"} onClose={() => setError(null)} />}
                     <div className="col-span-full">
                         <Button
                             type="submit"
@@ -97,4 +114,11 @@ export default function Register() {
             </AuthLayout>
         </>
     )
+}
+
+function handlePasswordChange(e, setError) {
+    const errors = getPasswordErros(e.target.value);
+
+    if (errors.length == 0) return setError(null);
+    setError(["Le mot de passe ne respecte pas ces critères", ...errors]);
 }

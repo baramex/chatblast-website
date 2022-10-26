@@ -6,35 +6,22 @@ import { Button } from '../Misc/Button';
 import { isLogged, loginUser } from '../../lib/service/authentification';
 import { useEffect, useState } from 'react';
 import { AlertError } from '../Misc/Alerts';
-import { fetchUser, isComplete } from '../../lib/service/profile';
-import FutherInformationModal from './FutherInformation';
+import { isComplete } from '../../lib/service/profile';
 
 export default function Login({ user, setUser }) {
     const [error, setError] = useState(null);
-    const [furtherInformation, setFutherInformation] = useState(false); // TODO: put this (with useEffect) in app, and create compo page: navigate in all cases after login + add logout button on modal
     const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
-            if (isLogged()) {
-                if (!user) {
-                    const tuser = await fetchUser().catch(console.error);
-                    if (tuser) {
-                        user = tuser;
-                        setUser(tuser);
-                    }
-                    else return;
-                }
-
-                if (!isComplete(user)) setFutherInformation(true);
-                else navigate("/dashboard");
+            if (isLogged() && user) {
+                if (isComplete(user)) navigate("/dashboard");
             }
         })();
-    }, []);
+    }, [user]);
 
     return (
         <>
-            <FutherInformationModal open={furtherInformation} email={user?.email?.address} firstname={user?.name?.firstname} lastname={user?.name?.lastname} onSaved={(nuser) => { setFutherInformation(false); setUser(nuser); navigate("/dashboard") }} />
             <AuthLayout>
                 <div className="flex flex-col">
                     <Link to="/" aria-label="Home">
@@ -55,7 +42,7 @@ export default function Login({ user, setUser }) {
                         </p>
                     </div>
                 </div>
-                <form onSubmit={(e) => handleLogin(e, setError, setFutherInformation, setUser, navigate)} className="mt-10 grid grid-cols-1 gap-y-8">
+                <form onSubmit={(e) => handleLogin(e, setError, setUser, navigate)} className="mt-10 grid grid-cols-1 gap-y-8">
                     <TextField
                         label="Adresse email ou pseudo"
                         id="username"
@@ -72,7 +59,7 @@ export default function Login({ user, setUser }) {
                         autoComplete="current-password"
                         required
                     />
-                    {error && <AlertError title={error} onClose={a => setError("")} />}
+                    {error && <AlertError title={error} onClose={() => setError(null)} />}
                     <div>
                         <Button
                             type="submit"
@@ -93,10 +80,12 @@ export default function Login({ user, setUser }) {
     )
 }
 
-async function handleLogin(e, setError, setFutherInformation, setUser, navigate) {
+async function handleLogin(e, setError, setUser, navigate) {
     e.preventDefault();
 
-    e.target.submit.disabled = true;
+    const elements = e.target.querySelectorAll("input, textarea, button, select");
+    elements.forEach(el => el.disabled = true);
+
     const username = e.target.username.value;
     const password = e.target.password.value;
 
@@ -105,12 +94,9 @@ async function handleLogin(e, setError, setFutherInformation, setUser, navigate)
         setError(null);
         setUser(user);
 
-        if (!isComplete(user)) {
-            setFutherInformation(true);
-        }
-        else navigate("/dashboard");
+        navigate("/dashboard");
     } catch (error) {
         setError(error.message || "Une erreur est survenue.");
-        e.target.submit.disabled = false;
+        elements.forEach(el => el.disabled = false);
     }
 }

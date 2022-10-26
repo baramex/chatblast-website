@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 
 const baseStyles = {
     solid:
-        'group inline-flex items-center justify-center py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2',
+        'transition-colors group inline-flex items-center justify-center py-2 px-4 text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2',
     outline:
-        'group inline-flex ring-1 items-center justify-center py-2 px-4 text-sm focus:outline-none',
+        'transition-colors group inline-flex ring-1 items-center justify-center py-2 px-4 text-sm focus:outline-none',
 }
 
 const variantStyles = {
@@ -21,6 +21,7 @@ const variantStyles = {
             'ring-gray-200 text-gray-700 hover:text-gray-900 hover:ring-gray-300 active:bg-gray-100 active:text-gray-600 focus-visible:outline-emerald-600 focus-visible:ring-gray-300',
         white:
             'ring-gray-700 text-white hover:ring-gray-500 active:ring-gray-700 active:text-gray-400 focus-visible:outline-white',
+        red: "ring-red-500 text-red-600 hover:ring-red-600 active:ring-red-700 active:text-red-700 outline-none focus-visible:ring-red-600",
     },
 }
 

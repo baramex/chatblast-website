@@ -6,6 +6,7 @@ import { Button } from "../Misc/Button";
 import { TextField } from "../Misc/Fields";
 import { handleLastnameChange, handleNameChange, isLastname, isName } from "../../lib/utils/regex";
 import { AlertError } from "../Misc/Alerts";
+import { logoutUser } from "../../lib/service/authentification";
 
 export default function FutherInformationModal({ open, onSaved, email, firstname, lastname }) {
     const [error, setError] = useState(null);
@@ -84,10 +85,23 @@ export default function FutherInformationModal({ open, onSaved, email, firstname
                                                         required
                                                     />
                                                 }
-                                                <div className="col-span-full">
-                                                    {error && <AlertError className="mb-5" title={error} onClose={a => setError("")} />}
+                                                {error && <AlertError className="mb-5 col-span-full" title={error} onClose={() => setError(null)} />}
+                                                <div className="col-span-full mt-3 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        color="red"
+                                                        className="w-full"
+                                                        rounded="rounded-md"
+                                                        onClick={() => handleLogout(onSaved)}
+                                                    >
+                                                        <span>
+                                                            Se déconnecter
+                                                        </span>
+                                                    </Button>
                                                     <Button
                                                         type="submit"
+                                                        name="submit"
                                                         variant="solid"
                                                         color="emerald"
                                                         className="w-full"
@@ -121,11 +135,20 @@ async function handleSave(e, setError, onSaved) {
     if (firstname && !isName(firstname)) return setError("Le prénom n'est pas valide.");
     if (lastname && !isLastname(lastname)) return setError("Le nom n'est pas valide.");
 
+    const elements = e.target.querySelectorAll("input, textarea, button, select");
+    elements.forEach(el => el.disabled = true);
     try {
         const newUser = await pacthUser({ email: { address: email }, name: { firstname, lastname } });
         setError(null);
         onSaved(newUser);
     } catch (error) {
         setError(error.message || "Une erreur est survenue.");
+        elements.forEach(el => el.disabled = false);
     }
+}
+
+async function handleLogout(onSaved) {
+    await logoutUser().catch(() => { });
+    onSaved(null);
+    window.location.href = "/";
 }
