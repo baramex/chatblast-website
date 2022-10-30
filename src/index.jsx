@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Route, BrowserRouter as Router, Routes, useNavigate } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
 import Home from './components/Home';
 import { LoadingScreen } from './components/Layout/Loading';
 import Login from './components/Login';
@@ -8,7 +9,7 @@ import { AlertContainer } from './components/Misc/Alerts';
 import FutherInformationModal from './components/Misc/FutherInformation';
 import Register from './components/Register';
 import { isLogged } from './lib/service/authentification';
-import { fetchUser, isComplete } from './lib/service/profile';
+import { fetchUser, getAvatar, isComplete } from './lib/service/profile';
 import "./styles/main.css";
 import "./styles/tailwind.css";
 
@@ -34,7 +35,12 @@ function App() {
                 }
 
                 if (!isComplete(user)) setFutherInformation(true);
-                else if (!user.email.isVerified) setAlerts(a => [...a, { type: "warning", title: "Veuillez vérifier votre adresse email." }]);
+                else if (!user.email.isVerified && !alerts.some(a => a.name === "validate_email")) setAlerts(a => [...a, { name: "validate_email", type: "warning", title: "Veuillez vérifier votre adresse email." }]);
+
+                if (!user.avatar) {
+                    const avatar = await getAvatar();
+                    setUser(u => ({ ...u, avatar: URL.createObjectURL(avatar) }));
+                }
             } else if (user) setUser(null);
         })();
     }, [user]);
@@ -51,6 +57,7 @@ function App() {
                     <Route path="/" element={<Home {...props} />} />
                     <Route path="/register" element={<Register {...props} />} />
                     <Route path="/login" element={<Login {...props} />} />
+                    <Route path="/dashboard" element={<Dashboard {...props} />} />
                 </Routes>
             </Router>
         </>

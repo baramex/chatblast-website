@@ -15,3 +15,7 @@ export function isVerified(user) {
 export function pacthUser(body) {
     return api("/profile/@me", "patch", body);
 }
+
+export function getAvatar() {
+    return api("/profile/@me/avatar", "get", undefined, undefined, "blob");
+}

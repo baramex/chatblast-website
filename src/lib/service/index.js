@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function api(endpoint, method, data = undefined, customHeader = undefined) {
+export function api(endpoint, method, data = undefined, customHeader = undefined, responseType = undefined) {
     return new Promise((res, rej) => {
         // -> axios clear data
         const copyData = data ? { ...data } : undefined;
@@ -11,8 +11,10 @@ export function api(endpoint, method, data = undefined, customHeader = undefined
             url: "http://localhost:5000" + endpoint,
             data,
             headers: customHeader,
+            responseType,
             withCredentials: true
         }).then(response => {
+            console.log(response)
             res(response.data);
         }).catch(err => {
             const response = err.response;

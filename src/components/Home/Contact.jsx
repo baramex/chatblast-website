@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { Switch } from '@headlessui/react'
-import clsx from 'clsx'
 import { Container } from '../Misc/Container'
 import { Button } from '../Misc/Button'
 import { EnvelopeIcon } from '@heroicons/react/24/outline'
