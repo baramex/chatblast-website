@@ -14,7 +14,6 @@ export function api(endpoint, method, data = undefined, customHeader = undefined
             responseType,
             withCredentials: true
         }).then(response => {
-            console.log(response)
             res(response.data);
         }).catch(err => {
             const response = err.response;

@@ -12,24 +12,25 @@ import clsx from 'clsx';
 import { Link, useNavigate } from 'react-router-dom';
 
 const navigation = [
-    { name: 'Profil', href: '/dashboard/profile', icon: UserIcon, current: true },
-    { name: 'Intégrations', href: '/dashboard/integrations', icon: ComputerDesktopIcon, current: false },
-    { name: 'Factures', href: '/dashboard/invoices', icon: BanknotesIcon, current: false }
+    { name: 'Profil', href: '/dashboard/profile', icon: UserIcon },
+    { name: 'Intégrations', href: '/dashboard/integrations', icon: ComputerDesktopIcon },
+    { name: 'Factures', href: '/dashboard/invoices', icon: BanknotesIcon }
 ];
 const userNavigation = [
     { name: 'Votre profil', href: '/dashboard/profile' },
     { name: 'Se déconnecter', href: '#' },
 ];
 
-export default function Dashboard({ user, setUser }) {
+export default function Dashboard({ user, setUser, Tab }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!user) navigate("/login");
+        else if (!Tab) navigate("/dashboard/profile");
     }, []);
 
-    if (!user) return null;
+    if (!user || !Tab) return null;
 
     return (
         <>
@@ -95,7 +96,7 @@ export default function Dashboard({ user, setUser }) {
                                                     key={item.name}
                                                     to={item.href}
                                                     className={clsx(
-                                                        item.current
+                                                        item.href === document.location.pathname
                                                             ? 'bg-gray-100 text-gray-900'
                                                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                                                         'group rounded-md py-2 px-2 flex items-center text-base font-medium'
@@ -103,7 +104,7 @@ export default function Dashboard({ user, setUser }) {
                                                 >
                                                     <item.icon
                                                         className={clsx(
-                                                            item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+                                                            item.href === document.location.pathname ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
                                                             'mr-4 flex-shrink-0 h-6 w-6'
                                                         )}
                                                         aria-hidden="true"
@@ -138,13 +139,13 @@ export default function Dashboard({ user, setUser }) {
                                         key={item.name}
                                         to={item.href}
                                         className={clsx(
-                                            item.current ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                                            item.href === document.location.pathname ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                                             'group rounded-md py-2 px-2 flex items-center text-sm font-medium'
                                         )}
                                     >
                                         <item.icon
                                             className={clsx(
-                                                item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+                                                item.href === document.location.pathname ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
                                                 'mr-3 flex-shrink-0 h-6 w-6'
                                             )}
                                             aria-hidden="true"
@@ -174,12 +175,12 @@ export default function Dashboard({ user, setUser }) {
 
                                     <Menu as="div" className="relative ml-3">
                                         <div>
-                                            <Menu.Button className="flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                                            <Menu.Button className="flex max-w-xs items-center rounded-full text-sm focus:outline-none">
                                                 <span className="sr-only">Ouvrir le menu utilisateur</span>
                                                 <img
                                                     className="h-10 w-10 rounded-full"
                                                     src={user?.avatar}
-                                                    alt=""
+                                                    alt="avatar"
                                                 />
                                             </Menu.Button>
                                         </div>
@@ -217,16 +218,7 @@ export default function Dashboard({ user, setUser }) {
 
                         <main className="flex-1">
                             <div className="py-6">
-                                <div className="px-4 sm:px-6 md:px-0">
-                                    <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-                                </div>
-                                <div className="px-4 sm:px-6 md:px-0">
-                                    {/* Replace with your content */}
-                                    <div className="py-4">
-                                        <div className="h-96 rounded-lg border-4 border-dashed border-gray-200" />
-                                    </div>
-                                    {/* /End replace */}
-                                </div>
+                                <Tab user={user} setUser={setUser} />
                             </div>
                         </main>
                     </div>

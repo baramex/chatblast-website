@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
+import ProfileTab from './components/Dashboard/ProfileTab';
 import Home from './components/Home';
 import { LoadingScreen } from './components/Layout/Loading';
 import Login from './components/Login';
@@ -52,14 +53,20 @@ function App() {
             <AlertContainer alerts={alerts} setAlerts={setAlerts} />
             <LoadingScreen open={!user && isLogged()} />
             <FutherInformationModal open={furtherInformation} email={user?.email?.address} firstname={user?.name?.firstname} lastname={user?.name?.lastname} onSaved={(nuser) => handleSave(nuser, setUser, setFutherInformation)} />
-            <Router>
-                <Routes>
-                    <Route path="/" element={<Home {...props} />} />
-                    <Route path="/register" element={<Register {...props} />} />
-                    <Route path="/login" element={<Login {...props} />} />
-                    <Route path="/dashboard" element={<Dashboard {...props} />} />
-                </Routes>
-            </Router>
+            {
+                (isLogged() ? user : true) &&
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<Home {...props} />} />
+                        <Route path="/register" element={<Register {...props} />} />
+                        <Route path="/login" element={<Login {...props} />} />
+
+                        <Route path="/dashboard" element={<Dashboard {...props} />} />
+                        <Route path="/dashboard/profile" element={<Dashboard {...props} Tab={ProfileTab} />} />
+                        <Route path="/dashboard/integrations" element={<Dashboard {...props} Tab="integrations" />} />
+                        <Route path="/dashboard/invoices" element={<Dashboard {...props} />} />
+                    </Routes>
+                </Router>}
         </>
     );
 }

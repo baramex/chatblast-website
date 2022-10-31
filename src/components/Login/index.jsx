@@ -13,12 +13,10 @@ export default function Login({ user, setUser }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        (async () => {
-            if (isLogged() && user) {
-                if (isComplete(user)) navigate("/dashboard");
-            }
-        })();
-    }, [user]);
+        if (user) navigate("/dashboard/profile");
+    }, []);
+
+    if (user) return null;
 
     return (
         <>
@@ -94,7 +92,7 @@ async function handleLogin(e, setError, setUser, navigate) {
         setError(null);
         setUser(user);
 
-        navigate("/dashboard");
+        navigate("/dashboard/profile");
     } catch (error) {
         setError(error.message || "Une erreur est survenue.");
         elements.forEach(el => el.disabled = false);
