@@ -23,6 +23,7 @@ const variantStyles = {
             'ring-gray-700 text-white hover:ring-gray-500 active:ring-gray-700 active:text-gray-400 focus-visible:outline-white',
         red: "ring-red-500 text-red-600 hover:ring-red-600 active:ring-red-700 active:text-red-700 outline-none focus-visible:ring-red-600",
         amber: "ring-amber-500 text-amber-600 bg-amber-50 hover:ring-amber-600 active:ring-amber-600 active:bg-amber-100 active:text-amber-700 outline-none focus-visible:ring-amber-500",
+        green: "ring-green-500 text-green-600 disabled:text-green-400 disabled:ring-green-300 disabled:bg-green-50 disabled:cursor-not-allowed hover:ring-green-600 active:ring-green-600 active:bg-green-100 active:text-green-700 outline-none focus-visible:ring-green-500",
     },
 }
 

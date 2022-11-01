@@ -6,8 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { getPasswordErros, handleFieldChange, handleLastnameChange, handleNameChange } from '../../lib/utils/regex'
 import { AlertError } from '../Misc/Alerts'
 import { useEffect, useState } from 'react'
-import { isLogged, registerUser } from '../../lib/service/authentification'
-import { isComplete } from '../../lib/service/profile'
+import { registerUser } from '../../lib/service/authentification'
 
 export default function Register({ user, setUser }) {
     const [error, setError] = useState(null);
@@ -67,7 +66,7 @@ export default function Register({ user, setUser }) {
                     />
                     <TextField
                         className="col-span-full"
-                        label="Pseudo"
+                        label="Nom d'utilisateur"
                         id="username"
                         name="username"
                         type="text"
