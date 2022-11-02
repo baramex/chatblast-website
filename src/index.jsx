@@ -23,30 +23,52 @@ function App() {
     const [user, setUser] = useState(null);
     const [alerts, setAlerts] = useState([]);
     const [furtherInformation, setFutherInformation] = useState(false);
+    const [emailAlerted, setEmailAlerted] = useState(false);
+
+    function addAlert(alert) {
+        setAlerts(a => [...a, { id: Date.now() + Math.round(Math.random() * 1000), ...alert }]);
+    }
 
     useEffect(() => {
         (async () => {
+            const suser = JSON.parse(sessionStorage.getItem('user') || '{}');
+            const lastupdate = sessionStorage.getItem('lastupdate') || 0;
             if (isLogged()) {
                 if (!user) {
-                    const tuser = await fetchUser().catch(() => { });
-                    if (tuser) {
-                        setUser(tuser);
+                    if (suser && Date.now() - lastupdate < 1000 * 5) {
+                        setUser(suser);
+                        return;
                     }
-                    return;
+                    else {
+                        const tuser = await fetchUser().catch(() => { });
+                        if (tuser) {
+                            setUser(tuser);
+                            sessionStorage.setItem("lastupdate", Date.now());
+                        }
+                        return;
+                    }
                 }
 
                 if (!isComplete(user)) setFutherInformation(true);
-                else if (!user.email.isVerified && !alerts.some(a => a.name === "validate_email")) setAlerts(a => [...a, { name: "validate_email", type: "warning", title: "Veuillez vérifier votre adresse email." }]);
+                else if (!emailAlerted && !user.email.isVerified) {
+                    addAlert({ name: "validate_email", type: "warning", title: "Veuillez vérifier votre adresse email." });
+                    setEmailAlerted(true);
+                }
 
                 if (!user.avatar) {
                     const avatar = await getAvatar();
                     setUser(u => ({ ...u, avatar: URL.createObjectURL(avatar) }));
                 }
-            } else if (user) setUser(null);
+
+                sessionStorage.setItem('user', JSON.stringify(user));
+            } else {
+                if (user) setUser(null);
+                if (suser) sessionStorage.removeItem('user');
+            }
         })();
     }, [user]);
 
-    const props = { user, setUser, setAlerts };
+    const props = { user, setUser, addAlert };
 
     return (
         <>

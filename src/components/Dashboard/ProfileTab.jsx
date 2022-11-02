@@ -1,12 +1,12 @@
 import { pacthUser } from "../../lib/service/profile";
-import { handleFieldChange, handleLastnameChange, handleNameChange } from "../../lib/utils/regex";
+import { fieldPattern, handleFieldInput, handleLastnameInput, handleNameInput, lastnamePattern, namePattern } from "../../lib/utils/regex";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { AlertError } from "../Misc/Alerts";
 import { Button } from "../Misc/Button";
 import { Label, TextField } from "../Misc/Fields";
 
-export default function ProfileTab({ user, setUser }) {
+export default function ProfileTab({ user, setUser, addAlert }) {
     const [error, setError] = useState(null);
 
     return (<>
@@ -14,7 +14,7 @@ export default function ProfileTab({ user, setUser }) {
             <h1 className="text-2xl font-semibold text-gray-900">Profil</h1>
         </div>
         <div className="px-6 mt-5 max-w-4xl">
-            <form onSubmit={e => handleSave(e, setError, setUser)}>
+            <form onSubmit={e => handleSave(e, user, setError, addAlert, setUser)}>
                 <div className="grid grid-cols-5 gap-6">
                     <div className="col-span-full sm:col-span-2">
                         <Label>Photo</Label>
@@ -33,9 +33,12 @@ export default function ProfileTab({ user, setUser }) {
                             label="Nom d'utilisateur"
                             name="username"
                             id="username"
-                            onChange={handleFieldChange}
                             maxLength="32"
+                            minLength="2"
+                            pattern={fieldPattern}
                             defaultValue={user.username}
+                            onInput={handleFieldInput}
+                            required
                         />
                     </div>
 
@@ -44,9 +47,12 @@ export default function ProfileTab({ user, setUser }) {
                             label="Prénom"
                             name="firstname"
                             id="firstname"
-                            onChange={handleNameChange}
                             maxLength="32"
+                            minLength="2"
+                            pattern={namePattern}
                             defaultValue={user.name.firstname}
+                            onInput={handleNameInput}
+                            required
                         />
                     </div>
 
@@ -55,9 +61,12 @@ export default function ProfileTab({ user, setUser }) {
                             label="Nom"
                             name="lastname"
                             id="lastname"
-                            onChange={handleLastnameChange}
                             maxLength="32"
+                            minLength="2"
+                            pattern={lastnamePattern}
                             defaultValue={user.name.lastname}
+                            onInput={handleLastnameInput}
+                            required
                         />
                     </div>
 
@@ -70,6 +79,7 @@ export default function ProfileTab({ user, setUser }) {
                                 type="email"
                                 className="w-full"
                                 defaultValue={user.email.address}
+                                required
                             />
 
                             <Button type="button" variant="outline" color={user.email.isVerified ? "green" : "amber"} rounded="rounded-md" className="w-full sm:w-28" disabled={user.email.isVerified}>
@@ -95,7 +105,7 @@ export default function ProfileTab({ user, setUser }) {
     </>);
 }
 
-async function handleSave(e, setError, setUser) {
+async function handleSave(e, user, setError, addAlert, setUser) {
     e.preventDefault();
 
     const elements = e.target.querySelectorAll("input, textarea, button, select");
@@ -107,9 +117,12 @@ async function handleSave(e, setError, setUser) {
     const email = e.target.email.value.trim();
 
     try {
-        const user = await pacthUser({ email: { address: email }, firstname, lastname, username });
+        if (firstname !== user.name.firstname || lastname !== user.name.lastname || username !== user.username || email !== user.email.address) {
+            const user = await pacthUser({ email: { address: email }, firstname, lastname, username });
+            setUser(user);
+        }
+        addAlert({ type: "success", title: "Profil mis à jour", ephemeral: true });
         setError(null);
-        setUser(user);
     } catch (error) {
         setError(error.message || "Une erreur est survenue.");
     } finally {

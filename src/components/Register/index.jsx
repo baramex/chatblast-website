@@ -3,7 +3,7 @@ import { Button } from '../Misc/Button'
 import { TextField } from '../Misc/Fields'
 import logo from '../../images/logo.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { getPasswordErros, handleFieldChange, handleLastnameChange, handleNameChange } from '../../lib/utils/regex'
+import { fieldPattern, getPasswordErros, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern } from '../../lib/utils/regex'
 import { AlertError } from '../Misc/Alerts'
 import { useEffect, useState } from 'react'
 import { registerUser } from '../../lib/service/authentification'
@@ -51,7 +51,9 @@ export default function Register({ user, setUser }) {
                         type="text"
                         autoComplete="given-name"
                         maxLength="32"
-                        onChange={handleNameChange}
+                        minLength="2"
+                        pattern={namePattern}
+                        onInput={handleNameInput}
                         required
                     />
                     <TextField
@@ -61,7 +63,9 @@ export default function Register({ user, setUser }) {
                         type="text"
                         autoComplete="family-name"
                         maxLength="32"
-                        onChange={handleLastnameChange}
+                        minLength="2"
+                        pattern={lastnamePattern}
+                        onInput={handleLastnameInput}
                         required
                     />
                     <TextField
@@ -72,7 +76,9 @@ export default function Register({ user, setUser }) {
                         type="text"
                         autoComplete="username"
                         maxLength="32"
-                        onChange={handleFieldChange}
+                        minLength="2"
+                        pattern={fieldPattern}
+                        onInput={handleFieldInput}
                         required
                     />
                     <TextField
@@ -131,6 +137,8 @@ async function handleRegister(e, setError, setUser, navigate) {
     const username = e.target.username.value.trim();
     const email = e.target.email.value.trim();
     const password = e.target.password.value.trim();
+
+    if (!isPassword(password)) return;
 
     try {
         const user = await registerUser(email, firstname, lastname, username, password);

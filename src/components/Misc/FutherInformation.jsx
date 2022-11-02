@@ -4,7 +4,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 import { Button } from "./Button";
 import { TextField } from "./Fields";
-import { handleLastnameChange, handleNameChange, isLastname, isName } from "../../lib/utils/regex";
+import { fieldPattern, handleLastnameInput, handleNameInput, isLastname, isName, lastnamePattern } from "../../lib/utils/regex";
 import { AlertError } from "./Alerts";
 import { logoutUser } from "../../lib/service/authentification";
 
@@ -58,8 +58,10 @@ export default function FutherInformationModal({ open, onSaved, email, firstname
                                                         name="fistname"
                                                         type="text"
                                                         maxLength="32"
+                                                        minLength="2"
                                                         autoComplete="given-name"
-                                                        onChange={handleNameChange}
+                                                        pattern={fieldPattern}
+                                                        onInput={handleNameInput}
                                                         required
                                                     />
                                                     <TextField
@@ -68,8 +70,10 @@ export default function FutherInformationModal({ open, onSaved, email, firstname
                                                         name="lastname"
                                                         type="text"
                                                         maxLength="32"
+                                                        minLength="2"
                                                         autoComplete="family-name"
-                                                        onChange={handleLastnameChange}
+                                                        pattern={lastnamePattern}
+                                                        onInput={handleLastnameInput}
                                                         required
                                                     />
                                                 </>

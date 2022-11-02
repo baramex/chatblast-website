@@ -21,7 +21,7 @@ const userNavigation = [
     { name: 'Se déconnecter', href: '#' },
 ];
 
-export default function Dashboard({ user, setUser, Tab }) {
+export default function Dashboard({ user, setUser, addAlert, Tab }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -218,7 +218,7 @@ export default function Dashboard({ user, setUser, Tab }) {
 
                         <main className="flex-1">
                             <div className="py-6">
-                                <Tab user={user} setUser={setUser} />
+                                <Tab user={user} setUser={setUser} addAlert={addAlert} />
                             </div>
                         </main>
                     </div>
