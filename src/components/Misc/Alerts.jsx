@@ -63,7 +63,7 @@ export function AlertContainer({ alerts, setAlerts }) {
                     const opt = {
                         title: alert.title,
                         list: alert.list,
-                        className: clsx(alert.className, "shadow-md"),
+                        className: clsx(alert.className, "shadow-md", !alert.ephemeral && "w-full"),
                         ephemeral: !!alert.ephemeral,
                         border: !alert.ephemeral,
                         onClose: () => setAlerts(a => {

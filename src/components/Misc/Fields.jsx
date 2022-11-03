@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { useState } from 'react';
 
 const formClasses =
-    'block w-full invalid:border-red-500 invalid:focus:border-red-600 appearance-none shadow-sm rounded-md border border-gray-300 bg-white px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 focus:ring-0 sm:text-sm'
+    'block w-full bg-white placeholder:invisible [&:not(:placeholder-shown)]:invalid:border-red-500 [&:not(:placeholder-shown)]:invalid:focus:border-red-600 [&] appearance-none shadow-sm rounded-md border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 focus:ring-0 sm:text-sm'
 
 export function Label({ id, children }) {
     return (
@@ -30,7 +30,7 @@ export function TextField({
             {label && <Label id={id}>{label}</Label>}
             {type == "password" ?
                 <div className='relative overflow-hidden group'>
-                    <input id={id} type={showPassword ? "text" : "password"} {...props} className={clsx(formClasses, "peer")} />
+                    <input id={id} type={showPassword ? "text" : "password"} placeholder="..." {...props} className={clsx(formClasses, "peer")} />
                     <input id={"show-" + id} name='show' checked={showPassword} onChange={e => setShowPassword(e.target.checked)} className='hidden' type="checkbox" />
                     <label htmlFor={"show-" + id} className={clsx('transition-transform absolute flex items-center mr-3 right-0 top-0 h-full peer-focus:translate-y-0 hover:translate-y-0 cursor-pointer', showPassword ? "translate-y-0" : "-translate-y-full")}>
                         <EyeIcon className={clsx('stroke-gray-500 stroke-1 hover:stroke-emerald-500', showPassword ? "hidden" : "")} width="22" />
@@ -38,7 +38,7 @@ export function TextField({
                     </label>
                 </div>
                 :
-                <input id={id} type={type} {...props} className={formClasses} />
+                <input id={id} type={type} {...props} placeholder="..." className={formClasses} />
             }
         </div >
     )
@@ -53,7 +53,7 @@ export function TextAreaField({
     return (
         <div className={className}>
             {label && <Label id={id}>{label}</Label>}
-            <textarea id={id} {...props} className={clsx(formClasses, "min-h-[60px]")} />
+            <textarea id={id} placeholder="..." {...props} className={clsx(formClasses, "min-h-[60px]")} />
         </div>
     );
 };

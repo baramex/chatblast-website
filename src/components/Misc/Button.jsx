@@ -34,6 +34,7 @@ export function Button({
     className,
     href,
     to,
+    as,
     ...props
 }) {
     className = clsx(
@@ -46,8 +47,7 @@ export function Button({
     return href ? (
         <a href={href} className={className} {...props} />
     ) : to ?
-        <Link to={to} className={className} {...props} /> :
-        (
+        <Link to={to} className={className} {...props} /> : as == "div" ?
+            <div role="button" className={className} {...props} /> :
             <button className={className} {...props} />
-        )
 }

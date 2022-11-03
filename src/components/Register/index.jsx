@@ -3,7 +3,7 @@ import { Button } from '../Misc/Button'
 import { TextField } from '../Misc/Fields'
 import logo from '../../images/logo.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { fieldPattern, getPasswordErros, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern } from '../../lib/utils/regex'
+import { fieldPattern, getPasswordErros, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern, passwordPattern } from '../../lib/utils/regex'
 import { AlertError } from '../Misc/Alerts'
 import { useEffect, useState } from 'react'
 import { registerUser } from '../../lib/service/authentification'
@@ -98,6 +98,9 @@ export default function Register({ user, setUser }) {
                         type="password"
                         autoComplete="new-password"
                         onChange={(e) => handlePasswordChange(e, setError)}
+                        maxLength="32"
+                        minLength="6"
+                        pattern={passwordPattern}
                         required
                     />
                     {error && <AlertError className="col-span-full" title={typeof error == "string" ? error : error[0]} list={Array.isArray(error) ? error.slice(1) : undefined} canClose={typeof error == "string"} onClose={() => setError(null)} />}

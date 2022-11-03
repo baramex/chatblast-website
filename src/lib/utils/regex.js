@@ -1,12 +1,13 @@
 const passwordRegex = {
     total: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,32}$)/,
     length: /^.{6,32}$/,
-    chars: /^((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9]))/
+    chars: /((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9]))/
 };
 
 export const namePattern = "^[A-ZÀ-ÿ][a-zà-ÿ]{1,31}$";
 export const lastnamePattern = "^[A-Zà-ÿ]{2,32}$";
 export const fieldPattern = "^[a-z0-9]{2,32}$";
+export const passwordPattern = "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9]))).{6,32}$";
 
 export function isName(name) {
     return /^[A-ZÀ-ÿ][a-zà-ÿ]{1,31}$/.test(name);

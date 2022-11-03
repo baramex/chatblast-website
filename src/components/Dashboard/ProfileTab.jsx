@@ -5,6 +5,8 @@ import { useState } from "react";
 import { AlertError } from "../Misc/Alerts";
 import { Button } from "../Misc/Button";
 import { Label, TextField } from "../Misc/Fields";
+import { uploadAvatar } from "../../lib/service/authentification";
+import { convertImageToDataURL } from "../../lib/utils/file";
 
 export default function ProfileTab({ user, setUser, addAlert }) {
     const [error, setError] = useState(null);
@@ -18,13 +20,16 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                 <div className="grid grid-cols-5 gap-6">
                     <div className="col-span-full sm:col-span-2">
                         <Label>Photo</Label>
-                        <div className="mt-1 flex items-center">
+                        <div className="mt-1 flex items-center gap-5">
                             <span className="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
                                 <img src={user.avatar} className="object-cover aspect-square inline" alt="avatar" />
                             </span>
-                            <Button type="button" variant="outline" rounded="rounded-md" className="ml-5">
-                                Modifier
-                            </Button>
+                            <input id="avatar" name="avatar" type="file" accept=".png,.jpg,.jpeg" onInput={e => handleAvatarChange(e, setError, addAlert, setUser)} hidden />
+                            <label htmlFor="avatar">
+                                <Button type="button" variant="outline" rounded="rounded-md" as="div">
+                                    Modifier
+                                </Button>
+                            </label>
                         </div>
                     </div>
 
@@ -37,6 +42,7 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                             minLength="2"
                             pattern={fieldPattern}
                             defaultValue={user.username}
+                            title="Votre pseudo doit contenir au moins 2 caractères."
                             onInput={handleFieldInput}
                             required
                         />
@@ -121,11 +127,36 @@ async function handleSave(e, user, setError, addAlert, setUser) {
             const user = await pacthUser({ email: { address: email }, firstname, lastname, username });
             setUser(user);
         }
-        addAlert({ type: "success", title: "Profil mis à jour", ephemeral: true });
+        addAlert({ type: "success", title: "Profil mis à jour.", ephemeral: true });
         setError(null);
     } catch (error) {
         setError(error.message || "Une erreur est survenue.");
     } finally {
         elements.forEach(el => el.disabled = false);
+    }
+}
+
+async function handleAvatarChange(e, setError, addAlert, setUser) {
+    const file = e.target.files[0];
+    if (file) {
+        if (file.size >= 500_000) {
+            e.preventDefault();
+            return setError("Votre photo de profil est trop lourde, 0.5 Mo max.");
+        }
+        if (!["png", "jpeg", "jpg"].map(a => "image/" + a).includes(file.type)) {
+            e.preventDefault();
+            return setError("L'image doit être au format PNG, JPEG ou JPG.");
+        }
+
+        try {
+            await uploadAvatar(file);
+            const data = await convertImageToDataURL(file);
+            setUser(a => ({ ...a, avatar: data }));
+            addAlert({ type: "success", title: "Photo de profil enregistrée.", ephemeral: true });
+            setError(null);
+        } catch (error) {
+            setError(error.message || "Une erreur est survenue.");
+            e.preventDefault();
+        }
     }
 }

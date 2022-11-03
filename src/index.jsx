@@ -11,6 +11,7 @@ import FutherInformationModal from './components/Misc/FutherInformation';
 import Register from './components/Register';
 import { isLogged } from './lib/service/authentification';
 import { fetchUser, getAvatar, isComplete } from './lib/service/profile';
+import { convertImageToDataURL } from './lib/utils/file';
 import "./styles/main.css";
 import "./styles/tailwind.css";
 
@@ -31,11 +32,11 @@ function App() {
 
     useEffect(() => {
         (async () => {
-            const suser = JSON.parse(sessionStorage.getItem('user') || '{}');
+            const suser = JSON.parse(sessionStorage.getItem('user'));
             const lastupdate = sessionStorage.getItem('lastupdate') || 0;
             if (isLogged()) {
                 if (!user) {
-                    if (suser && Date.now() - lastupdate < 1000 * 5) {
+                    if (suser && Date.now() - lastupdate < 1000 * 20) {
                         setUser(suser);
                         return;
                     }
@@ -57,7 +58,8 @@ function App() {
 
                 if (!user.avatar) {
                     const avatar = await getAvatar();
-                    setUser(u => ({ ...u, avatar: URL.createObjectURL(avatar) }));
+                    const data = await convertImageToDataURL(avatar);
+                    setUser(u => ({ ...u, avatar: data }));
                 }
 
                 sessionStorage.setItem('user', JSON.stringify(user));
