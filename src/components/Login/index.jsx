@@ -3,17 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { TextField } from '../Misc/Fields';
 import { AuthLayout } from '../Misc/AuthLayout';
 import { Button } from '../Misc/Button';
-import { isLogged, loginUser } from '../../lib/service/authentification';
+import { loginUser } from '../../lib/service/authentification';
 import { useEffect, useState } from 'react';
 import { AlertError } from '../Misc/Alerts';
-import { isComplete } from '../../lib/service/profile';
 
 export default function Login({ user, setUser }) {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const redirect = new URLSearchParams(document.location.search).get("redirect");
+    if (!redirect.startsWith("/") || redirect.includes("http") || redirect.includes(".")) redirect = "";
 
     useEffect(() => {
-        if (user) navigate("/dashboard/profile");
+        if (user) navigate(redirect || "/dashboard/profile");
     }, []);
 
     if (user) return null;
@@ -32,7 +33,7 @@ export default function Login({ user, setUser }) {
                         <p className="mt-2 text-sm text-gray-700">
                             Vous n'avez pas de compte ?{' '}
                             <Link
-                                to="/register"
+                                to={"/register" + (redirect ? "?redirect=" + redirect : "")}
                                 className="font-medium text-emerald-600 hover:underline"
                             >
                                 Créer un compte
@@ -40,7 +41,7 @@ export default function Login({ user, setUser }) {
                         </p>
                     </div>
                 </div>
-                <form onSubmit={(e) => handleLogin(e, setError, setUser, navigate)} className="mt-10 grid grid-cols-1 gap-y-8">
+                <form onSubmit={(e) => handleLogin(e, setError, setUser, redirect, navigate)} className="mt-10 grid grid-cols-1 gap-y-8">
                     <TextField
                         label="Adresse email ou pseudo"
                         id="username"
@@ -78,7 +79,7 @@ export default function Login({ user, setUser }) {
     )
 }
 
-async function handleLogin(e, setError, setUser, navigate) {
+async function handleLogin(e, setError, setUser, redirect, navigate) {
     e.preventDefault();
 
     const elements = e.target.querySelectorAll("input, textarea, button, select");
@@ -92,7 +93,7 @@ async function handleLogin(e, setError, setUser, navigate) {
         setError(null);
         setUser(user);
 
-        navigate("/dashboard/profile");
+        navigate(redirect || "/dashboard/profile");
     } catch (error) {
         setError(error.message || "Une erreur est survenue.");
         elements.forEach(el => el.disabled = false);

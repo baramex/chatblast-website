@@ -11,6 +11,8 @@ import { registerUser } from '../../lib/service/authentification'
 export default function Register({ user, setUser }) {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const redirect = new URLSearchParams(document.location.search).get("redirect");
+    if (!redirect.startsWith("/") || redirect.includes("http") || redirect.includes(".")) redirect = "";
 
     useEffect(() => {
         if (user) navigate("/dashboard/profile");
@@ -32,7 +34,7 @@ export default function Register({ user, setUser }) {
                         <p className="mt-2 text-sm text-gray-700">
                             Déjà inscrit ?{' '}
                             <Link
-                                to="/login"
+                                to={"/login" + (redirect ? "?redirect=" + redirect : "")}
                                 className="font-medium text-emerald-600 hover:underline"
                             >
                                 Se connecter
@@ -41,7 +43,7 @@ export default function Register({ user, setUser }) {
                     </div>
                 </div>
                 <form
-                    onSubmit={e => handleRegister(e, setError, setUser, navigate)}
+                    onSubmit={e => handleRegister(e, setError, setUser, redirect, navigate)}
                     className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2"
                 >
                     <TextField
@@ -129,7 +131,7 @@ function handlePasswordChange(e, setError) {
     setError(["Le mot de passe ne respecte pas ces critères", ...errors]);
 }
 
-async function handleRegister(e, setError, setUser, navigate) {
+async function handleRegister(e, setError, setUser, redirect, navigate) {
     e.preventDefault();
 
     const elements = e.target.querySelectorAll("input, textarea, button, select");
@@ -148,7 +150,7 @@ async function handleRegister(e, setError, setUser, navigate) {
         setError(null);
         setUser(user);
 
-        navigate("/dashboard/profile");
+        navigate(redirect || "/dashboard/profile");
     } catch (error) {
         setError(error.message || "Une erreur est survenue.");
         elements.forEach(el => el.disabled = false);

@@ -19,3 +19,7 @@ export function pacthUser(body) {
 export function getAvatar() {
     return api("/profile/@me/avatar", "get", undefined, undefined, "blob");
 }
+
+export function verifEmailCode(code) {
+    return api("/verification/email/code", "post", { code });
+}

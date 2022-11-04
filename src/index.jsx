@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import ProfileTab from './components/Dashboard/ProfileTab';
+import EmailVerif from './components/EmailVerif';
 import Home from './components/Home';
 import { LoadingScreen } from './components/Layout/Loading';
 import Login from './components/Login';
@@ -89,6 +90,8 @@ function App() {
                         <Route path="/dashboard/profile" element={<Dashboard {...props} Tab={ProfileTab} />} />
                         <Route path="/dashboard/integrations" element={<Dashboard {...props} Tab="integrations" />} />
                         <Route path="/dashboard/invoices" element={<Dashboard {...props} />} />
+
+                        <Route path="/verification/email" element={<EmailVerif {...props} />} />
                     </Routes>
                 </Router>}
         </>
