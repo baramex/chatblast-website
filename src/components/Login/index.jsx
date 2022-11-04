@@ -11,7 +11,7 @@ export default function Login({ user, setUser }) {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const redirect = new URLSearchParams(document.location.search).get("redirect");
-    if (!redirect.startsWith("/") || redirect.includes("http") || redirect.includes(".")) redirect = "";
+    if (redirect && (!redirect.startsWith("/") || redirect.includes("http") || redirect.includes("."))) redirect = "";
 
     useEffect(() => {
         if (user) navigate(redirect || "/dashboard/profile");

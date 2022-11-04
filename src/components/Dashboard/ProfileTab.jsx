@@ -1,4 +1,4 @@
-import { pacthUser } from "../../lib/service/profile";
+import { pacthUser, verifEmailSend } from "../../lib/service/profile";
 import { fieldPattern, handleFieldInput, handleLastnameInput, handleNameInput, lastnamePattern, namePattern } from "../../lib/utils/regex";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
@@ -13,7 +13,7 @@ export default function ProfileTab({ user, setUser, addAlert }) {
 
     return (<>
         <div className="px-5">
-            <h1 className="text-2xl font-semibold text-gray-900">Profil</h1>
+            <h2 className="text-2xl font-semibold text-gray-900">Profil</h2>
         </div>
         <div className="px-6 mt-5 max-w-4xl">
             <form onSubmit={e => handleSave(e, user, setError, addAlert, setUser)}>
@@ -88,7 +88,7 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                                 required
                             />
 
-                            <Button type="button" variant="outline" color={user.email.isVerified ? "green" : "amber"} rounded="rounded-md" className="w-full sm:w-28" disabled={user.email.isVerified}>
+                            <Button type="button" variant="outline" color={user.email.isVerified ? "green" : "amber"} rounded="rounded-md" className="w-full sm:w-28" onClick={user.email.isVerified ? null : e => handleSendMail(e, setError, addAlert)} disabled={user.email.isVerified}>
                                 {user.email.isVerified ? <><CheckIcon className="mr-2 w-5" /> Vérifiée</> : <><ExclamationCircleIcon className="mr-2 w-5" /> Vérifier</>}
                             </Button>
                         </div>
@@ -114,7 +114,7 @@ export default function ProfileTab({ user, setUser, addAlert }) {
 async function handleSave(e, user, setError, addAlert, setUser) {
     e.preventDefault();
 
-    const elements = e.target.querySelectorAll("input, textarea, button, select");
+    const elements = e.target.querySelectorAll("input, textarea, select");
     elements.forEach(el => el.disabled = true);
 
     const firstname = e.target.firstname.value.trim();
@@ -158,5 +158,18 @@ async function handleAvatarChange(e, setError, addAlert, setUser) {
             setError(error.message || "Une erreur est survenue.");
             e.preventDefault();
         }
+    }
+}
+
+async function handleSendMail(e, setError, addAlert) {
+    e.disabled = true;
+    try {
+        await verifEmailSend();
+        addAlert({ type: "success", title: "Un email de vérification vous a été envoyé.", ephemeral: true });
+        setError(null);
+    } catch (error) {
+        setError(error.message || "Une erreur est survenue.");
+    } finally {
+        e.disabled = false;
     }
 }

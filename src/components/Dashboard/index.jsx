@@ -170,9 +170,12 @@ export default function Dashboard({ user, setUser, addAlert, Tab }) {
                                 <Bars3BottomLeftIcon className="h-6 w-6" aria-hidden="true" />
                             </button>
                             <div className="flex flex-1 justify-between px-4 md:px-0">
-                                <div className="flex flex-1"></div>
+                                <div className="flex flex-1 items-center">
+                                    <h1 className="inline-flex items-center rounded-full bg-gray-100 px-3 py-0.5 text-sm font-medium text-gray-700 tracking-wider">
+                                        DASHBOARD
+                                    </h1>
+                                </div>
                                 <div className="ml-4 flex items-center md:ml-6">
-
                                     <Menu as="div" className="relative ml-3">
                                         <div>
                                             <Menu.Button className="flex max-w-xs items-center rounded-full text-sm focus:outline-none">

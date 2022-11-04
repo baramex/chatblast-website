@@ -8,7 +8,10 @@ export default function EmailVerif({ user, setUser, addAlert }) {
 
     useEffect(() => {
         (async () => {
-            if (!code) {
+            if (user?.email.isVerified) {
+                navigate("/dashboard/profile");
+            }
+            else if (!code) {
                 addAlert({ type: "error", title: "Code de vérification invalide.", ephemeral: true });
                 if (user) navigate("/dashboard/profile");
                 else navigate("/");

@@ -23,3 +23,7 @@ export function getAvatar() {
 export function verifEmailCode(code) {
     return api("/verification/email/code", "post", { code });
 }
+
+export function verifEmailSend() {
+    return api("/verification/email/send", "post");
+}

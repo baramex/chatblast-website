@@ -56,6 +56,7 @@ function App() {
                     addAlert({ name: "validate_email", type: "warning", title: "Veuillez vérifier votre adresse email." });
                     setEmailAlerted(true);
                 }
+                else if (user.email.isVerified && alerts.find(a => a.name === "validate_email")) setAlerts(a => a.filter(a => a.name !== "validate_email"));
 
                 if (!user.avatar) {
                     const avatar = await getAvatar();
@@ -63,7 +64,7 @@ function App() {
                     setUser(u => ({ ...u, avatar: data }));
                 }
 
-                sessionStorage.setItem('user', JSON.stringify(user));
+                sessionStorage.setItem('user', JSON.stringify({ ...user, avatar: undefined }));
             } else {
                 if (user) setUser(null);
                 if (suser) sessionStorage.removeItem('user');
@@ -76,7 +77,7 @@ function App() {
     return (
         <>
             <AlertContainer alerts={alerts} setAlerts={setAlerts} />
-            <LoadingScreen open={!user && isLogged()} />
+            <LoadingScreen open={(!user || !user.avatar) && isLogged()} />
             <FutherInformationModal open={furtherInformation} email={user?.email?.address} firstname={user?.name?.firstname} lastname={user?.name?.lastname} onSaved={(nuser) => handleSave(nuser, setUser, setFutherInformation)} />
             {
                 (isLogged() ? user : true) &&
