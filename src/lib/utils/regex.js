@@ -38,7 +38,7 @@ export function handleFieldInput(e) {
     e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
-export function getPasswordErros(password) {
+export function getPasswordErrors(password) {
     const errors = [];
     if (!passwordRegex.length.test(password)) errors.push("Entre 6 et 32 caractères.");
     if (!passwordRegex.chars.test(password)) errors.push("Au moins deux des caractères: chiffre, lettre minuscule, lettre majuscule.");

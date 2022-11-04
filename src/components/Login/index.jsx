@@ -24,9 +24,9 @@ export default function Login({ user, setUser }) {
             <AuthLayout>
                 <div className="flex flex-col">
                     <Link to="/" aria-label="Home">
-                        <img src={logo} className="h-10 w-auto" />
+                        <img src={logo} className="h-12 w-auto" />
                     </Link>
-                    <div className="mt-20">
+                    <div className="mt-16">
                         <h2 className="text-lg font-semibold text-gray-900">
                             Se contecter
                         </h2>

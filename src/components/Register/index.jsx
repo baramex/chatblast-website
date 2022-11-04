@@ -3,7 +3,7 @@ import { Button } from '../Misc/Button'
 import { TextField } from '../Misc/Fields'
 import logo from '../../images/logo.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { fieldPattern, getPasswordErros, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern, passwordPattern } from '../../lib/utils/regex'
+import { fieldPattern, getPasswordErrors, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern, passwordPattern } from '../../lib/utils/regex'
 import { AlertError } from '../Misc/Alerts'
 import { useEffect, useState } from 'react'
 import { registerUser } from '../../lib/service/authentification'
@@ -25,9 +25,9 @@ export default function Register({ user, setUser }) {
             <AuthLayout>
                 <div className="flex flex-col">
                     <Link to="/" aria-label="Home">
-                        <img src={logo} className="h-10 w-auto" />
+                        <img src={logo} className="h-12 w-auto" />
                     </Link>
-                    <div className="mt-20">
+                    <div className="mt-16">
                         <h2 className="text-lg font-semibold text-gray-900">
                             Créer un compte
                         </h2>
@@ -125,7 +125,7 @@ export default function Register({ user, setUser }) {
 }
 
 function handlePasswordChange(e, setError) {
-    const errors = getPasswordErros(e.target.value);
+    const errors = getPasswordErrors(e.target.value);
 
     if (errors.length == 0) return setError(null);
     setError(["Le mot de passe ne respecte pas ces critères", ...errors]);
