@@ -1,5 +1,5 @@
 export function formatDuration(date) {
-    const duration = new Date().getTime() - new Date(date).getTime();
+    const duration = Math.abs(new Date().getTime() - new Date(date).getTime());
     const seconds = Math.floor(duration / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
@@ -11,5 +11,9 @@ export function formatDuration(date) {
 }
 
 export function formatDay(date) {
-    return <>Le {new Date(date).toLocaleDateString("fr-FR", {day: "numeric" })}<sup>e</sup> du mois</>
+    return <>Le {new Date(date).toLocaleDateString("fr-FR", { day: "numeric" })}<sup>e</sup> du mois</>
+}
+
+export function formatDate(date) {
+    return new Date(date).toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "2-digit" });
 }

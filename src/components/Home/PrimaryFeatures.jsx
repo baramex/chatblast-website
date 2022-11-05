@@ -6,7 +6,7 @@ import { Container } from '../Misc/Container'
 import screenshotExpenses from '../../images/screenshots/expenses.png'
 import screenshotPayroll from '../../images/screenshots/payroll.png'
 import screenshotReporting from '../../images/screenshots/reporting.png'
-import BgFeatures from '../Backgrounds/BgFeatures'
+import BgFeatures from '../Images/BgFeatures'
 
 const features = [
   {

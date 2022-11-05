@@ -1,9 +1,11 @@
 import { fetchIntegrations } from "../../lib/service/integrations";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { formatDay, formatDuration } from "../../lib/utils/date";
+import { formatDate, formatDay, formatDuration } from "../../lib/utils/date";
 import { ShoppingCartIcon, SquaresPlusIcon } from "@heroicons/react/24/outline";
 import { fetchSubscriptions } from "../../lib/service/subcriptions";
+import { PaypalIcon } from "../Images/Icons";
+import { Button } from "../Misc/Button";
 
 export default function IntegrationTab({ addAlert }) {
     const [integrations, setIntegrations] = useState(null);
@@ -74,21 +76,50 @@ export default function IntegrationTab({ addAlert }) {
                     <div className="flex flex-col gap-5 mt-4">
                         {
                             subscriptions && subscriptions.map(subscription => (
-                                <button key={subscription._id} className="border transition-colors border-gray-200 hover:border-gray-300 w-full text-left rounded-lg px-3 py-2">
-                                    <div className="flex items-center">
-                                        <p className="flex-1">{subscription.plan.name}</p>
-                                        <span className={clsx("inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-medium", subscription.state === 0 ? "bg-red-100 text-red-800" : subscription.state === 1 ? "bg-green-100 text-green-800" : "bg-stone-300 text-stone-800")}>
-                                            <svg className={clsx("mr-1.5 h-2 w-2", ["text-red-500", "text-green-500", "text-stone-600"][subscription.state])} fill="currentColor" viewBox="0 0 8 8">
-                                                <circle cx={4} cy={4} r={4} />
-                                            </svg>
-                                            {["inactif", "actif", "expiré"][subscription.state]}
-                                        </span>
+                                <details className="group" key={subscription._id}>
+                                    <summary className="marker:text-gray-500 border transition-colors border-gray-200 hover:border-gray-300 w-full text-left rounded-lg px-3 py-2 group-open:rounded-b-none outline-none">
+                                        <div className="inline">
+                                            <p className="inline">{subscription.plan.name}</p>
+                                            <span className={clsx("float-right flex items-center rounded-lg px-3 py-1.5 text-xs font-medium", (subscription.state === 0 || !subscription.autorenew) ? "bg-red-100 text-red-800" : subscription.state === 1 ? "bg-green-100 text-green-800" : "bg-stone-300 text-stone-800")}>
+                                                <svg className={clsx("mr-1.5 h-2 w-2", !subscription.autorenew ? "text-red-500" : ["text-red-500", "text-green-500", "text-stone-600"][subscription.state])} fill="currentColor" viewBox="0 0 8 8">
+                                                    <circle cx={4} cy={4} r={4} />
+                                                </svg>
+                                                {!subscription.autorenew ? "résilation" : ["arrêté", "actif", "expiré"][subscription.state]}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-end text-gray-900 mt-5">
+                                            <p className="flex-1">{subscription.plan.price} €<span className="font-normal text-xs text-gray-800"> /mois</span></p>
+                                            <span className={clsx("text-xs", !subscription.autorenew ? "text-red-600" : "text-gray-800")}>{!subscription.autorenew ? formatDuration(subscription.expires) + " restants" : formatDay(subscription.expires)}</span>
+                                        </div>
+                                    </summary>
+                                    <div className="bg-gray-100 p-3 border-b border-x border-gray-200 rounded-b-xl">
+                                        <div className="flex gap-1 items-center">
+                                            <div className="px-2 py-1 bg-white rounded-xl">
+                                                <PaypalIcon className="w-5 inline" />
+                                                <span className="text-sm text-gray-800 ml-1">contact@baramex.me</span>
+                                            </div>
+                                            <div className="flex-1"></div>
+                                            <Button
+                                                variant="outline"
+                                                color={subscription.autorenew ? "red" : "green"}
+                                                padding="px-3 py-1"
+                                                rounded="rounded-xl"
+                                            >{subscription.autorenew ? "Résilier" : "Reprendre"}</Button>
+                                        </div>
+                                        <div className="flex mt-3 items-center">
+                                            <Button
+                                                variant="outline"
+                                                padding="px-3 py-1"
+                                                className="bg-gray-50"
+                                                rounded="rounded-xl"
+                                            >
+                                                Changer d'offre
+                                            </Button>
+                                            <div className="flex-1"></div>
+                                            <span className="text-xs text-gray-800">Payé le {formatDate(new Date("2022-11-01"))}</span>
+                                        </div>
                                     </div>
-                                    <div className="flex items-end text-gray-900 mt-5">
-                                        <p className="flex-1">{subscription.plan.price} €<span className="font-normal text-xs text-gray-800">/mois</span></p>
-                                        <span className="text-xs text-gray-800">{formatDay(subscription.expires)}</span>
-                                    </div>
-                                </button>
+                                </details>
                             ))
                         }
                         <button

@@ -4,7 +4,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 import { Button } from "./Button";
 import { TextField } from "./Fields";
-import { fieldPattern, handleLastnameInput, handleNameInput, isLastname, isName, lastnamePattern } from "../../lib/utils/regex";
+import { fieldPattern, handleLastnameInput, handleNameInput, isLastname, isName, lastnamePattern, namePattern } from "../../lib/utils/regex";
 import { AlertError } from "./Alerts";
 import { logoutUser } from "../../lib/service/authentification";
 
@@ -60,7 +60,7 @@ export default function FutherInformationModal({ open, onSaved, email, firstname
                                                         maxLength="32"
                                                         minLength="2"
                                                         autoComplete="given-name"
-                                                        pattern={fieldPattern}
+                                                        pattern={namePattern}
                                                         onInput={handleNameInput}
                                                         required
                                                     />

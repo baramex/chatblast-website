@@ -1,4 +1,4 @@
-import BgCallToAction from '../Backgrounds/BgCallToAction'
+import BgCallToAction from '../Images/BgCallToAction'
 import { Button } from '../Misc/Button'
 import { Container } from '../Misc/Container'
 

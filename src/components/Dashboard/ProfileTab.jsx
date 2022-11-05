@@ -56,7 +56,7 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                             maxLength="32"
                             minLength="2"
                             pattern={namePattern}
-                            defaultValue={user.name.firstname}
+                            defaultValue={user.name?.firstname}
                             onInput={handleNameInput}
                             required
                         />
@@ -70,7 +70,7 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                             maxLength="32"
                             minLength="2"
                             pattern={lastnamePattern}
-                            defaultValue={user.name.lastname}
+                            defaultValue={user.name?.lastname}
                             onInput={handleLastnameInput}
                             required
                         />
@@ -97,12 +97,12 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                                 id="email"
                                 type="email"
                                 className="w-full"
-                                defaultValue={user.email.address}
+                                defaultValue={user.email?.address}
                                 required
                             />
 
-                            <Button type="button" variant="outline" color={user.email.isVerified ? "green" : "amber"} rounded="rounded-md" className="w-full sm:w-28" onClick={user.email.isVerified ? null : e => handleSendMail(e, setError, addAlert)} disabled={user.email.isVerified}>
-                                {user.email.isVerified ? <><CheckIcon className="mr-2 w-5" /> Vérifiée</> : <><ExclamationCircleIcon className="mr-2 w-5" /> Vérifier</>}
+                            <Button type="button" variant="outline" color={user.email?.isVerified ? "green" : "amber"} rounded="rounded-md" className="w-full sm:w-28" onClick={user.email?.isVerified ? null : e => handleSendMail(e, setError, addAlert)} disabled={user.email?.isVerified}>
+                                {user.email?.isVerified ? <><CheckIcon className="mr-2 w-5" /> Vérifiée</> : <><ExclamationCircleIcon className="mr-2 w-5" /> Vérifier</>}
                             </Button>
                         </div>
                     </div>

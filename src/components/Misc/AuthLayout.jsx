@@ -1,4 +1,4 @@
-import BgAuth from "../Backgrounds/BgAuth";
+import BgAuth from "../Images/BgAuth";
 
 export function AuthLayout({ children }) {
   return (
