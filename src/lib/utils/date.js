@@ -9,3 +9,7 @@ export function formatDuration(date) {
 
     return years > 0 ? years + " ans" : months > 0 ? months + " mois" : days > 0 ? days + " jours" : hours > 0 ? hours + " heures" : minutes > 0 ? minutes + " minutes" : seconds + " secondes";
 }
+
+export function formatDay(date) {
+    return <>Le {new Date(date).toLocaleDateString("fr-FR", {day: "numeric" })}<sup>e</sup> du mois</>
+}
