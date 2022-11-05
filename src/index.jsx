@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
+import IntegrationTab from './components/Dashboard/IntegrationTab';
 import ProfileTab from './components/Dashboard/ProfileTab';
 import EmailVerif from './components/EmailVerif';
 import Home from './components/Home';
@@ -89,7 +90,7 @@ function App() {
 
                         <Route path="/dashboard" element={<Dashboard {...props} />} />
                         <Route path="/dashboard/profile" element={<Dashboard {...props} Tab={ProfileTab} />} />
-                        <Route path="/dashboard/integrations" element={<Dashboard {...props} Tab="integrations" />} />
+                        <Route path="/dashboard/integrations" element={<Dashboard {...props} Tab={IntegrationTab} />} />
                         <Route path="/dashboard/invoices" element={<Dashboard {...props} />} />
 
                         <Route path="/verification/email" element={<EmailVerif {...props} />} />
