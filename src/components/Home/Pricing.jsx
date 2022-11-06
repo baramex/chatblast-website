@@ -1,7 +1,9 @@
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
+import { useState } from 'react'
 
 import { Button } from '../Misc/Button'
+import CheckoutModal from '../Misc/Checkout'
 import { Container } from '../Misc/Container'
 
 function SwirlyDoodle({ className }) {
@@ -86,7 +88,10 @@ function Plan({ name, price, description, href, features, excludes, featured = f
 }
 
 export function Pricing() {
-    return (
+    const [showCheckout, setShowCheckout] = useState(true);
+
+    return (<>
+        <CheckoutModal open={showCheckout} onClose={() => setShowCheckout(false)} />
         <section
             id="pricing"
             aria-label="Tarifs"
@@ -118,7 +123,7 @@ export function Pricing() {
                             "De 0 à 1'000 visiteurs uniques par mois",
                             'Authentification anonyme'
                         ]}
-                        excludes={["Authentification custom"]}
+                        excludes={["Authentification custom", "Customisation"]}
                     />
                     <Plan
                         featured
@@ -133,6 +138,7 @@ export function Pricing() {
                             "De 1'000 à 10'000 visiteurs uniques par mois",
                             'Authentification anonyme et/ou custom',
                         ]}
+                        excludes={["Accès aux statistiques"]}
                     />
                     <Plan
                         name="Avancé"
@@ -152,7 +158,6 @@ export function Pricing() {
                         description="Pour un grand nombre de sites et les revendeurs."
                         href="/register"
                         features={[
-                            "Essai gratuit de 7 jours",
                             'Badge profil entreprise',
                             'Inclut 3 sites de type Avancé',
                             'Réduction sur les sites supplémentaires',
@@ -162,5 +167,5 @@ export function Pricing() {
                 </div>
             </Container>
         </section>
-    )
+    </>)
 }

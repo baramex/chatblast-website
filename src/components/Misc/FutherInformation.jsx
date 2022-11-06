@@ -4,7 +4,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 import { Button } from "./Button";
 import { TextField } from "./Fields";
-import { fieldPattern, handleLastnameInput, handleNameInput, isLastname, isName, lastnamePattern, namePattern } from "../../lib/utils/regex";
+import { handleLastnameInput, handleNameInput, isLastname, isName, lastnamePattern, namePattern } from "../../lib/utils/regex";
 import { AlertError } from "./Alerts";
 import { logoutUser } from "../../lib/service/authentification";
 
