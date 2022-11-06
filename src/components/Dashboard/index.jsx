@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Dialog, Menu, Transition } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
 import {
-    ArrowLeftOnRectangleIcon,
     BanknotesIcon,
     Bars3BottomLeftIcon,
     ComputerDesktopIcon,
+    HomeIcon,
     LifebuoyIcon,
     UserIcon,
     XMarkIcon,
@@ -13,15 +13,12 @@ import logo from '../../images/logo.png';
 import clsx from 'clsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../lib/service/authentification';
+import { UserMenu, userNavigation } from '../Misc/Menus';
 
 const navigation = [
     { name: 'Profil', href: '/dashboard/profile', icon: UserIcon },
     { name: 'Intégrations', href: '/dashboard/integrations', icon: ComputerDesktopIcon },
     { name: 'Factures', href: '/dashboard/invoices', icon: BanknotesIcon }
-];
-const userNavigation = [
-    [{ Icon: UserIcon, name: 'Votre profil', href: '/dashboard/profile' }],
-    [{ Icon: ArrowLeftOnRectangleIcon, name: 'Se déconnecter', onClick: handleLogout, color: "text-red-600", iconColor: "text-red-600", colorHover: "text-red-700", iconColorHover: "group-hover:text-red-700" }],
 ];
 
 export default function Dashboard({ user, setUser, addAlert, Tab }) {
@@ -205,65 +202,7 @@ export default function Dashboard({ user, setUser, addAlert, Tab }) {
                                     </h1>
                                 </div>
                                 <div className="ml-4 flex items-center md:ml-6">
-                                    <Menu as="div" className="relative ml-3">
-                                        <div>
-                                            <Menu.Button className="flex max-w-xs items-center rounded-full text-sm focus:outline-none">
-                                                <span className="sr-only">Ouvrir le menu utilisateur</span>
-                                                <img
-                                                    className="h-10 w-10 object-cover aspect-square rounded-full"
-                                                    src={user?.avatar}
-                                                    alt="avatar"
-                                                />
-                                            </Menu.Button>
-                                        </div>
-                                        <Transition
-                                            as={Fragment}
-                                            enter="transition ease-out duration-100"
-                                            enterFrom="transform opacity-0 scale-95"
-                                            enterTo="transform opacity-100 scale-100"
-                                            leave="transition ease-in duration-75"
-                                            leaveFrom="transform opacity-100 scale-100"
-                                            leaveTo="transform opacity-0 scale-95"
-                                        >
-                                            <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                {userNavigation.map((items, i) => (
-                                                    <div className='py-1' key={i}>
-                                                        {items.map(item => (
-                                                            <Menu.Item key={item.name}>
-                                                                {({ active }) => (
-                                                                    item.href ?
-                                                                        <Link
-                                                                            to={item.href}
-                                                                            className={clsx(
-                                                                                active ? 'bg-gray-100' : item.color || 'text-gray-700',
-                                                                                active ? item.colorHover || "text-gray-800" : "",
-                                                                                'group flex items-center px-4 py-2 text-sm',
-                                                                                item.className
-                                                                            )}
-                                                                        >
-                                                                            {<item.Icon className={clsx("mr-3 h-5 w-5", item.iconColor || "text-gray-600", item.iconColorHover || "group-hover:text-gray-700")} aria-hidden="true" />}
-                                                                            {item.name}
-                                                                        </Link> :
-                                                                        <button
-                                                                            onClick={e => item.onClick(e, setUser, addAlert, navigate)}
-                                                                            className={clsx(
-                                                                                active ? 'bg-gray-100' : item.color || 'text-gray-700',
-                                                                                active ? item.colorHover || "text-gray-800" : "",
-                                                                                'group flex items-center px-4 py-2 text-sm w-full',
-                                                                                item.className
-                                                                            )}
-                                                                        >
-                                                                            {<item.Icon className={clsx("mr-3 h-5 w-5", item.iconColor || "text-gray-600", item.iconColorHover || "group-hover:text-gray-700")} aria-hidden="true" />}
-                                                                            {item.name}
-                                                                        </button>
-                                                                )}
-                                                            </Menu.Item>
-                                                        ))}
-                                                    </div>
-                                                ))}
-                                            </Menu.Items>
-                                        </Transition>
-                                    </Menu>
+                                    <UserMenu user={user} setUser={setUser} addAlert={addAlert} customNavigation={[[{ Icon: HomeIcon, name: "Accueil", href: "/" }], ...userNavigation]} />
                                 </div>
                             </div>
                         </div>
@@ -276,15 +215,4 @@ export default function Dashboard({ user, setUser, addAlert, Tab }) {
             </div >
         </>
     );
-}
-
-async function handleLogout(e, setUser, addAlert, navigate) {
-    try {
-        await logoutUser();
-        setUser(null);
-        addAlert({ type: "success", title: "Déconnecté.", ephemeral: true });
-        navigate("/");
-    } catch (error) {
-        addAlert({ type: "error", title: "Erreur lors de la déconnexion: " + (error.message || "Une erreur est survenue."), ephemeral: true });
-    }
 }
