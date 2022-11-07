@@ -109,7 +109,7 @@ export function Header({ user, setUser, addAlert }) {
                     <div className="flex items-center gap-x-5 md:gap-x-8">
                         {!user &&
                             <div className="hidden md:block">
-                                <NavLink to="/login">"Se connecter"</NavLink>
+                                <NavLink to="/login">Se connecter</NavLink>
                             </div>
                         }
                         {

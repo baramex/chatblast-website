@@ -12,7 +12,6 @@ import {
 import logo from '../../images/logo.png';
 import clsx from 'clsx';
 import { Link, useNavigate } from 'react-router-dom';
-import { logoutUser } from '../../lib/service/authentification';
 import { UserMenu, userNavigation } from '../Misc/Menus';
 
 const navigation = [

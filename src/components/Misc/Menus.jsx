@@ -1,3 +1,4 @@
+import { logoutUser } from "../../lib/service/authentification";
 import { Menu, Transition } from "@headlessui/react";
 import { ArrowLeftOnRectangleIcon, RectangleGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";

@@ -1,12 +1,7 @@
-import { useState } from 'react'
 import { Container } from '../Misc/Container'
-import { Button } from '../Misc/Button'
-import { EnvelopeIcon } from '@heroicons/react/24/outline'
-import { TextAreaField, TextField } from '../Misc/Fields'
+import { ContactForm } from '../Misc/Forms'
 
-export default function Contact() {
-    const [agreed, setAgreed] = useState(false)
-
+export default function Contact({ user }) {
     return (
         <section
             id="contact"
@@ -30,47 +25,7 @@ export default function Contact() {
                             </p>
                         </div>
                         <div className="mt-12">
-                            <form className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
-                                <TextField
-                                    id="email"
-                                    name="email"
-                                    label="Adresse email"
-                                    type='email'
-                                    autoComplete="email"
-                                    className='sm:col-span-2'
-                                    required
-                                />
-                                <TextField
-                                    id="subject"
-                                    name="subject"
-                                    label="Sujet"
-                                    type='text'
-                                    autoComplete="off"
-                                    className='sm:col-span-2'
-                                    required
-                                />
-                                <TextAreaField
-                                    id="message"
-                                    label="Message"
-                                    name="message"
-                                    rows={4}
-                                    className="sm:col-span-2"
-                                    defaultValue={''}
-                                    autoComplete="off"
-                                    maxLength={512}
-                                    required
-                                />
-                                <div className="sm:col-span-2">
-                                    <Button
-                                        type="submit"
-                                        variant="solid"
-                                        color="emerald"
-                                        className="w-full py-3.5"
-                                    >
-                                        Envoyer <EnvelopeIcon className='ml-2 stroke-2 stroke-current' width="20" />
-                                    </Button>
-                                </div>
-                            </form>
+                            <ContactForm user={user} />
                         </div>
                     </div>
                 </div>

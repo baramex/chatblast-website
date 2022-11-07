@@ -15,6 +15,7 @@ const variantStyles = {
         emerald: 'bg-emerald-600 text-white hover:text-gray-100 disabled:bg-emerald-300 disabled:text-gray-100 disabled:cursor-not-allowed hover:bg-emerald-500 active:bg-emerald-800 active:text-emerald-100 focus-visible:outline-emerald-600',
         green: 'bg-green-600 text-white hover:text-gray-100 disabled:bg-green-300 disabled:text-gray-100 disabled:cursor-not-allowed hover:bg-green-500 active:bg-green-800 active:text-green-100 focus-visible:outline-green-600',
         amber: 'bg-amber-300 text-amber-700 disabled:bg-amber-100 disabled:text-amber-500 disabled:cursor-not-allowed hover:bg-amber-400 active:bg-amber-500 active:text-amber-800 focus-visible:outline-amber-300',
+        gold: 'bg-gold text-gray-900 transition hover:brightness-95 focus-visible:outline-gold',
         white:
             'bg-white text-gray-900 hover:bg-emerald-50 active:bg-emerald-200 active:text-gray-600 focus-visible:outline-white',
     },

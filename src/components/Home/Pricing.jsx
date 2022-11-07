@@ -23,7 +23,7 @@ function SwirlyDoodle({ className }) {
     )
 }
 
-function Plan({ name, price, description, href, features, excludes, featured = false }) {
+function Plan({ name, price, description, href, to, onClick, button, features, excludes, featured = false }) {
     return (
         <section
             className={clsx(
@@ -75,23 +75,25 @@ function Plan({ name, price, description, href, features, excludes, featured = f
                 </ul>
             }
             <Button
-                to={href}
+                href={href}
+                to={to}
+                onClick={onClick}
                 variant={featured ? 'solid' : 'outline'}
                 color="white"
                 className="mt-8"
-                aria-label={`Commencez avec le plaN ${name} pour ${price}/mois`}
+                aria-label={button || `Commencez avec le plan ${name} pour ${price}/mois`}
             >
-                Commencer
+                {button || "Commencer"}
             </Button>
         </section>
     )
 }
 
-export function Pricing() {
+export function Pricing({ user }) {
     const [showCheckout, setShowCheckout] = useState(true);
 
     return (<>
-        <CheckoutModal open={showCheckout} onClose={() => setShowCheckout(false)} />
+        <CheckoutModal user={user} open={showCheckout} onClose={() => setShowCheckout(false)} />
         <section
             id="pricing"
             aria-label="Tarifs"
@@ -116,52 +118,52 @@ export function Pricing() {
                         name="Starter"
                         price="7,95 €"
                         description="Bien pour tester le produit sur un petit site avec peu de trafic."
-                        href="/register"
+                        to="/register"
                         features={[
                             'Badge profil client',
                             'Pour 1 site',
-                            "De 0 à 1'000 visiteurs uniques par mois",
+                            "De 0 à 1000 visiteurs uniques par mois",
                             'Authentification anonyme'
                         ]}
-                        excludes={["Authentification custom", "Customisation"]}
+                        excludes={["Authentification custom"]}
                     />
                     <Plan
                         featured
                         name="Classic"
                         price="12,95 €"
                         description="Parfait pour un site en croissance."
-                        href="/register"
+                        to="/register"
                         features={[
                             "Essai gratuit de 7 jours",
                             'Badge profil client',
                             'Pour 1 site',
-                            "De 1'000 à 10'000 visiteurs uniques par mois",
-                            'Authentification anonyme et/ou custom',
+                            "De 1000 à 10'000 visiteurs uniques par mois",
+                            'Authentification anonyme',
                         ]}
-                        excludes={["Accès aux statistiques"]}
+                        excludes={["Authentification custom"]}
                     />
                     <Plan
                         name="Avancé"
                         price="18,95 €"
                         description="Pour un gros projet et un site à fort trafic."
-                        href="/register"
+                        to="/register"
                         features={[
                             "Essai gratuit de 7 jours",
                             'Badge profil client',
                             'Pour 1 site',
-                            "Plus de 10'000 visiteurs uniques par mois",
+                            "10'000-100'000 visiteurs uniques par mois",
                             'Authentification anonyme et/ou custom',
                         ]}
                     /><Plan
-                        name="Entreprise"
-                        price="40,95 €"
-                        description="Pour un grand nombre de sites et les revendeurs."
-                        href="/register"
+                        name="Custom"
+                        price="?? €"
+                        description="Créez votre plan personnalisé pour les plus grands projets."
+                        href="#contact"
+                        button="Contactez-nous"
                         features={[
-                            'Badge profil entreprise',
-                            'Inclut 3 sites de type Avancé',
-                            'Réduction sur les sites supplémentaires',
-                            "Trafic illimité",
+                            'Badge profil personnalisé',
+                            'Pour ?? sites',
+                            "Trafic ??"
                         ]}
                     />
                 </div>

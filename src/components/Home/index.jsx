@@ -18,8 +18,8 @@ export default function Home(props) {
                 <SecondaryFeatures />
                 <CallToAction />
                 <About />
-                <Pricing />
-                <Contact />
+                <Pricing user={props.user} />
+                <Contact user={props.user} />
             </main>
             <Footer />
         </>
