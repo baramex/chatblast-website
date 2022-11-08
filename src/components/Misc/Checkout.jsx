@@ -64,8 +64,8 @@ function RadioOption({ plan }) {
     </RadioGroup.Option>);
 }
 
-function CheckboxOption({ options, onChecked }) {
-    const [checked, setChecked] = useState(false);
+function CheckboxOption({ options, defaultChecked, onChecked, site = false }) {
+    const [checked, setChecked] = useState(defaultChecked);
 
     return (<div>
         <input name={options.id} id={options.id} checked={checked} onChange={e => { setChecked(e.target.checked); onChecked(e.target.checked); }} className="peer hidden" type="checkbox" />
@@ -84,7 +84,7 @@ function CheckboxOption({ options, onChecked }) {
                             {options.description}
                         </span>
                         <span className="mt-6 text-sm font-medium text-gray-900">
-                            + {options.price} € <span className="text-xs text-gray-700">/mois</span>
+                            + {options.price} € <span className="text-xs text-gray-700">/mois</span>{site && <span className="text-gray-600 text-[.7rem] ml-0.5">/site</span>}
                         </span>
                     </span>
                 </div>
@@ -121,7 +121,12 @@ export default function CheckoutModal({ open, user, defaultPlan = "classic", onC
     const [modulesChecked, setModulesChecked] = useState([]);
     const [additionalSites, setAdditionalSites] = useState(0);
 
-    const priceHT = (plan.price + modulesChecked.reduce((a, b) => a + b.price, 0)) * (additionalSites + 1);
+    const modulesPrice = modulesChecked.reduce((a, b) => a + b.price, 0);
+
+    const subtotalPlan = plan.price * (additionalSites + 1);
+    const subtotalModules = modulesPrice * (additionalSites + 1);
+
+    const priceHT = subtotalPlan + subtotalModules;
     const taxes = priceHT * 0.2;
     const priceTTC = priceHT + taxes;
 
@@ -161,37 +166,35 @@ export default function CheckoutModal({ open, user, defaultPlan = "classic", onC
                                 </div>
                                 <p className="text-xs text-gray-600 mt-2 ml-1">Période d'essaie <u>sans engagement</u> et uniquement pour la première commande.</p>
 
-                                {plan.id !== "custom" &&
-                                    <div className="mt-5 ml-1 text-sm">
+                                {plan.id !== "custom" && <div className="flex flex-wrap gap-5 items-center mt-6">
+                                    <div className="ml-1 text-sm">
                                         <label htmlFor="additional-sites" className="mr-3 text-sm font-medium text-gray-700">Sites additionnels</label>
                                         <NumberPlusMinusField defaultValue={additionalSites} onChange={setAdditionalSites} className="inline-block" id="additional-sites" max={5} />
-                                        {additionalSites ? <p className="text-xs inline text-gray-600 ml-2">+ {(additionalSites * plan.price).toFixed(2)} € /mois</p> : null}
                                     </div>
+                                    <p className="text-sm text-gray-800">Sous total: {additionalSites ? <span className="text-xs text-gray-700">{plan.price.toFixed(2)} x {additionalSites + 1} =</span> : null} <span className="font-medium">{subtotalPlan.toFixed(2)} €</span></p>
+                                </div>
                                 }
                             </RadioGroup>
-                            <div className="inset-0 flex items-center col-span-full my-9" aria-hidden="true">
+                            <div className="inset-0 flex items-center col-span-full mt-6 mb-9" aria-hidden="true">
                                 <div className="w-full border-t border-gray-300" />
                             </div>
                             {plan.id === "custom" ? <ContactForm user={user} /> : <>
                                 <div>
                                     <label className="text-base font-medium text-gray-900">Modules</label>
                                     <div className="mt-4 grid grid-cols-1 gap-y-6 md:grid-cols-2 gap-x-12">
-                                        {modules.map((module) => <CheckboxOption onChecked={a => setModulesChecked(b => a ? [...b, module] : b.filter(c => c.id !== module.id))} key={module.id} options={module} />)}
+                                        {modules.map((module) => <CheckboxOption site={!!additionalSites} defaultChecked={modulesChecked.includes(module)} onChecked={a => setModulesChecked(b => a ? [...b, module] : b.filter(c => c.id !== module.id))} key={module.id} options={module} />)}
                                     </div>
                                     <p className="text-xs text-gray-600 mt-2 ml-1">Besoin d'autre chose ? <a className="underline" onClick={onClose} href="#contact">Nous contacter</a>.</p>
                                 </div>
-                                <div className="inset-0 flex items-center col-span-full my-9" aria-hidden="true">
+                                <p className="text-sm text-gray-800 mt-6">Sous total: {additionalSites ? <span className="text-xs text-gray-700">{modulesPrice.toFixed(2)} x {additionalSites + 1} =</span> : null} <span className="font-medium">{subtotalModules.toFixed(2)} €</span></p>
+                                <div className="inset-0 flex items-center col-span-full mt-6 mb-9" aria-hidden="true">
                                     <div className="w-full border-t border-gray-300" />
                                 </div>
                                 <div>
                                     <label className="text-base font-medium text-gray-900">Résumé</label>
                                     <dl className="mt-4 text-sm grid md:grid-cols-2 gap-x-12 gap-y-4 [&_dd]:font-medium px-2">
                                         <div className="flex items-center justify-between">
-                                            <dt>Début de l'abonnement</dt>
-                                            <dd>{formatDate(Date.now() + (plan.badge ? 1000 * 60 * 60 * 24 * 7 : 0))}</dd>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <dt>Prix HT de l'abonnement</dt>
+                                            <dt>Sous total HT</dt>
                                             <dd>{(priceHT).toFixed(2)} €</dd>
                                         </div>
                                         <div className="flex items-center justify-between">
@@ -201,6 +204,10 @@ export default function CheckoutModal({ open, user, defaultPlan = "classic", onC
                                         <div className="flex items-center justify-between">
                                             <dt>Prix total TTC <span className="text-xs text-gray-700">/mois</span></dt>
                                             <dd>{(priceTTC).toFixed(2)} €</dd>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <dt>Début de l'abonnement</dt>
+                                            <dd>{formatDate(Date.now() + (plan.badge ? 1000 * 60 * 60 * 24 * 7 : 0))}</dd>
                                         </div>
                                     </dl>
                                 </div>
