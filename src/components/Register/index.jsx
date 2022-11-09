@@ -34,7 +34,7 @@ export default function Register({ user, setUser }) {
                         <p className="mt-2 text-sm text-gray-700">
                             Déjà inscrit ?{' '}
                             <Link
-                                to={"/login" + (redirect ? "?redirect=" + redirect : "")}
+                                to={"/login" + (redirect ? "?redirect=" + encodeURIComponent(redirect) : "")}
                                 className="font-medium text-emerald-600 hover:underline"
                             >
                                 Se connecter

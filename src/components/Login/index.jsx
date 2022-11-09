@@ -33,7 +33,7 @@ export default function Login({ user, setUser }) {
                         <p className="mt-2 text-sm text-gray-700">
                             Vous n'avez pas de compte ?{' '}
                             <Link
-                                to={"/register" + (redirect ? "?redirect=" + redirect : "")}
+                                to={"/register" + (redirect ? "?redirect=" + encodeURIComponent(redirect) : "")}
                                 className="font-medium text-emerald-600 hover:underline"
                             >
                                 Créer un compte

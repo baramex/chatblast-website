@@ -2,7 +2,7 @@ import { formatDate } from "../../lib/utils/date";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Button } from "./Button";
 import { PaypalLabel } from "../Images/Icons";
 import { ContactForm } from "./Forms";
@@ -109,7 +109,7 @@ function CheckboxOption({ options, defaultChecked, onChecked, site = false }) {
 const plans = [
     { id: "starter", title: "Plan Starter", features: ["1-1000 visiteurs uniques / mois"], price: 7.95 },
     { _id: "635548d6a6fbf6ce987ec5c7", id: "classic", title: "Plan Classic", features: ["1000-10'000 visiteurs uniques / mois"], price: 12.95, badge: "7 jours gratuits" },
-    { id: "advanced", title: "Plan Avancé", features: ["10'000-100'000 visiteurs uniques / mois", "Authentification Custom"], price: 18.95, badge: "7 jours gratuits" },
+    { id: "advanced", title: "Plan Avancé", features: ["10'000-50'000 visiteurs uniques / mois", "Authentification Custom"], price: 18.95, badge: "7 jours gratuits" },
     { id: "custom", title: "Plan Customisé", features: ["Créez votre plan personnalisé pour les plus grands projets."], price: "??" },
 ]
 
@@ -123,15 +123,19 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
     const [modulesChecked, setModulesChecked] = useState([]);
     const [additionalSites, setAdditionalSites] = useState(0);
 
-    useState(() => {
-        if (!data.subscriptions) fetchData(addAlert, dataSetter(setData, "subscriptions"), fetchSubscriptions);
-    }, []);
+    useEffect(() => {
+        if (user && !data.subscriptions) fetchData(addAlert, dataSetter(setData, "subscriptions"), fetchSubscriptions);
+    }, [user]);
+
+    useEffect(() => {
+        if (open && plan?.id !== defaultPlan && defaultPlan && plans.find(a => a.id === defaultPlan)) setPlan(plans.find(a => a.id === defaultPlan));
+    }, [open]);
 
     const firstSubscription = data.subscriptions && data.subscriptions.length === 0;
 
     const modulesPrice = modulesChecked.reduce((a, b) => a + b.price, 0);
 
-    const subtotalPlan = plan.price * (additionalSites + 1);
+    const subtotalPlan = plan?.price * (additionalSites + 1);
     const subtotalModules = modulesPrice * (additionalSites + 1);
 
     const priceHT = subtotalPlan + subtotalModules;
@@ -174,7 +178,7 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
                                 </div>
                                 {firstSubscription && <p className="text-xs text-gray-600 mt-2 ml-1">Période d'essaie <u>sans engagement</u> et uniquement pour la première commande.</p>}
 
-                                {plan.id !== "custom" && <div className="flex flex-wrap gap-5 items-center mt-6">
+                                {plan?.id !== "custom" && <div className="flex flex-wrap gap-5 items-center mt-6">
                                     <div className="ml-1 text-sm">
                                         <label htmlFor="additionalSites" className="mr-3 text-sm font-medium text-gray-700">Sites additionnels</label>
                                         <NumberPlusMinusField name="additonalSites" defaultValue={additionalSites} onChange={setAdditionalSites} className="inline-block" id="additionalSites" max={5} />
@@ -186,7 +190,7 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
                             <div className="inset-0 flex items-center col-span-full mt-6 mb-9" aria-hidden="true">
                                 <div className="w-full border-t border-gray-300" />
                             </div>
-                            {plan.id === "custom" ? <ContactForm user={user} /> : <>
+                            {plan?.id === "custom" ? <ContactForm user={user} /> : <>
                                 <div>
                                     <label className="text-base font-medium text-gray-900">Modules</label>
                                     <div className="mt-4 grid grid-cols-1 gap-y-6 md:grid-cols-2 gap-x-12">
@@ -215,7 +219,7 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
                                         </div>
                                         <div className="flex items-center justify-between">
                                             <dt>Début de l'abonnement</dt>
-                                            <dd>{formatDate(Date.now() + (plan.badge ? 1000 * 60 * 60 * 24 * 7 : 0))}</dd>
+                                            <dd>{formatDate(Date.now() + (plan?.badge ? 1000 * 60 * 60 * 24 * 7 : 0))}</dd>
                                         </div>
                                     </dl>
                                     {firstSubscription &&

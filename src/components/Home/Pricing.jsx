@@ -1,10 +1,12 @@
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Button } from '../Misc/Button'
 import CheckoutModal from '../Misc/Checkout'
 import { Container } from '../Misc/Container'
+import TrafficChecker from '../Misc/TrafficChecker'
 
 function SwirlyDoodle({ className }) {
     return (
@@ -61,14 +63,11 @@ function Plan({ name, price, description, href, to, onClick, button, features, e
             {excludes &&
                 <ul
                     role="list"
-                    className={clsx(
-                        'order-last mt-5 flex flex-col gap-y-3 text-sm',
-                        featured ? 'text-white' : 'text-red-100'
-                    )}
+                    className='order-last mt-5 flex flex-col gap-y-3 text-sm text-red-100'
                 >
                     {excludes.map((exclude) => (
                         <li key={exclude} className="flex">
-                            <XCircleIcon className={clsx(featured ? 'text-white' : 'text-red-100', "h-6 w-6 flex-none stroke-current")} />
+                            <XCircleIcon className='text-red-100 h-6 w-6 flex-none stroke-current' />
                             <span className="ml-4">{exclude}</span>
                         </li>
                     ))}
@@ -90,10 +89,22 @@ function Plan({ name, price, description, href, to, onClick, button, features, e
 }
 
 export function Pricing(props) {
-    const [showCheckout, setShowCheckout] = useState(true);
+    const [checkout, setCheckout] = useState(null);
+    const [trafficCheckerShow, setTrafficCheckerShow] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("plan")) {
+            setCheckout(params.get("plan"));
+            navigate("/");
+        }
+    }, []);
 
     return (<>
-        <CheckoutModal {...props} open={showCheckout} onClose={() => setShowCheckout(false)} />
+        <CheckoutModal {...props} defaultPlan={checkout} open={!!checkout} onClose={() => setCheckout(null)} />
+        <TrafficChecker open={trafficCheckerShow} onClose={setTrafficCheckerShow} />
         <section
             id="pricing"
             aria-label="Tarifs"
@@ -111,14 +122,15 @@ export function Pricing(props) {
                     <p className="my-4 text-lg text-gray-400">
                         Peu importe le trafic qu'a votre site, nous avons un plan pour vous.
                     </p>
-                    <Button className="mt-4" color='emerald'>Tester le trafic de mon site</Button>
+                    <Button onClick={() => setTrafficCheckerShow(true)} className="mt-4" color='emerald'>Tester le trafic de mon site</Button>
                 </div>
                 <div className="mt-12 flex flex-wrap justify-center [&>*]:flex-[0_0_100%] md:[&>*]:flex-[0_0_calc(50%-20px)] xl:[&>*]:flex-[0_0_calc(25%-30px)] max-w-2xl gap-y-10 mx-auto md:max-w-none xl:mx-0 gap-x-10">
                     <Plan
                         name="Starter"
                         price="7,95 €"
                         description="Bien pour tester le produit sur un petit site avec peu de trafic."
-                        to="/register"
+                        to={!props.user ? "/register?redirect=" + encodeURIComponent("/?plan=starter") : undefined}
+                        onClick={props.user && (() => setCheckout('starter'))}
                         features={[
                             'Badge profil client',
                             'Pour 1 site',
@@ -132,7 +144,8 @@ export function Pricing(props) {
                         name="Classic"
                         price="12,95 €"
                         description="Parfait pour un site en croissance."
-                        to="/register"
+                        to={!props.user ? "/register?redirect=" + encodeURIComponent("/?plan=classic") : undefined}
+                        onClick={props.user && (() => setCheckout('classic'))}
                         features={[
                             "Essai gratuit de 7 jours",
                             'Badge profil client',
@@ -146,12 +159,13 @@ export function Pricing(props) {
                         name="Avancé"
                         price="18,95 €"
                         description="Pour un gros projet et un site à fort trafic."
-                        to="/register"
+                        to={!props.user ? "/register?redirect=" + encodeURIComponent("/?plan=advanced") : undefined}
+                        onClick={props.user && (() => setCheckout('advanced'))}
                         features={[
                             "Essai gratuit de 7 jours",
                             'Badge profil client',
                             'Pour 1 site',
-                            "10'000-100'000 visiteurs uniques par mois",
+                            "10'000-50'000 visiteurs uniques par mois",
                             'Authentification anonyme et/ou custom',
                         ]}
                     /><Plan
