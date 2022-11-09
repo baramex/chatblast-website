@@ -8,8 +8,7 @@ import { PaypalLabel } from "../Images/Icons";
 import { ContactForm } from "./Forms";
 import { NumberPlusMinusField, TextField } from "./Fields";
 import { dataSetter, fetchData } from "../../lib/service";
-import { fetchSubscriptions } from "../../lib/service/subcriptions";
-import { useNavigate } from "react-router-dom";
+import { fetchSubscriptions, subscribe } from "../../lib/service/subcriptions";
 
 function RadioOption({ plan, firstSubscription }) {
     return (
@@ -109,7 +108,7 @@ function CheckboxOption({ options, defaultChecked, onChecked, site = false }) {
 
 const plans = [
     { id: "starter", title: "Plan Starter", features: ["1-1000 visiteurs uniques / mois"], price: 7.95 },
-    { id: "classic", title: "Plan Classic", features: ["1000-10'000 visiteurs uniques / mois"], price: 12.95, badge: "7 jours gratuits" },
+    { _id: "635548d6a6fbf6ce987ec5c7", id: "classic", title: "Plan Classic", features: ["1000-10'000 visiteurs uniques / mois"], price: 12.95, badge: "7 jours gratuits" },
     { id: "advanced", title: "Plan Avancé", features: ["10'000-100'000 visiteurs uniques / mois", "Authentification Custom"], price: 18.95, badge: "7 jours gratuits" },
     { id: "custom", title: "Plan Customisé", features: ["Créez votre plan personnalisé pour les plus grands projets."], price: "??" },
 ]
@@ -123,7 +122,6 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
     const [plan, setPlan] = useState(plans.find(a => a.id === defaultPlan));
     const [modulesChecked, setModulesChecked] = useState([]);
     const [additionalSites, setAdditionalSites] = useState(0);
-    const navigate = useNavigate();
 
     useState(() => {
         if (!data.subscriptions) fetchData(addAlert, dataSetter(setData, "subscriptions"), fetchSubscriptions);
@@ -231,28 +229,37 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
                                         </div>
                                     }
                                 </div>
-                                <div className="flex flex-col gap-1 items-center mt-8">
+                                <form className="flex flex-col gap-1 items-center mt-8" onSubmit={e => handleSubmit(e, plan, modulesChecked, additionalSites, addAlert)}>
                                     <Button
                                         color="gold"
                                         rounded="rounded-md"
                                         className="w-full sm:w-96"
                                         type="submit"
-                                        onClick={e => handleSubmit(e, plan, modulesChecked, additionalSites, addAlert, navigate)}>
+                                        name="submit">
                                         <PaypalLabel className="w-20" />
                                     </Button>
                                     <div>
                                         <span className="inline-block align-bottom text-xs text-gray-500 italic">Optimisé par</span><PaypalLabel className="ml-1.5 h-5 inline-block" />
                                     </div>
-                                </div>
+                                </form>
                             </>}
                         </Dialog.Panel>
                     </Transition.Child>
                 </div>
             </div>
-        </Dialog>
-    </Transition.Root>);
+        </Dialog >
+    </Transition.Root >);
 }
 
-function handleSubmit(e, plan, modules, additionalSites, addAlert, navigate) {
-    e.target.disabled = true;
+async function handleSubmit(e, plan, modules, additionalSites, addAlert) {
+    e.preventDefault();
+    e.target.submit.disabled = true;
+
+    try {
+        const subscription = await subscribe(plan._id, modules.map(a => a._id), additionalSites);
+        window.open(subscription.approveUrl, "_blank", "popup");
+    } catch (error) {
+        addAlert({ type: "error", title: error.message || "Une erreur est survenue", ephemeral: true });
+        e.target.submit.disabled = false;
+    }
 }
