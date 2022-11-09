@@ -1,22 +1,22 @@
 import { fetchIntegrations } from "../../lib/service/integrations";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import clsx from "clsx";
 import { formatDate, formatDay, formatDuration } from "../../lib/utils/date";
 import { ShoppingCartIcon, SquaresPlusIcon } from "@heroicons/react/24/outline";
 import { fetchSubscriptions } from "../../lib/service/subcriptions";
 import { PaypalIcon } from "../Images/Icons";
 import { Button } from "../Misc/Button";
+import { dataSetter, fetchData } from "../../lib/service";
 
-export default function IntegrationTab({ addAlert }) {
-    const [integrations, setIntegrations] = useState(null);
-    const [subscriptions, setSubscriptions] = useState(null);
-
+export default function IntegrationTab({ addAlert, data, setData }) {
     useEffect(() => {
         (async () => {
-            fetchIntegrations().then(setIntegrations).catch(a => addAlert({ type: "error", title: "Impossible de récupérer les intégrations: " + (a.message || "Une erreur est survenue."), ephemeral: true }));
-            fetchSubscriptions().then(setSubscriptions).catch(a => addAlert({ type: "error", title: "Impossible de récupérer les souscriptions: " + (a.message || "Une erreur est survenue."), ephemeral: true }));
+            if (!data.integrations) fetchData(addAlert, dataSetter(setData, "integrations"), fetchIntegrations);
+            if (!data.subscriptions) fetchData(addAlert, dataSetter(setData, "subscriptions"), fetchSubscriptions);
         })();
     }, []);
+
+    const { integrations, subscriptions } = data;
 
     let remaining = subscriptions?.filter(a => a.state === 1).map(a => a.plan.quantity + a.additionalSites).reduce((a, b) => a + b, 0) - integrations?.length;
     if (!remaining) remaining = 0;

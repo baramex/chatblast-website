@@ -24,6 +24,7 @@ root.render(
 
 function App() {
     const [user, setUser] = useState(null);
+    const [data, setData] = useState({});
     const [alerts, setAlerts] = useState([]);
     const [furtherInformation, setFutherInformation] = useState(false);
     const [emailAlerted, setEmailAlerted] = useState(false);
@@ -61,8 +62,8 @@ function App() {
 
                 if (!user.avatar) {
                     const avatar = await getAvatar();
-                    const data = await convertImageToDataURL(avatar);
-                    setUser(u => ({ ...u, avatar: data }));
+                    const avatarData = await convertImageToDataURL(avatar);
+                    setUser(u => ({ ...u, avatar: avatarData }));
                 }
 
                 sessionStorage.setItem('user', JSON.stringify({ ...user, avatar: undefined }));
@@ -73,7 +74,7 @@ function App() {
         })();
     }, [user]);
 
-    const props = { user, setUser, addAlert };
+    const props = { user, setUser, data, setData, addAlert };
 
     return (
         <>

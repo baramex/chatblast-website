@@ -18,7 +18,7 @@ export default function Home(props) {
                 <SecondaryFeatures />
                 <CallToAction />
                 <About />
-                <Pricing user={props.user} />
+                <Pricing {...props} />
                 <Contact user={props.user} />
             </main>
             <Footer />

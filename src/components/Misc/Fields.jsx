@@ -67,7 +67,7 @@ export function SelectField({ id, label, className = '', ...props }) {
     )
 }
 
-export function NumberPlusMinusField({ id, label, onChange, defaultValue, className = "", min = 0, max }) {
+export function NumberPlusMinusField({ id, label, onChange, defaultValue, className = "", min = 0, max, ...props }) {
     const [value, setValue] = useState(defaultValue || min);
 
     useEffect(() => {
@@ -79,7 +79,7 @@ export function NumberPlusMinusField({ id, label, onChange, defaultValue, classN
             {label && <Label id={id}>{label}</Label>}
             <div className='flex text-xs'>
                 <input type="button" value="-" className="bg-gray-100 border border-gray-200 border-r-0 rounded-l-md px-3 cursor-pointer outline-none" onClick={() => setValue(b => (b - 1 >= min && b - 1 <= (max || Infinity)) ? Number(b) - 1 : b)} data-field="quantity" />
-                <input type="number" value={value} onChange={e => e.target.value >= min && e.target.value <= (max || Infinity) && setValue(e.target.value)} step="1" min={min} max={max} name="quantity" className="border-gray-200 text-center text-sm w-10 py-1 focus:ring-0 focus:border-emerald-500" />
+                <input id={id} type="number" value={value} onChange={e => e.target.value >= min && e.target.value <= (max || Infinity) && setValue(e.target.value)} step="1" min={min} max={max} name="quantity" className="border-gray-200 text-center text-sm w-10 py-1 focus:ring-0 focus:border-emerald-500" {...props} />
                 <input type="button" value="+" className="bg-gray-100 border border-gray-200 border-l-0 rounded-r-md px-3 cursor-pointer outline-none" data-field="quantity" onClick={() => setValue(b => (b + 1 >= min && b + 1 <= (max || Infinity)) ? Number(b) + 1 : b)} />
             </div>
         </div>

@@ -3,24 +3,26 @@ import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "./Button";
-import { PaypalIcon, PaypalLabel } from "../Images/Icons";
+import { PaypalLabel } from "../Images/Icons";
 import { ContactForm } from "./Forms";
-import { NumberPlusMinusField } from "./Fields";
+import { NumberPlusMinusField, TextField } from "./Fields";
+import { dataSetter, fetchData } from "../../lib/service";
+import { fetchSubscriptions } from "../../lib/service/subcriptions";
+import { useNavigate } from "react-router-dom";
 
-function RadioOption({ plan }) {
-    return (<RadioGroup.Option
-        value={plan}
-        className={({ checked }) =>
-            clsx(
-                checked ? 'border-emerald-500' : 'border-gray-300',
-                'relative transition-colors group hover:border-gray-400 flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none'
-            )
-        }
-    >
-        {({ checked }) => (
-            <>
+function RadioOption({ plan, firstSubscription }) {
+    return (
+        <RadioGroup.Option
+            value={plan}
+            className={({ checked }) =>
+                clsx(
+                    checked ? 'border-emerald-500' : 'border-gray-300',
+                    'relative transition-colors group hover:border-gray-400 flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none'
+                )
+            }
+        >
+            {({ checked }) => (<>
                 <span className="flex flex-1">
                     <span className="flex flex-col">
                         <RadioGroup.Label as="span" className="block text-sm font-medium text-gray-900">
@@ -52,16 +54,17 @@ function RadioOption({ plan }) {
                     aria-hidden="true"
                 />
                 {
-                    plan.badge && <span className={clsx(
+                    plan.badge && firstSubscription && <span className={clsx(
                         "absolute group-hover:border-gray-400 right-3 top-0 -translate-y-1/2 inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-medium",
                         checked ? "bg-emerald-500 text-white" : "border-gray-300 border text-gray-800 bg-white",
                     )}>
                         {plan.badge}
                     </span>
                 }
-            </>
-        )}
-    </RadioGroup.Option>);
+            </>)
+            }
+        </RadioGroup.Option >
+    );
 }
 
 function CheckboxOption({ options, defaultChecked, onChecked, site = false }) {
@@ -116,10 +119,17 @@ const modules = [
     { id: "analytics", title: "Analyses", description: "Ayez accès aux données receuillis par ChatBlast sur votre intégration: le nombre de comptes, les messages, les ouvertures et pleins d'autres statistiques.", price: 2.95 }
 ]
 
-export default function CheckoutModal({ open, user, defaultPlan = "classic", onClose }) {
+export default function CheckoutModal({ open, user, data, setData, addAlert, defaultPlan = "classic", onClose }) {
     const [plan, setPlan] = useState(plans.find(a => a.id === defaultPlan));
     const [modulesChecked, setModulesChecked] = useState([]);
     const [additionalSites, setAdditionalSites] = useState(0);
+    const navigate = useNavigate();
+
+    useState(() => {
+        if (!data.subscriptions) fetchData(addAlert, dataSetter(setData, "subscriptions"), fetchSubscriptions);
+    }, []);
+
+    const firstSubscription = data.subscriptions && data.subscriptions.length === 0;
 
     const modulesPrice = modulesChecked.reduce((a, b) => a + b.price, 0);
 
@@ -162,14 +172,14 @@ export default function CheckoutModal({ open, user, defaultPlan = "classic", onC
                             <RadioGroup value={plan} onChange={setPlan} className="mt-6">
                                 <RadioGroup.Label className="text-base font-medium text-gray-900">Sélectionner le plan</RadioGroup.Label>
                                 <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 md:grid-cols-4 sm:gap-x-4">
-                                    {plans.map((p) => <RadioOption key={p.id} plan={p} />)}
+                                    {plans.map((p) => <RadioOption key={p.id} plan={p} firstSubscription={firstSubscription} />)}
                                 </div>
-                                <p className="text-xs text-gray-600 mt-2 ml-1">Période d'essaie <u>sans engagement</u> et uniquement pour la première commande.</p>
+                                {firstSubscription && <p className="text-xs text-gray-600 mt-2 ml-1">Période d'essaie <u>sans engagement</u> et uniquement pour la première commande.</p>}
 
                                 {plan.id !== "custom" && <div className="flex flex-wrap gap-5 items-center mt-6">
                                     <div className="ml-1 text-sm">
-                                        <label htmlFor="additional-sites" className="mr-3 text-sm font-medium text-gray-700">Sites additionnels</label>
-                                        <NumberPlusMinusField defaultValue={additionalSites} onChange={setAdditionalSites} className="inline-block" id="additional-sites" max={5} />
+                                        <label htmlFor="additionalSites" className="mr-3 text-sm font-medium text-gray-700">Sites additionnels</label>
+                                        <NumberPlusMinusField name="additonalSites" defaultValue={additionalSites} onChange={setAdditionalSites} className="inline-block" id="additionalSites" max={5} />
                                     </div>
                                     <p className="text-sm text-gray-800">Sous total: {additionalSites ? <span className="text-xs text-gray-700">{plan.price.toFixed(2)} x {additionalSites + 1} =</span> : null} <span className="font-medium">{subtotalPlan.toFixed(2)} €</span></p>
                                 </div>
@@ -210,12 +220,24 @@ export default function CheckoutModal({ open, user, defaultPlan = "classic", onC
                                             <dd>{formatDate(Date.now() + (plan.badge ? 1000 * 60 * 60 * 24 * 7 : 0))}</dd>
                                         </div>
                                     </dl>
+                                    {firstSubscription &&
+                                        <div className="px-2 mt-4 flex items-center gap-6">
+                                            <label htmlFor="referral-code" className="block text-sm font-medium text-gray-700">
+                                                Code de parrainage
+                                            </label>
+                                            <TextField
+                                                id="referralCode"
+                                            />
+                                        </div>
+                                    }
                                 </div>
                                 <div className="flex flex-col gap-1 items-center mt-8">
                                     <Button
                                         color="gold"
                                         rounded="rounded-md"
-                                        className="w-full sm:w-96">
+                                        className="w-full sm:w-96"
+                                        type="submit"
+                                        onClick={e => handleSubmit(e, plan, modulesChecked, additionalSites, addAlert, navigate)}>
                                         <PaypalLabel className="w-20" />
                                     </Button>
                                     <div>
@@ -229,4 +251,8 @@ export default function CheckoutModal({ open, user, defaultPlan = "classic", onC
             </div>
         </Dialog>
     </Transition.Root>);
+}
+
+function handleSubmit(e, plan, modules, additionalSites, addAlert, navigate) {
+    e.target.disabled = true;
 }

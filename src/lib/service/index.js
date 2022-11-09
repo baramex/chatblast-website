@@ -36,3 +36,17 @@ export function api(endpoint, method, data = undefined, customHeader = undefined
         });
     });
 }
+
+export function fetchData(addAlert, setter, func, ...params) {
+    func(...params).then(data => {
+        setter(data);
+    }).catch(err => {
+        addAlert({ type: "error", title: "Erreur récupération API: " + (err.message || "Une erreur est survenue."), ephemeral: true });
+    });
+}
+
+export function dataSetter(setData, prop) {
+    return function (value) {
+        setData(prev => ({ ...prev, [prop]: value }));
+    };
+}

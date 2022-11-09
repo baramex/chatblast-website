@@ -20,16 +20,16 @@ const navigation = [
     { name: 'Factures', href: '/dashboard/invoices', icon: BanknotesIcon }
 ];
 
-export default function Dashboard({ user, setUser, addAlert, Tab }) {
+export default function Dashboard({ Tab, ...props }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user) navigate("/login");
+        if (!props.user) navigate("/login");
         else if (!Tab) navigate("/dashboard/profile");
     }, []);
 
-    if (!user || !Tab) return null;
+    if (!props.user || !Tab) return null;
 
     return (
         <>
@@ -201,13 +201,13 @@ export default function Dashboard({ user, setUser, addAlert, Tab }) {
                                     </h1>
                                 </div>
                                 <div className="ml-4 flex items-center md:ml-6">
-                                    <UserMenu user={user} setUser={setUser} addAlert={addAlert} customNavigation={[[{ Icon: HomeIcon, name: "Accueil", href: "/" }], ...userNavigation]} />
+                                    <UserMenu user={props.user} setUser={props.setUser} addAlert={props.addAlert} customNavigation={[[{ Icon: HomeIcon, name: "Accueil", href: "/" }], ...userNavigation]} />
                                 </div>
                             </div>
                         </div>
 
                         <main className="flex-1 py-6 flex flex-col">
-                            <Tab user={user} setUser={setUser} addAlert={addAlert} />
+                            <Tab {...props} />
                         </main>
                     </div>
                 </div>

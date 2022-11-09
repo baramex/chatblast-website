@@ -89,11 +89,11 @@ function Plan({ name, price, description, href, to, onClick, button, features, e
     )
 }
 
-export function Pricing({ user }) {
+export function Pricing(props) {
     const [showCheckout, setShowCheckout] = useState(true);
 
     return (<>
-        <CheckoutModal user={user} open={showCheckout} onClose={() => setShowCheckout(false)} />
+        <CheckoutModal {...props} open={showCheckout} onClose={() => setShowCheckout(false)} />
         <section
             id="pricing"
             aria-label="Tarifs"
