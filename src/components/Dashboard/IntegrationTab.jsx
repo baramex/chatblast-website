@@ -7,6 +7,7 @@ import { fetchSubscriptions } from "../../lib/service/subcriptions";
 import { PaypalIcon } from "../Images/Icons";
 import { Button } from "../Misc/Button";
 import { dataSetter, fetchData } from "../../lib/service";
+import { Link } from "react-router-dom";
 
 export default function IntegrationTab({ addAlert, data, setData }) {
     useEffect(() => {
@@ -29,7 +30,7 @@ export default function IntegrationTab({ addAlert, data, setData }) {
             <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 grid-rows-[repeat(auto-fill,12rem)] gap-14 w-full lg:w-2/3 2xl:w-3/4">
                 {
                     integrations && integrations.map(integration => (
-                        <button className="ease-out transition-all hover:-translate-y-0.5 px-5 py-4 text-left outline-none rounded-2xl bg-gray-50 border border-gray-200 hover:border-gray-300" key={integration._id}>
+                        <Link to={`/dashboard/integration/${integration._id}`} className="ease-out transition-all hover:-translate-y-0.5 px-5 py-4 text-left outline-none rounded-2xl bg-gray-50 border border-gray-200 hover:border-gray-300" key={integration._id}>
                             <div className="h-full flex flex-col">
                                 <div className="flex items-center mb-2">
                                     <h3 className="flex-1 text-lg font-medium">{integration.name}</h3>
@@ -55,7 +56,7 @@ export default function IntegrationTab({ addAlert, data, setData }) {
                                     </div>
                                 </div>
                             </div>
-                        </button>
+                        </Link>
                     ))
                 }
                 <button

@@ -6,6 +6,8 @@ import IntegrationTab from './components/Dashboard/IntegrationTab';
 import ProfileTab from './components/Dashboard/ProfileTab';
 import EmailVerif from './components/EmailVerif';
 import Home from './components/Home';
+import IntegrationDashboard from './components/IntegrationDashboard';
+import GeneralTab from './components/IntegrationDashboard/GeneralTab';
 import { LoadingScreen } from './components/Layout/Loading';
 import Login from './components/Login';
 import { AlertContainer } from './components/Misc/Alerts';
@@ -93,6 +95,11 @@ function App() {
                         <Route path="/dashboard/profile" element={<Dashboard {...props} Tab={ProfileTab} />} />
                         <Route path="/dashboard/integrations" element={<Dashboard {...props} Tab={IntegrationTab} />} />
                         <Route path="/dashboard/invoices" element={<Dashboard {...props} />} />
+
+                        <Route path='/dashboard/integration/:id' element={<IntegrationDashboard {...props} Tab={GeneralTab} />} />
+                        <Route path='/dashboard/integration/:id/integration' element={<IntegrationDashboard {...props} />} />
+                        <Route path='/dashboard/integration/:id/customisation' element={<IntegrationDashboard {...props} />} />
+                        <Route path='/dashboard/integration/:id/analyses' element={<IntegrationDashboard {...props} />} />
 
                         <Route path="/verification/email" element={<EmailVerif {...props} />} />
                     </Routes>
