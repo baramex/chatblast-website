@@ -263,7 +263,7 @@ async function handleSubmit(e, plan, modules, additionalSites, addAlert) {
         const subscription = await subscribe(plan._id, modules.map(a => a._id), additionalSites);
         window.open(subscription.approveUrl, "_blank", "popup");
     } catch (error) {
-        addAlert({ type: "error", title: error.message || "Une erreur est survenue", ephemeral: true });
+        addAlert({ type: "error", title: error.message || "Une erreur est survenue.", ephemeral: true });
         e.target.submit.disabled = false;
     }
 }

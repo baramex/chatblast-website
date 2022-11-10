@@ -104,7 +104,7 @@ export function Pricing(props) {
 
     return (<>
         <CheckoutModal {...props} defaultPlan={checkout} open={!!checkout} onClose={() => setCheckout(null)} />
-        <TrafficChecker open={trafficCheckerShow} onClose={setTrafficCheckerShow} />
+        <TrafficChecker {...props} open={trafficCheckerShow} onClose={setTrafficCheckerShow} />
         <section
             id="pricing"
             aria-label="Tarifs"
@@ -165,7 +165,7 @@ export function Pricing(props) {
                             "Essai gratuit de 7 jours",
                             'Badge profil client',
                             'Pour 1 site',
-                            "10'000-50'000 visiteurs uniques par mois",
+                            "De 10'000 à 50'000 visiteurs uniques par mois",
                             'Authentification anonyme et/ou custom',
                         ]}
                     /><Plan
