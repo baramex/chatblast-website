@@ -8,6 +8,8 @@ export const namePattern = "^[A-ZÀ-ÿ][a-zà-ÿ]{1,31}$";
 export const lastnamePattern = "^[A-Zà-ÿ]{2,32}$";
 export const fieldPattern = "^[a-z0-9]{2,32}$";
 export const passwordPattern = "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9]))).{6,32}$";
+export const integrationNamePattern = "^[a-z-0-9]{2,32}$";
+export const domainPattern = "^([a-z0-9][a-z0-9-]{1,61}[a-z0-9]\\.)+[a-z]{2,24}(:[0-9]{2,5})?$";
 
 export function isName(name) {
     return /^[A-ZÀ-ÿ][a-zà-ÿ]{1,31}$/.test(name);
@@ -36,6 +38,10 @@ export function handleLastnameInput(e) {
 
 export function handleFieldInput(e) {
     e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+export function handleIntegrationNameInput(e) {
+    e.target.value = e.target.value.toLowerCase().replace(/[^a-z-0-9]/g, "");
 }
 
 export function getPasswordErrors(password) {

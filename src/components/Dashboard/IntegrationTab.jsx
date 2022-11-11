@@ -48,7 +48,7 @@ export default function IntegrationTab({ addAlert, data, setData }) {
                                     </div>
 
                                     <div className="flex flex-col flex-1">
-                                        <p className="text-sm text-gray-700 flex-1">{integration.options.domain}</p>
+                                        <p className="text-sm text-gray-700 flex-1">{integration.options.domain.value}</p>
                                         <div className="flex items-end text-gray-800 font-light">
                                             <span className="flex-1">{integration.subscription.plan.name}</span>
                                             <span className="text-sm">Créée il y a {formatDuration(integration.date)}</span>

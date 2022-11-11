@@ -8,8 +8,8 @@ import {
     ComputerDesktopIcon,
     HomeIcon,
     LifebuoyIcon,
+    LockClosedIcon,
     SwatchIcon,
-    UserIcon,
     XMarkIcon,
 } from '@heroicons/react/24/outline';
 import logo from '../../images/logo.png';
@@ -18,16 +18,17 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { UserMenu, userNavigation } from '../Misc/Menus';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { fetchIntegrations } from '../../lib/service/integrations';
-import { fetchData } from '../../lib/service';
+import { dataSetter, fetchData } from '../../lib/service';
 
 const navigation = [
     { name: 'Général', href: '/dashboard/integration/{id}', icon: AdjustmentsHorizontalIcon },
+    { name: 'Authentification', href: '/dashboard/integration/{id}/authentification', icon: LockClosedIcon },
     { name: 'Intégration', href: '/dashboard/integration/{id}/integration', icon: ComputerDesktopIcon },
     { name: 'Customisation', href: '/dashboard/integration/{id}/customisation', icon: SwatchIcon },
     { name: 'Analyses', href: '/dashboard/integration/{id}/analyses', icon: BanknotesIcon }
 ];
 
-export default function IntegrationDashboard({ Tab, data, addAlert, setData, ...props }) {
+export default function IntegrationDashboard({ Tab, ...props }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
     const { id } = useParams();
@@ -36,10 +37,10 @@ export default function IntegrationDashboard({ Tab, data, addAlert, setData, ...
         if (!props.user) navigate("/login");
         else if (!Tab) navigate("/dashboard/integration/" + id);
 
-        if (!data.integrations) fetchData(addAlert, dataSetter(setData, "integrations"), fetchIntegrations);
+        if (!props.data.integrations) fetchData(props.addAlert, dataSetter(props.setData, "integrations"), fetchIntegrations);
     }, []);
 
-    const integration = data.integrations?.find(integration => integration._id === id);
+    const integration = props.data.integrations?.find(integration => integration._id === id);
 
     if (!props.user || !Tab) return null;
 
@@ -224,7 +225,7 @@ export default function IntegrationDashboard({ Tab, data, addAlert, setData, ...
                         </div>
 
                         <main className="flex-1 py-6 flex flex-col">
-                            <Tab {...props} />
+                            <Tab integration={integration} {...props} />
                         </main>
                     </div>
                 </div>

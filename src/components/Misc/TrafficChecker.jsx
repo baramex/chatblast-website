@@ -4,6 +4,7 @@ import { PlayIcon } from "@heroicons/react/20/solid";
 import { Fragment, useState } from "react";
 import { Button } from "./Button";
 import { TextField } from "./Fields";
+import { domainPattern } from "../../lib/utils/regex";
 
 export default function TrafficChecker({ open, addAlert, onClose }) {
     const [traffic, setTraffic] = useState(undefined);
@@ -43,7 +44,7 @@ export default function TrafficChecker({ open, addAlert, onClose }) {
                                     id="domain"
                                     label="Nom de domaine"
                                     className="mt-4"
-                                    pattern="^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+                                    pattern={domainPattern}
                                     required
                                 />
                                 {(traffic !== undefined && domain !== undefined) ? <p className="text-emerald-600 text-sm mt-2"><strong className="font-semibold">{domain}</strong> a approximativement {traffic} visiteurs uniques par mois.</p> : null}

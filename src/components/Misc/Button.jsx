@@ -5,7 +5,7 @@ const baseStyles = {
     solid:
         'transition-colors group inline-flex items-center justify-center text-sm font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2',
     outline:
-        'transition-colors group inline-flex ring-1 items-center justify-center text-sm focus:outline-none shadow-sm',
+        'transition-colors group inline-flex border items-center justify-center text-sm focus:outline-none shadow-sm',
 }
 
 const variantStyles = {
@@ -20,12 +20,12 @@ const variantStyles = {
             'bg-white text-gray-900 hover:bg-emerald-50 active:bg-emerald-200 active:text-gray-600 focus-visible:outline-white',
     },
     outline: {
-        slate: 'ring-gray-200 text-gray-700 hover:text-gray-900 hover:ring-gray-300 disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed active:bg-gray-50 active:text-gray-600 focus-visible:outline-emerald-600 focus-visible:ring-gray-300',
+        slate: 'border-gray-200 text-gray-700 hover:text-gray-900 hover:border-gray-300 disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed active:bg-gray-50 active:text-gray-600 focus-visible:outline-emerald-600 focus-visible:border-gray-300',
         white:
-            'ring-gray-700 text-white hover:ring-gray-500 active:ring-gray-700 active:text-gray-400 focus-visible:outline-white',
-        red: "ring-red-500 text-red-600 hover:ring-red-600 active:ring-red-700 active:text-red-700 outline-none focus-visible:ring-red-600",
-        amber: "ring-amber-500 text-amber-600 bg-amber-50 hover:ring-amber-600 active:ring-amber-600 active:bg-amber-100 active:text-amber-700 outline-none focus-visible:ring-amber-500",
-        green: "ring-green-500 text-green-600 disabled:text-green-400 disabled:ring-green-300 disabled:bg-green-50 disabled:cursor-not-allowed hover:ring-green-600 active:ring-green-600 active:bg-green-50 active:text-green-700 outline-none focus-visible:ring-green-500",
+            'border-gray-700 text-white hover:border-gray-500 active:border-gray-700 active:text-gray-400 focus-visible:outline-white',
+        red: "border-red-500 text-red-600 disabled:text-red-400 disabled:border-red-300 disabled:bg-red-50 disabled:cursor-not-allowed hover:border-red-600 active:border-red-700 active:text-red-700 outline-none focus-visible:border-red-600",
+        amber: "border-amber-500 text-amber-600 disabled:text-amber-500 disabled:border-amber-400 disabled:bg-amber-50 disabled:cursor-not-allowed bg-amber-50 hover:border-amber-600 active:border-amber-600 active:bg-amber-100 active:text-amber-700 outline-none focus-visible:border-amber-500",
+        green: "border-green-500 text-green-600 disabled:text-green-400 disabled:border-green-300 disabled:bg-green-50 disabled:cursor-not-allowed hover:border-green-600 active:border-green-600 active:bg-green-50 active:text-green-700 outline-none focus-visible:border-green-500",
     },
 }
 
@@ -38,6 +38,7 @@ export function Button({
     to,
     as,
     padding = "px-4 py-2",
+    forwardRef,
     ...props
 }) {
     className = clsx(
@@ -51,7 +52,7 @@ export function Button({
     return href ? (
         <a href={href} className={className} {...props} />
     ) : to ?
-        <Link to={to} className={className} {...props} /> : as == "div" ?
-            <div role="button" className={className} {...props} /> :
-            <button className={className} {...props} />
+        <Link to={to} className={className} ref={forwardRef} {...props} /> : as == "div" ?
+            <div role="button" className={className} ref={forwardRef} {...props} /> :
+            <button className={className} ref={forwardRef} {...props} />
 }

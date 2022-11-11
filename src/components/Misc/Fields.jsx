@@ -21,6 +21,7 @@ export function TextField({
     label,
     type = 'text',
     className = '',
+    forwardRef,
     ...props
 }) {
     const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +31,7 @@ export function TextField({
             {label && <Label id={id}>{label}</Label>}
             {type == "password" ?
                 <div className='relative overflow-hidden group'>
-                    <input id={id} type={showPassword ? "text" : "password"} placeholder="..." {...props} className={clsx(formClasses, "peer pr-10")} />
+                    <input id={id} type={showPassword ? "text" : "password"} placeholder="..." ref={forwardRef} {...props} className={clsx(formClasses, "peer pr-10")} />
                     <input id={"show-" + id} name='show' checked={showPassword} onChange={e => setShowPassword(e.target.checked)} className='hidden' type="checkbox" />
                     <label htmlFor={"show-" + id} className={clsx('transition-transform absolute flex items-center mr-3 right-0 top-0 h-full peer-focus:translate-y-0 hover:translate-y-0 cursor-pointer', showPassword ? "translate-y-0" : "-translate-y-full")}>
                         <EyeIcon className={clsx('stroke-gray-500 stroke-1 hover:stroke-emerald-500', showPassword ? "hidden" : "")} width="22" />
@@ -38,7 +39,7 @@ export function TextField({
                     </label>
                 </div>
                 :
-                <input id={id} type={type} {...props} placeholder="..." className={formClasses} />
+                <input id={id} type={type} ref={forwardRef} {...props} placeholder="..." className={formClasses} />
             }
         </div >
     )

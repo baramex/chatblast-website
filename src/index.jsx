@@ -13,6 +13,7 @@ import Login from './components/Login';
 import { AlertContainer } from './components/Misc/Alerts';
 import FutherInformationModal from './components/Misc/FutherInformation';
 import Register from './components/Register';
+import { fetchData } from './lib/service';
 import { isLogged } from './lib/service/authentification';
 import { fetchUser, getAvatar, isComplete } from './lib/service/profile';
 import { convertImageToDataURL } from './lib/utils/file';
@@ -46,11 +47,8 @@ function App() {
                         return;
                     }
                     else {
-                        const tuser = await fetchUser().catch(() => { });
-                        if (tuser) {
-                            setUser(tuser);
-                            sessionStorage.setItem("lastupdate", Date.now());
-                        }
+                        const tuser = await fetchData(addAlert, setUser, fetchUser);
+                        if (tuser) sessionStorage.setItem("lastupdate", Date.now());
                         return;
                     }
                 }
@@ -63,7 +61,7 @@ function App() {
                 else if (user.email.isVerified && alerts.find(a => a.name === "validate_email")) setAlerts(a => a.filter(a => a.name !== "validate_email"));
 
                 if (!user.avatar) {
-                    const avatar = await getAvatar();
+                    const avatar = await getAvatar().catch(() => addAlert({ type: "error", title: "Une erreur est survenue lors de la récupération de votre avatar.", ephemeral: true }));
                     const avatarData = await convertImageToDataURL(avatar);
                     setUser(u => ({ ...u, avatar: avatarData }));
                 }

@@ -42,7 +42,6 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                             minLength="2"
                             pattern={fieldPattern}
                             defaultValue={user.username}
-                            title="Votre pseudo doit contenir au moins 2 caractères."
                             onInput={handleFieldInput}
                             required
                         />
@@ -128,8 +127,10 @@ export default function ProfileTab({ user, setUser, addAlert }) {
     </>);
 }
 
+// TODO: colored inputs for changed + avertissement verif email (si modif) + before unload html & react router
+
 function handlePasswordChange(e, setError) {
-    if(!e.target.value) return setError(null);
+    if (!e.target.value) return setError(null);
     const errors = getPasswordErrors(e.target.value);
 
     if (errors.length == 0) return setError(null);
@@ -139,7 +140,7 @@ function handlePasswordChange(e, setError) {
 async function handleSave(e, user, setError, addAlert, setUser) {
     e.preventDefault();
 
-    const elements = e.target.querySelectorAll("input, textarea, select");
+    const elements = e.target.querySelectorAll("input, textarea, select, button[disabled=false]");
     elements.forEach(el => el.disabled = true);
 
     const firstname = e.target.firstname.value.trim();

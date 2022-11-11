@@ -37,11 +37,16 @@ export function api(endpoint, method, data = undefined, customHeader = undefined
     });
 }
 
-export function fetchData(addAlert, setter, func, ...params) {
-    func(...params).then(data => {
-        setter(data);
-    }).catch(err => {
-        addAlert({ type: "error", title: "Erreur récupération API: " + (err.message || "Une erreur est survenue."), ephemeral: true });
+export function fetchData(addAlert, setter, func, softRej = true, ...params) {
+    return new Promise((res, rej) => {
+        func(...params).then(data => {
+            setter(data);
+            res(data);
+        }).catch(err => {
+            addAlert({ type: "error", title: "Erreur récupération API: " + (err.message || "Une erreur est survenue."), ephemeral: true });
+            if (softRej) res(undefined);
+            else rej(err)
+        });
     });
 }
 
