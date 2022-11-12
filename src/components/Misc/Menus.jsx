@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { ArrowLeftOnRectangleIcon, RectangleGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { Fragment } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export const userNavigation = [
     [{ Icon: UserIcon, name: 'Votre profil', href: '/dashboard/profile' }, { Icon: RectangleGroupIcon, name: "Dashboard", href: "/dashboard/integrations" }],
@@ -11,7 +11,7 @@ export const userNavigation = [
 ];
 
 export function UserMenu({ user, setUser, addAlert, customNavigation }) {
-    const navigate = useNavigate();
+    const history = useHistory();
 
     return (<Menu as="div" className="relative ml-3">
         <div>
@@ -53,7 +53,7 @@ export function UserMenu({ user, setUser, addAlert, customNavigation }) {
                                             {item.name}
                                         </Link> :
                                         <button
-                                            onClick={e => item.onClick(e, setUser, addAlert, navigate)}
+                                            onClick={e => item.onClick(e, setUser, addAlert, history)}
                                             className={clsx(
                                                 active ? 'bg-gray-100' : item.color || 'text-gray-700',
                                                 active ? item.colorHover || "text-gray-800" : "",
@@ -74,12 +74,12 @@ export function UserMenu({ user, setUser, addAlert, customNavigation }) {
     </Menu>);
 }
 
-async function handleLogout(e, setUser, addAlert, navigate) {
+async function handleLogout(e, setUser, addAlert, history) {
     try {
         await logoutUser();
         setUser(null);
         addAlert({ type: "success", title: "Déconnecté.", ephemeral: true });
-        navigate("/");
+        window.location.href = "/";
     } catch (error) {
         addAlert({ type: "error", title: "Erreur lors de la déconnexion: " + (error.message || "Une erreur est survenue."), ephemeral: true });
     }

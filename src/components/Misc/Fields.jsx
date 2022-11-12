@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { useEffect, useState } from 'react';
 
 const formClasses =
-    'block w-full bg-white placeholder:invisible [&:not(:placeholder-shown)]:invalid:border-red-500 [&:not(:placeholder-shown)]:invalid:focus:border-red-600 [&] appearance-none shadow-sm rounded-md border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 focus:ring-0 sm:text-sm'
+    'block w-full bg-white [[changed_&]]:border-blue-400 focus:[[changed_&]]:border-blue-500 [&:not([empty])]:invalid:border-red-500 [&:not([empty])]:invalid:focus:border-red-600 appearance-none shadow-sm rounded-md border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-0 sm:text-sm'
 
 export function Label({ id, children }) {
     return (
@@ -16,12 +16,19 @@ export function Label({ id, children }) {
     )
 }
 
+function Field({ Element, defaultValue = "", className, showChanged, forwardRef, ...props }) {
+    const [value, setValue] = useState(defaultValue);
+
+    return (
+        <Element empty={!value ? "true" : undefined} ref={forwardRef} value={value} changed={defaultValue || showChanged ? value === defaultValue ? undefined : "true" : undefined} onChange={e => setValue(e.target.value)} {...props} className={clsx(formClasses, className)} />
+    );
+}
+
 export function TextField({
     id,
     label,
     type = 'text',
     className = '',
-    forwardRef,
     ...props
 }) {
     const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +38,7 @@ export function TextField({
             {label && <Label id={id}>{label}</Label>}
             {type == "password" ?
                 <div className='relative overflow-hidden group'>
-                    <input id={id} type={showPassword ? "text" : "password"} placeholder="..." ref={forwardRef} {...props} className={clsx(formClasses, "peer pr-10")} />
+                    <Field Element="input" id={id} type={showPassword ? "text" : "password"} {...props} className="peer pr-10" />
                     <input id={"show-" + id} name='show' checked={showPassword} onChange={e => setShowPassword(e.target.checked)} className='hidden' type="checkbox" />
                     <label htmlFor={"show-" + id} className={clsx('transition-transform absolute flex items-center mr-3 right-0 top-0 h-full peer-focus:translate-y-0 hover:translate-y-0 cursor-pointer', showPassword ? "translate-y-0" : "-translate-y-full")}>
                         <EyeIcon className={clsx('stroke-gray-500 stroke-1 hover:stroke-emerald-500', showPassword ? "hidden" : "")} width="22" />
@@ -39,7 +46,7 @@ export function TextField({
                     </label>
                 </div>
                 :
-                <input id={id} type={type} ref={forwardRef} {...props} placeholder="..." className={formClasses} />
+                <Field Element="input" id={id} type={"text"} {...props} />
             }
         </div >
     )
@@ -54,7 +61,7 @@ export function TextAreaField({
     return (
         <div className={className}>
             {label && <Label id={id}>{label}</Label>}
-            <textarea id={id} placeholder="..." {...props} className={clsx(formClasses, "min-h-[60px]")} />
+            <Field Element="textarea" id={id} {...props} className="min-h-[60px]" />
         </div>
     );
 };
@@ -63,7 +70,7 @@ export function SelectField({ id, label, className = '', ...props }) {
     return (
         <div className={className}>
             {label && <Label id={id}>{label}</Label>}
-            <select id={id} {...props} className={clsx(formClasses, 'pr-8')} />
+            <Field Element="select" id={id} {...props} className="pr-8" />
         </div>
     )
 }

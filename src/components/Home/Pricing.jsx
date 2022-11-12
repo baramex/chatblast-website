@@ -1,7 +1,7 @@
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useHistory, useSearchParams } from 'react-router-dom'
 
 import { Button } from '../Misc/Button'
 import CheckoutModal from '../Misc/Checkout'
@@ -92,13 +92,13 @@ export function Pricing(props) {
     const [checkout, setCheckout] = useState(null);
     const [trafficCheckerShow, setTrafficCheckerShow] = useState(false);
 
-    const navigate = useNavigate();
+    const history = useHistory();
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         if (params.get("plan")) {
             setCheckout(params.get("plan"));
-            navigate("/");
+            history.push("/");
         }
     }, []);
 

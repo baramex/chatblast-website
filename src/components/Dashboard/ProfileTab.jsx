@@ -1,22 +1,29 @@
 import { pacthUser, verifEmailSend } from "../../lib/service/profile";
 import { fieldPattern, getPasswordErrors, handleFieldInput, handleLastnameInput, handleNameInput, lastnamePattern, namePattern, passwordPattern } from "../../lib/utils/regex";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { AlertError } from "../Misc/Alerts";
 import { Button } from "../Misc/Button";
 import { Label, TextField } from "../Misc/Fields";
 import { uploadAvatar } from "../../lib/service/authentification";
 import { convertImageToDataURL } from "../../lib/utils/file";
+import useBeforeUnload from "../../lib/hooks/useBeforeUnload";
 
 export default function ProfileTab({ user, setUser, addAlert }) {
     const [error, setError] = useState(null);
+    const form = useRef(null);
+
+    useBeforeUnload({
+        message: "Voulez-vous vraiment quitter cette page ? Les modifications non enregistrées seront perdues.",
+        when: () => form.current ? Array.from(form.current.querySelectorAll("input")).some(a => a.hasAttribute("changed")) : false
+    });
 
     return (<>
         <div className="px-5">
             <h2 className="text-2xl font-semibold text-gray-900">Profil</h2>
         </div>
         <div className="px-6 mt-5 max-w-5xl">
-            <form onSubmit={e => handleSave(e, user, setError, addAlert, setUser)}>
+            <form ref={form} onSubmit={e => handleSave(e, user, setError, addAlert, setUser)}>
                 <div className="grid grid-cols-6 gap-6">
                     <div className="col-span-full sm:col-span-2">
                         <Label>Photo</Label>
@@ -81,9 +88,10 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                             name="password"
                             id="password"
                             type="password"
-                            onChange={(e) => handlePasswordChange(e, setError)}
+                            onInput={(e) => handlePasswordChange(e, setError)}
                             maxLength="32"
                             minLength="6"
+                            showChanged={true}
                             pattern={passwordPattern}
                         />
                     </div>
@@ -100,7 +108,7 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                                 required
                             />
 
-                            <Button type="button" variant="outline" color={user.email?.isVerified ? "green" : "amber"} rounded="rounded-md" className="w-full sm:w-28" onClick={user.email?.isVerified ? null : e => handleSendMail(e, setError, addAlert)} disabled={user.email?.isVerified}>
+                            <Button type="button" variant="outline" color={user.email?.isVerified ? "green" : "amber"} rounded="rounded-md" className="w-full sm:w-28" onClick={user.email?.isVerified ? null : e => handleSendMail(e, form.current?.email, setError, addAlert)} disabled={user.email?.isVerified}>
                                 {user.email?.isVerified ? <><CheckIcon className="mr-2 w-5" /> Vérifiée</> : <><ExclamationCircleIcon className="mr-2 w-5" /> Vérifier</>}
                             </Button>
                         </div>
@@ -126,8 +134,6 @@ export default function ProfileTab({ user, setUser, addAlert }) {
         </div>
     </>);
 }
-
-// TODO: colored inputs for changed + avertissement verif email (si modif) + before unload html & react router
 
 function handlePasswordChange(e, setError) {
     if (!e.target.value) return setError(null);
@@ -189,7 +195,9 @@ async function handleAvatarChange(e, setError, addAlert, setUser) {
     }
 }
 
-async function handleSendMail(e, setError, addAlert) {
+async function handleSendMail(e, email, setError, addAlert) {
+    if (email.hasAttribute("changed")) return addAlert({ type: "warning", title: "Enregistrez les modifications avant de vérifier votre email.", ephemeral: true });
+
     e.disabled = true;
     try {
         await verifEmailSend();

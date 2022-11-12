@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import logo from '../../images/logo.png';
 import clsx from 'clsx';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { UserMenu, userNavigation } from '../Misc/Menus';
 
 const navigation = [
@@ -22,11 +22,11 @@ const navigation = [
 
 export default function Dashboard({ Tab, ...props }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const navigate = useNavigate();
+    const history = useHistory();
 
     useEffect(() => {
-        if (!props.user) navigate("/login");
-        else if (!Tab) navigate("/dashboard/profile");
+        if (!props.user) history.push("/login");
+        else if (!Tab) history.push("/dashboard/profile");
     }, []);
 
     if (!props.user || !Tab) return null;

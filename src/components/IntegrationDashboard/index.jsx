@@ -14,7 +14,7 @@ import {
 } from '@heroicons/react/24/outline';
 import logo from '../../images/logo.png';
 import clsx from 'clsx';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { UserMenu, userNavigation } from '../Misc/Menus';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { fetchIntegrations } from '../../lib/service/integrations';
@@ -30,12 +30,12 @@ const navigation = [
 
 export default function IntegrationDashboard({ Tab, ...props }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const navigate = useNavigate();
+    const history = useHistory();
     const { id } = useParams();
 
     useEffect(() => {
-        if (!props.user) navigate("/login");
-        else if (!Tab) navigate("/dashboard/integration/" + id);
+        if (!props.user) history.push("/login");
+        else if (!Tab) history.push("/dashboard/integration/" + id);
 
         if (!props.data.integrations) fetchData(props.addAlert, dataSetter(props.setData, "integrations"), fetchIntegrations);
     }, []);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import IntegrationTab from './components/Dashboard/IntegrationTab';
 import ProfileTab from './components/Dashboard/ProfileTab';
@@ -84,23 +84,21 @@ function App() {
             {
                 (isLogged() ? user : true) &&
                 <Router>
-                    <Routes>
-                        <Route path="/" element={<Home {...props} />} />
-                        <Route path="/register" element={<Register {...props} />} />
-                        <Route path="/login" element={<Login {...props} />} />
+                    <Route exact path="/"><Home {...props} /></Route>
+                    <Route exact path="/register"><Register {...props} /></Route>
+                    <Route exact path="/login"><Login {...props} /></Route>
 
-                        <Route path="/dashboard" element={<Dashboard {...props} />} />
-                        <Route path="/dashboard/profile" element={<Dashboard {...props} Tab={ProfileTab} />} />
-                        <Route path="/dashboard/integrations" element={<Dashboard {...props} Tab={IntegrationTab} />} />
-                        <Route path="/dashboard/invoices" element={<Dashboard {...props} />} />
+                    <Route exact path="/dashboard"><Dashboard {...props} /></Route>
+                    <Route exact path="/dashboard/profile"><Dashboard {...props} Tab={ProfileTab} /></Route>
+                    <Route exact path="/dashboard/integrations"><Dashboard {...props} Tab={IntegrationTab} /></Route>
+                    <Route exact path="/dashboard/invoices"><Dashboard {...props} /></Route>
 
-                        <Route path='/dashboard/integration/:id' element={<IntegrationDashboard {...props} Tab={GeneralTab} />} />
-                        <Route path='/dashboard/integration/:id/integration' element={<IntegrationDashboard {...props} />} />
-                        <Route path='/dashboard/integration/:id/customisation' element={<IntegrationDashboard {...props} />} />
-                        <Route path='/dashboard/integration/:id/analyses' element={<IntegrationDashboard {...props} />} />
+                    <Route exact path='/dashboard/integration/:id'><IntegrationDashboard {...props} Tab={GeneralTab} /></Route>
+                    <Route exact path='/dashboard/integration/:id/integration'><IntegrationDashboard {...props} /></Route>
+                    <Route exact path='/dashboard/integration/:id/customisation'><IntegrationDashboard {...props} /></Route>
+                    <Route exact path='/dashboard/integration/:id/analyses'><IntegrationDashboard {...props} /></Route>
 
-                        <Route path="/verification/email" element={<EmailVerif {...props} />} />
-                    </Routes>
+                    <Route exact path="/verification/email"><EmailVerif {...props} /></Route>
                 </Router>}
         </>
     );

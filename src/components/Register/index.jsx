@@ -2,7 +2,7 @@ import { AuthLayout } from '../Misc/AuthLayout'
 import { Button } from '../Misc/Button'
 import { TextField } from '../Misc/Fields'
 import logo from '../../images/logo.png'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { fieldPattern, getPasswordErrors, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern, passwordPattern } from '../../lib/utils/regex'
 import { AlertError } from '../Misc/Alerts'
 import { useEffect, useState } from 'react'
@@ -10,12 +10,12 @@ import { registerUser } from '../../lib/service/authentification'
 
 export default function Register({ user, setUser }) {
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
+    const history = useHistory();
     const redirect = new URLSearchParams(document.location.search).get("redirect");
     if (redirect && (!redirect.startsWith("/") || redirect.includes("http") || redirect.includes("."))) redirect = "";
 
     useEffect(() => {
-        if (user) navigate("/dashboard/profile");
+        if (user) history.push("/dashboard/profile");
     }, []);
 
     if (user) return null;
@@ -43,7 +43,7 @@ export default function Register({ user, setUser }) {
                     </div>
                 </div>
                 <form
-                    onSubmit={e => handleRegister(e, setError, setUser, redirect, navigate)}
+                    onSubmit={e => handleRegister(e, setError, setUser, redirect, history)}
                     className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2"
                 >
                     <TextField
@@ -131,7 +131,7 @@ function handlePasswordChange(e, setError) {
     setError(["Le mot de passe ne respecte pas ces critères", ...errors]);
 }
 
-async function handleRegister(e, setError, setUser, redirect, navigate) {
+async function handleRegister(e, setError, setUser, redirect, history) {
     e.preventDefault();
 
     const elements = e.target.querySelectorAll("input, textarea, button, select");
@@ -150,7 +150,7 @@ async function handleRegister(e, setError, setUser, redirect, navigate) {
         setError(null);
         setUser(user);
 
-        navigate(redirect || "/dashboard/profile");
+        history.push(redirect || "/dashboard/profile");
     } catch (error) {
         setError(error.message || "Une erreur est survenue.");
         elements.forEach(el => el.disabled = false);
