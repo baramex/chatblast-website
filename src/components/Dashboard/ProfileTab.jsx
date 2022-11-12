@@ -1,7 +1,7 @@
 import { pacthUser, verifEmailSend } from "../../lib/service/profile";
 import { fieldPattern, getPasswordErrors, handleFieldInput, handleLastnameInput, handleNameInput, lastnamePattern, namePattern, passwordPattern } from "../../lib/utils/regex";
 import { CheckIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { AlertError } from "../Misc/Alerts";
 import { Button } from "../Misc/Button";
 import { Label, TextField } from "../Misc/Fields";

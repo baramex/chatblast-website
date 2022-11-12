@@ -19,6 +19,10 @@ export function Label({ id, children }) {
 function Field({ Element, defaultValue = "", className, showChanged, forwardRef, ...props }) {
     const [value, setValue] = useState(defaultValue);
 
+    useEffect(() => {
+        if (!value && defaultValue) setValue(defaultValue);
+    }, [defaultValue]);
+
     return (
         <Element empty={!value ? "true" : undefined} ref={forwardRef} value={value} changed={defaultValue || showChanged ? value === defaultValue ? undefined : "true" : undefined} onChange={e => setValue(e.target.value)} {...props} className={clsx(formClasses, className)} />
     );
