@@ -103,7 +103,10 @@ export default function IntegrationDashboard({ Tab, ...props }) {
                                     </div>
                                     <div className="mt-5 flex-1 overflow-y-auto">
                                         <nav className="h-full flex flex-col">
-                                            <ArrowLeftCircleIcon width="50" />
+                                            <div className='flex justify-between items-center px-3 mb-3'>
+                                                <Link to="/dashboard/integrations"><ArrowLeftIcon className='w-7 inline text-gray-500 hover:text-gray-600' /></Link>
+                                                <span className='text-md text-gray-8s00'>{integration?.name}</span>
+                                            </div>
                                             <div className='px-2 space-y-1'>
                                                 {navigation.map((item) => (
                                                     <Link

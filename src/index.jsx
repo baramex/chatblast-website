@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import IntegrationTab from './components/Dashboard/IntegrationTab';
+import InvoiceTab from './components/Dashboard/InvoiceTab';
 import ProfileTab from './components/Dashboard/ProfileTab';
 import EmailVerif from './components/EmailVerif';
 import Home from './components/Home';
 import IntegrationDashboard from './components/IntegrationDashboard';
+import AuthentificationTab from './components/IntegrationDashboard/AuthentificationTab';
 import GeneralTab from './components/IntegrationDashboard/GeneralTab';
 import { LoadingScreen } from './components/Layout/Loading';
 import Login from './components/Login';
@@ -91,9 +93,10 @@ function App() {
                     <Route exact path="/dashboard"><Dashboard {...props} /></Route>
                     <Route exact path="/dashboard/profile"><Dashboard {...props} Tab={ProfileTab} /></Route>
                     <Route exact path="/dashboard/integrations"><Dashboard {...props} Tab={IntegrationTab} /></Route>
-                    <Route exact path="/dashboard/invoices"><Dashboard {...props} /></Route>
+                    <Route exact path="/dashboard/invoices"><Dashboard {...props} Tab={InvoiceTab} /></Route>
 
                     <Route exact path='/dashboard/integration/:id'><IntegrationDashboard {...props} Tab={GeneralTab} /></Route>
+                    <Route exact path='/dashboard/integration/:id/authentification'><IntegrationDashboard {...props} Tab={AuthentificationTab} /></Route>
                     <Route exact path='/dashboard/integration/:id/integration'><IntegrationDashboard {...props} /></Route>
                     <Route exact path='/dashboard/integration/:id/customisation'><IntegrationDashboard {...props} /></Route>
                     <Route exact path='/dashboard/integration/:id/analyses'><IntegrationDashboard {...props} /></Route>
