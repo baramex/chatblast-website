@@ -135,6 +135,7 @@ export function Pricing(props) {
                             'Badge profil client',
                             'Pour 1 site',
                             "De 0 à 1000 visiteurs uniques par mois",
+                            "Messages archivés après 48 heures",
                             'Authentification anonyme'
                         ]}
                         excludes={["Authentification custom"]}
@@ -151,6 +152,7 @@ export function Pricing(props) {
                             'Badge profil client',
                             'Pour 1 site',
                             "De 1000 à 10'000 visiteurs uniques par mois",
+                            "Messages archivés après 7 jours",
                             'Authentification anonyme',
                         ]}
                         excludes={["Authentification custom"]}
@@ -166,6 +168,7 @@ export function Pricing(props) {
                             'Badge profil client',
                             'Pour 1 site',
                             "De 10'000 à 50'000 visiteurs uniques par mois",
+                            "Pas de limite d'archivage des messages",
                             'Authentification anonyme et/ou custom',
                         ]}
                     /><Plan

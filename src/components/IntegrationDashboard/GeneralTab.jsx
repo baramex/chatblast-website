@@ -187,7 +187,7 @@ async function handleSave(e, integrationId, setData, addAlert) {
 
         addAlert({ type: "success", title: "Les informations ont été mises à jour.", ephemeral: true });
     } catch (error) {
-        addAlert({ title: error.message, type: "error", ephemeral: true });
+        addAlert({ title: "Impossible de mettre à jour l'intégration:" + (error.message || "Une erreur est survenue."), type: "error", ephemeral: true });
     }
     finally {
         elements.forEach(el => el.disabled = false);
