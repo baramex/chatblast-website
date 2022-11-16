@@ -1,5 +1,5 @@
 import { verifyIntegrationDomain } from "../../lib/service/vertification";
-import { CheckIcon, ClockIcon, MinusCircleIcon, PlayIcon, PlusCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, ClockIcon, MinusCircleIcon, PlayIcon, PlusCircleIcon, XCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useRef } from "react";
 import { domainPattern, handleIntegrationNameInput, integrationNamePattern } from "../../lib/utils/regex";
 import { Button } from "../Misc/Button";
@@ -35,6 +35,7 @@ export default function GeneralTab({ integration, setData, addAlert }) {
                                     id="name"
                                     maxLength="32"
                                     minLength="2"
+                                    placeholder="app-001"
                                     pattern={integrationNamePattern}
                                     defaultValue={integration?.name}
                                     onInput={handleIntegrationNameInput}
@@ -52,7 +53,7 @@ export default function GeneralTab({ integration, setData, addAlert }) {
                                     padding="px-3 py-2.5"
                                     type="button"
                                     disabled>
-                                    {integration?.state === 0 ? <>Désactivé</> : <><CheckIcon className="mr-2 w-5" /> Activé</>}
+                                    {integration?.state === 0 ? <><XMarkIcon className="mr-2 w-5" /> Désactivé</> : <><CheckIcon className="mr-2 w-5" /> Activé</>}
                                 </Button>
                             </div>
 
@@ -66,6 +67,7 @@ export default function GeneralTab({ integration, setData, addAlert }) {
                                         maxLength="128"
                                         pattern={domainPattern}
                                         defaultValue={integration?.options.domain.value}
+                                        placeholder="example.com"
                                         title="Le nom de domaine doit être sous la forme de example.com."
                                         required
                                     />
@@ -117,12 +119,14 @@ export default function GeneralTab({ integration, setData, addAlert }) {
             <div className="mt-5 w-full sm:max-w-lg grid grid-cols-1 sm:grid-cols-2 py-3 px-6 gap-x-8 gap-y-3">
                 <Button
                     color="green"
-                    disabled={!integration?.options.domain.isVerified || integration?.state === 1}>
+                    disabled={!integration?.options.domain.isVerified || integration?.state === 1}
+                    onClick={() => setState(1, integration._id, setData, addAlert)}>
                     <PlayIcon className="w-5 mr-1" /> Activer
                 </Button>
                 <Button
                     color="red"
-                    disabled={integration?.state === 0}>
+                    disabled={integration?.state === 0}
+                    onClick={() => setState(0, integration._id, setData, addAlert)}>
                     <XCircleIcon className="w-5 mr-2" /> Désactiver
                 </Button>
             </div>
@@ -164,6 +168,21 @@ export default function GeneralTab({ integration, setData, addAlert }) {
     </div>);
 }
 
+async function setState(state, integrationId, setData, addAlert) {
+    try {
+        const data = await updateIntegration(integrationId, { state });
+
+        setData(prev => {
+            prev.integrations = prev.integrations.map(a => a._id === integrationId ? data : a);
+            return prev;
+        });
+
+        addAlert({ type: "success", title: ["Intégration désactivée.", "Intégration activée."][data.state], ephemeral: true })
+    } catch (error) {
+        addAlert({ title: "Impossible de changer le status: " + (error.message || "Une erreur est survenue."), type: "error", ephemeral: true });
+    }
+}
+
 async function handleSave(e, integrationId, setData, addAlert) {
     e.preventDefault();
 
@@ -187,7 +206,7 @@ async function handleSave(e, integrationId, setData, addAlert) {
 
         addAlert({ type: "success", title: "Les informations ont été mises à jour.", ephemeral: true });
     } catch (error) {
-        addAlert({ title: "Impossible de mettre à jour l'intégration:" + (error.message || "Une erreur est survenue."), type: "error", ephemeral: true });
+        addAlert({ title: "Impossible de mettre à jour l'intégration: " + (error.message || "Une erreur est survenue."), type: "error", ephemeral: true });
     }
     finally {
         elements.forEach(el => el.disabled = false);

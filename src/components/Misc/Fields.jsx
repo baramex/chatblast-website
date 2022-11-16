@@ -1,17 +1,21 @@
+import { QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx'
 import { useEffect, useState } from 'react';
+import Tooltip from './Tooltip';
 
 const formClasses =
     'block w-full bg-white [[changed_&]]:border-blue-400 focus:[[changed_&]]:border-blue-500 [&:not([empty])]:invalid:border-red-500 [&:not([empty])]:invalid:focus:border-red-600 appearance-none shadow-sm rounded-md border border-gray-300 px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-0 sm:text-sm'
 
-export function Label({ id, children }) {
+export function Label({ id, children, optinal, tooltip }) {
     return (
         <label
             htmlFor={id}
-            className="mb-3 block text-sm font-medium text-gray-700"
+            className={clsx("mb-3 block text-sm font-medium text-gray-700", tooltip ? "flex items-center" : "")}
         >
             {children}
+            {optinal && <span className='text-xs text-gray-500 ml-2'>({optinal})</span>}
+            {tooltip && <Tooltip className="inline ml-2 cursor-help" text={tooltip}><QuestionMarkCircleIcon className='w-[1.4rem] text-gray-400 inline' /></Tooltip>}
         </label>
     )
 }
@@ -33,13 +37,15 @@ export function TextField({
     label,
     type = 'text',
     className = '',
+    optinal,
+    tooltip,
     ...props
 }) {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
         <div className={className}>
-            {label && <Label id={id}>{label}</Label>}
+            {label && <Label id={id} optinal={optinal} tooltip={tooltip}>{label}</Label>}
             {type == "password" ?
                 <div className='relative overflow-hidden group'>
                     <Field Element="input" id={id} type={showPassword ? "text" : "password"} {...props} className="peer pr-10" />
@@ -70,10 +76,10 @@ export function TextAreaField({
     );
 };
 
-export function SelectField({ id, label, className = '', ...props }) {
+export function SelectField({ id, label, className = '', tooltip, ...props }) {
     return (
         <div className={className}>
-            {label && <Label id={id}>{label}</Label>}
+            {label && <Label id={id} tooltip={tooltip}>{label}</Label>}
             <Field Element="select" id={id} {...props} className="pr-8" />
         </div>
     )

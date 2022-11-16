@@ -91,6 +91,7 @@ export default function ProfileTab({ user, setUser, addAlert }) {
                             onInput={(e) => handlePasswordChange(e, setError)}
                             maxLength="32"
                             minLength="6"
+                            autoComplete="off"
                             showChanged={true}
                             pattern={passwordPattern}
                         />

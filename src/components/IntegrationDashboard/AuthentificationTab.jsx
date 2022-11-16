@@ -3,6 +3,10 @@ import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { keyPattern, urlPattern } from "../../lib/utils/regex";
+import { SelectField, TextField } from "../Misc/Fields";
+import Code from "../Misc/Code";
+import { Button } from "../Misc/Button";
 
 const authentifications = [
     { id: "anonyme", title: "Anonyme", description: "L'authentification anonyme permet d'identifier directement les visiteurs de votre site, mais leur permette aussi de créer un compte sur ChatBlast afin d'avoir un profil utilisateur." },
@@ -64,7 +68,7 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
         (async () => {
             if (integration) {
                 const index = authentifications.indexOf(authentification);
-                if (integration.type !== index) {
+                if (integration.type !== index && index !== -1) {
                     try {
                         const nintegration = await updateIntegration(integration._id, { type: index });
                         setData(prev => {
@@ -86,12 +90,77 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
             <h2 className="text-2xl font-semibold text-gray-900">Authentification</h2>
         </div>
         <div className="px-6 mt-5 max-w-4xl">
-            <RadioGroup value={authentification} onChange={setAuthentification} className="mt-6">
+            <RadioGroup value={authentification} onChange={setAuthentification}>
                 <RadioGroup.Label className="text-base font-medium text-gray-900">Type</RadioGroup.Label>
                 <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                     {authentifications.map((p) => <RadioOption key={p.id} options={p} cannot={!integration?.subscription?.plan?.details.customAuth && p.id === "custom"} />)}
                 </div>
             </RadioGroup>
+            {
+                authentification?.id === "custom" && <div className="mt-6">
+                    <h3 className="font-medium text-xl text-gray-900">Configuration route api utilisateur</h3>
+                    <form className="mt-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <TextField
+                                label="Route API"
+                                name="route"
+                                id="route"
+                                tooltip="La route API est l'URL de votre API qui permet de récupérer les informations d'un utilisateur à partir de son token d'accès (méthode GET). Elle sera utilisée par l'API de ChatBlast lors des connexions de client à la chatbox avec un token provenant de votre site. La réponse doit être négative (400-499) si un token est invalide, et doit éviter de renvoyer des codes 429. Protocol HTTPS imposé et doit provenir du même domaine que celui vérifié."
+                                maxLength="128"
+                                pattern={urlPattern}
+                                defaultValue={integration?.options.customAuth?.route}
+                                placeholder="https://api.example.com/user/@me"
+                                required
+                            />
+                            <TextField
+                                label="Clé API"
+                                name="apiKey"
+                                id="apiKey"
+                                maxLength="128"
+                                optinal="si nécessaire"
+                                tooltip={<>Si votre API est restreinte par une clé. Elle sera transmise en query <Code>key</Code> de la requête.</>}
+                                defaultValue={integration?.options.customAuth?.apiKey}
+                            />
+                            <SelectField
+                                label="Emplacement du token"
+                                name="tokenPlace"
+                                id="tokenPlace"
+                                tooltip="L'endroit où sera inséré le token dans la requête."
+                                defaultValue={integration?.options.customAuth?.token.place}
+                                required
+                            >
+                                <option>En autorisation dans le header</option>
+                                <option>Dans la query</option>
+                            </SelectField>
+                            <TextField
+                                label="Nom de la clé du token"
+                                name="tokenKey"
+                                id="tokenKey"
+                                maxLength="64"
+                                pattern={keyPattern}
+                                placeholder="token"
+                                tooltip="La clé du token pour la query, ou le type de token pour l'autorisation (Authorization)."
+                                defaultValue={integration?.options.customAuth?.token.key}
+                                required
+                            />
+
+                            <div className="inset-0 flex items-center col-span-full mt-5 hidden sm:block" aria-hidden="true">
+                                <div className="w-full border-t border-gray-300" />
+                            </div>
+
+                            <div className="col-span-full sm:mx-auto mt-3 sm:mt-0">
+                                <Button
+                                    color="emerald"
+                                    type="submit"
+                                    className="w-full sm:w-40"
+                                >
+                                    Enregistrer
+                                </Button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
         </div>
     </>)
 }
