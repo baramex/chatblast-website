@@ -2,11 +2,13 @@ import { updateIntegration } from "../../lib/service/integrations";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { keyPattern, urlPattern } from "../../lib/utils/regex";
 import { SelectField, TextField } from "../Misc/Fields";
 import Code from "../Misc/Code";
 import { Button } from "../Misc/Button";
+import useBeforeUnload from "../../lib/hooks/useBeforeUnload";
+import { AlertError } from "../Misc/Alerts";
 
 const authentifications = [
     { id: "anonyme", title: "Anonyme", description: "L'authentification anonyme permet d'identifier directement les visiteurs de votre site, mais leur permette aussi de créer un compte sur ChatBlast afin d'avoir un profil utilisateur." },
@@ -59,6 +61,8 @@ function RadioOption({ options, cannot }) {
 
 export default function AuthentificationTab({ integration, setData, addAlert }) {
     const [authentification, setAuthentification] = useState(authentifications[integration?.type] || null);
+    const [error, setError] = useState(null);
+    const form = useRef(null);
 
     useEffect(() => {
         if (!authentification && integration) setAuthentification(authentifications[integration?.type]);
@@ -77,13 +81,26 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
                         });
                         addAlert({ type: "success", title: "Le type d'authenfication a été mis à jour.", ephemeral: true });
                     } catch (e) {
-                        addAlert({ type: "error", title: "Impossible de mettre à jour l'intégration: " + (e.message || "Une erreur est survenues."), ephemeral: true })
-                        setAuthentification(authentifications[integration?.type]);
+                        if (index === 1) {
+                            addAlert({ type: "warning", title: "Effectuez les modifications puis enregistrez.", ephemeral: true });
+                            setError(e.message || "Une erreur est survenue.");
+
+                            Array.from(form.current?.querySelectorAll("input, select")).reverse().forEach(a => a.reportValidity());
+                        }
+                        else {
+                            addAlert({ type: "error", title: "Impossible de mettre à jour l'intégration: " + (e.message || "Une erreur est survenues."), ephemeral: true })
+                            setAuthentification(authentifications[integration?.type]);
+                        }
                     }
                 }
             }
         })();
     }, [authentification]);
+
+    useBeforeUnload({
+        message: "Voulez-vous vraiment quitter cette page ? Les modifications non enregistrées seront perdues.",
+        when: () => (form.current ? Array.from(form.current.querySelectorAll("input,select")).some(a => a.hasAttribute("changed")) : false) || integration?.type !== authentifications.indexOf(authentification)
+    });
 
     return (<>
         <div className="px-5">
@@ -99,7 +116,7 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
             {
                 authentification?.id === "custom" && <div className="mt-6">
                     <h3 className="font-medium text-xl text-gray-900">Configuration route api utilisateur</h3>
-                    <form className="mt-4">
+                    <form ref={form} onSubmit={e => handleSave(e, integration._id, setData, addAlert, setError)} className="mt-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <TextField
                                 label="Route API"
@@ -108,6 +125,7 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
                                 tooltip="La route API est l'URL de votre API qui permet de récupérer les informations d'un utilisateur à partir de son token d'accès (méthode GET). Elle sera utilisée par l'API de ChatBlast lors des connexions de client à la chatbox avec un token provenant de votre site. La réponse doit être négative (400-499) si un token est invalide, et doit éviter de renvoyer des codes 429. Protocol HTTPS imposé et doit provenir du même domaine que celui vérifié."
                                 maxLength="128"
                                 pattern={urlPattern}
+                                showChanged={true}
                                 defaultValue={integration?.options.customAuth?.route}
                                 placeholder="https://api.example.com/user/@me"
                                 required
@@ -118,6 +136,7 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
                                 id="apiKey"
                                 maxLength="128"
                                 optinal="si nécessaire"
+                                showChanged={true}
                                 tooltip={<>Si votre API est restreinte par une clé. Elle sera transmise en query <Code>key</Code> de la requête.</>}
                                 defaultValue={integration?.options.customAuth?.apiKey}
                             />
@@ -126,11 +145,12 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
                                 name="tokenPlace"
                                 id="tokenPlace"
                                 tooltip="L'endroit où sera inséré le token dans la requête."
-                                defaultValue={integration?.options.customAuth?.token.place}
+                                defaultValue={integration?.options.customAuth?.token.place.toString()}
+                                showChanged={true}
                                 required
                             >
-                                <option>En autorisation dans le header</option>
-                                <option>Dans la query</option>
+                                <option value={0}>En autorisation dans le header</option>
+                                <option value={1}>Dans la query</option>
                             </SelectField>
                             <TextField
                                 label="Nom de la clé du token"
@@ -139,6 +159,7 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
                                 maxLength="64"
                                 pattern={keyPattern}
                                 placeholder="token"
+                                showChanged={true}
                                 tooltip="La clé du token pour la query, ou le type de token pour l'autorisation (Authorization)."
                                 defaultValue={integration?.options.customAuth?.token.key}
                                 required
@@ -147,6 +168,8 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
                             <div className="inset-0 flex items-center col-span-full mt-5 hidden sm:block" aria-hidden="true">
                                 <div className="w-full border-t border-gray-300" />
                             </div>
+
+                            {error && <AlertError className="col-span-full" title={error} onClose={() => setError(null)} />}
 
                             <div className="col-span-full sm:mx-auto mt-3 sm:mt-0">
                                 <Button
@@ -163,4 +186,40 @@ export default function AuthentificationTab({ integration, setData, addAlert }) 
             }
         </div>
     </>)
+}
+
+async function handleSave(e, integrationId, setData, addAlert, setError) {
+    e.preventDefault();
+
+    const elements = e.target.querySelectorAll("input, textarea, select, button:not([disabled])");
+    elements.forEach(el => el.disabled = true);
+
+    try {
+        const data = await updateIntegration(integrationId, {
+            type: 1,
+            options: {
+                customAuth: {
+                    route: e.target.route.value,
+                    apiKey: e.target.apiKey.value,
+                    token: {
+                        place: Number(e.target.tokenPlace.value),
+                        key: e.target.tokenKey.value
+                    }
+                }
+            }
+        });
+
+        setData(prev => {
+            prev.integrations = prev.integrations.map(a => a._id === integrationId ? data : a);
+            return prev;
+        });
+
+        addAlert({ type: "success", title: "Les informations ont été mises à jour.", ephemeral: true });
+        setError(null);
+    } catch (error) {
+        setError(error.message || "Une erreur est survenue.");
+    }
+    finally {
+        elements.forEach(el => el.disabled = false);
+    }
 }
