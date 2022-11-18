@@ -3,7 +3,7 @@ import { Button } from '../Misc/Button'
 import { TextField } from '../Misc/Fields'
 import logo from '../../images/logo.png'
 import { Link, useHistory } from 'react-router-dom'
-import { fieldPattern, getPasswordErrors, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern, passwordPattern } from '../../lib/utils/regex'
+import { fieldPattern, getPasswordErrors, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern, passwordPattern, referralCodePattern } from '../../lib/utils/regex'
 import { AlertError } from '../Misc/Alerts'
 import { useEffect, useState } from 'react'
 import { registerUser } from '../../lib/service/authentification'
@@ -44,7 +44,7 @@ export default function Register({ user, setUser }) {
                 </div>
                 <form
                     onSubmit={e => handleRegister(e, setError, setUser, redirect, history)}
-                    className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2"
+                    className="mt-10 grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2"
                 >
                     <TextField
                         label="Prénom"
@@ -99,11 +99,20 @@ export default function Register({ user, setUser }) {
                         name="password"
                         type="password"
                         autoComplete="new-password"
-                        onChange={(e) => handlePasswordChange(e, setError)}
+                        onInput={(e) => handlePasswordInput(e, setError)}
                         maxLength="32"
                         minLength="6"
                         pattern={passwordPattern}
                         required
+                    />
+                    <TextField
+                        className="col-span-full"
+                        label="Code d'affiliation"
+                        id="referralCode"
+                        name="referralCode"
+                        maxLength="12"
+                        minLength="12"
+                        pattern={referralCodePattern}
                     />
                     {error && <AlertError className="col-span-full" title={typeof error == "string" ? error : error[0]} list={Array.isArray(error) ? error.slice(1) : undefined} canClose={typeof error == "string"} onClose={() => setError(null)} />}
                     <div className="col-span-full">
@@ -124,7 +133,7 @@ export default function Register({ user, setUser }) {
     )
 }
 
-function handlePasswordChange(e, setError) {
+function handlePasswordInput(e, setError) {
     const errors = getPasswordErrors(e.target.value);
 
     if (errors.length == 0) return setError(null);
@@ -142,11 +151,12 @@ async function handleRegister(e, setError, setUser, redirect, history) {
     const username = e.target.username.value.trim();
     const email = e.target.email.value.trim();
     const password = e.target.password.value.trim();
+    const referralCode = e.target.referralCode.value.trim();
 
     if (!isPassword(password)) return;
 
     try {
-        const user = await registerUser(email, firstname, lastname, username, password);
+        const user = await registerUser(email, firstname, lastname, username, password, null, referralCode);
         setError(null);
         setUser(user);
 

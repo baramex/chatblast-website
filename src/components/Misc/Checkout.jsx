@@ -156,7 +156,7 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
                 <div className="fixed inset-0 bg-gray-700 bg-opacity-75 backdrop-blur-sm transition-opacity" />
             </Transition.Child>
 
-            <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div className="fixed inset-0 overflow-y-auto">
                 <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -176,7 +176,7 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
                                 <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 md:grid-cols-4 sm:gap-x-4">
                                     {plans.map((p) => <RadioOption key={p.id} plan={p} firstSubscription={firstSubscription} />)}
                                 </div>
-                                {firstSubscription && <p className="text-xs text-gray-600 mt-2 ml-1">Période d'essaie <u>sans engagement</u> et uniquement pour la première commande.</p>}
+                                <p className="text-xs text-gray-600 mt-2 ml-1">Période d'essaie {firstSubscription && <><u>sans engagement</u> et</>} uniquement pour la première commande.</p>
 
                                 {plan?.id !== "custom" && <div className="flex flex-wrap gap-5 items-center mt-6">
                                     <div className="ml-1 text-sm">
@@ -222,16 +222,28 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
                                             <dd>{formatDate(Date.now() + (plan?.badge ? 1000 * 60 * 60 * 24 * 7 : 0))}</dd>
                                         </div>
                                     </dl>
-                                    {firstSubscription &&
-                                        <div className="px-2 mt-4 flex items-center gap-6">
-                                            <label htmlFor="referral-code" className="block text-sm font-medium text-gray-700">
-                                                Code de parrainage
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 mt-7 gap-8">
+                                        {firstSubscription &&
+                                            <div className="px-2 lg:flex items-center gap-6">
+                                                <label htmlFor="referralCode" className="block mb-3 lg:mb-0 text-sm font-medium text-gray-700">
+                                                    Code d'affiliation
+                                                </label>
+                                                <TextField
+                                                    id="referralCode"
+                                                    disabled={user?.referralCode}
+                                                    defaultValue={user?.referralCode}
+                                                />
+                                            </div>
+                                        }
+                                        <div className="px-2 lg:flex items-center gap-6">
+                                            <label htmlFor="coupon" className="block mb-3 lg:mb-0 text-sm font-medium text-gray-700">
+                                                Code promo
                                             </label>
                                             <TextField
-                                                id="referralCode"
+                                                id="coupon"
                                             />
                                         </div>
-                                    }
+                                    </div>
                                 </div>
                                 <form className="flex flex-col gap-1 items-center mt-8" onSubmit={e => handleSubmit(e, plan, modulesChecked, additionalSites, addAlert)}>
                                     <Button

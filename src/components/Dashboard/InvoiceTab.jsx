@@ -48,6 +48,7 @@ export default function InvoiceTab({ data, setData, addAlert }) {
                             </td>
                         </tr>
                     ))}
+                    {data.invoices?.length === 0 && <tr><td colSpan="5" className="py-4 px-3 text-center text-gray-600 text-sm">Aucune facture pour le moment.</td></tr>}
                 </tbody>
             </table>
         </div>
