@@ -11,8 +11,8 @@ export function loginUser(username, password) {
     return api("/login", "post", { username, password });
 }
 
-export async function registerUser(email, firstname, lastname, username, password, avatar, referralCode) {
-    const res = await api("/profile", "post", { username, password, email, firstname, lastname, referralCode });
+export async function registerUser(email, firstname, lastname, username, password, avatar, affiliateCode) {
+    const res = await api("/profile", "post", { username, password, email, firstname, lastname, affiliateCode });
 
     if (avatar) {
         await uploadAvatar(avatar);

@@ -3,7 +3,7 @@ import { Button } from '../Misc/Button'
 import { TextField } from '../Misc/Fields'
 import logo from '../../images/logo.png'
 import { Link, useHistory } from 'react-router-dom'
-import { fieldPattern, getPasswordErrors, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern, passwordPattern, referralCodePattern } from '../../lib/utils/regex'
+import { fieldPattern, getPasswordErrors, handleFieldInput, handleLastnameInput, handleNameInput, isPassword, lastnamePattern, namePattern, passwordPattern, affiliateCodePattern } from '../../lib/utils/regex'
 import { AlertError } from '../Misc/Alerts'
 import { useEffect, useState } from 'react'
 import { registerUser } from '../../lib/service/authentification'
@@ -108,11 +108,12 @@ export default function Register({ user, setUser }) {
                     <TextField
                         className="col-span-full"
                         label="Code d'affiliation"
-                        id="referralCode"
-                        name="referralCode"
+                        id="affiliateCode"
+                        name="affiliateCode"
                         maxLength="12"
                         minLength="12"
-                        pattern={referralCodePattern}
+                        optinal="optionnel"
+                        pattern={affiliateCodePattern}
                     />
                     {error && <AlertError className="col-span-full" title={typeof error == "string" ? error : error[0]} list={Array.isArray(error) ? error.slice(1) : undefined} canClose={typeof error == "string"} onClose={() => setError(null)} />}
                     <div className="col-span-full">
@@ -151,12 +152,12 @@ async function handleRegister(e, setError, setUser, redirect, history) {
     const username = e.target.username.value.trim();
     const email = e.target.email.value.trim();
     const password = e.target.password.value.trim();
-    const referralCode = e.target.referralCode.value.trim();
+    const affiliateCode = e.target.affiliateCode.value.trim();
 
     if (!isPassword(password)) return;
 
     try {
-        const user = await registerUser(email, firstname, lastname, username, password, null, referralCode);
+        const user = await registerUser(email, firstname, lastname, username, password, null, affiliateCode);
         setError(null);
         setUser(user);
 

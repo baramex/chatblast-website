@@ -225,13 +225,13 @@ export default function CheckoutModal({ open, user, data, setData, addAlert, def
                                     <div className="grid grid-cols-1 sm:grid-cols-2 mt-7 gap-8">
                                         {firstSubscription &&
                                             <div className="px-2 lg:flex items-center gap-6">
-                                                <label htmlFor="referralCode" className="block mb-3 lg:mb-0 text-sm font-medium text-gray-700">
+                                                <label htmlFor="affiliateCode" className="block mb-3 lg:mb-0 text-sm font-medium text-gray-700">
                                                     Code d'affiliation
                                                 </label>
                                                 <TextField
-                                                    id="referralCode"
-                                                    disabled={user?.referralCode}
-                                                    defaultValue={user?.referralCode}
+                                                    id="affiliateCode"
+                                                    disabled={user?.affiliateCode}
+                                                    defaultValue={user?.affiliateCode}
                                                 />
                                             </div>
                                         }

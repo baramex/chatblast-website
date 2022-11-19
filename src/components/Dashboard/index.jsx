@@ -6,6 +6,7 @@ import {
     ComputerDesktopIcon,
     HomeIcon,
     LifebuoyIcon,
+    UserGroupIcon,
     UserIcon,
     XMarkIcon,
 } from '@heroicons/react/24/outline';
@@ -17,7 +18,8 @@ import { UserMenu, userNavigation } from '../Misc/Menus';
 const navigation = [
     { name: 'Profil', href: '/dashboard/profile', icon: UserIcon },
     { name: 'Intégrations', href: '/dashboard/integrations', icon: ComputerDesktopIcon },
-    { name: 'Factures', href: '/dashboard/invoices', icon: BanknotesIcon }
+    { name: 'Factures', href: '/dashboard/invoices', icon: BanknotesIcon },
+    { name: 'Affiliation', href: '/dashboard/affiliate', icon: UserGroupIcon },
 ];
 
 export default function Dashboard({ Tab, ...props }) {

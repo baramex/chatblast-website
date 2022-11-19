@@ -11,10 +11,8 @@ import { Link } from "react-router-dom";
 
 export default function IntegrationTab({ addAlert, data, setData }) {
     useEffect(() => {
-        (async () => {
-            if (!data.integrations) fetchData(addAlert, dataSetter(setData, "integrations"), fetchIntegrations);
-            if (!data.subscriptions) fetchData(addAlert, dataSetter(setData, "subscriptions"), fetchSubscriptions);
-        })();
+        if (!data.integrations) fetchData(addAlert, dataSetter(setData, "integrations"), fetchIntegrations);
+        if (!data.subscriptions) fetchData(addAlert, dataSetter(setData, "subscriptions"), fetchSubscriptions);
     }, []);
 
     const { integrations, subscriptions } = data;
