@@ -9,7 +9,7 @@ import { Button } from "../Misc/Button";
 import { dataSetter, fetchData } from "../../lib/service";
 import { Link } from "react-router-dom";
 
-export default function IntegrationTab({ addAlert, data, setData }) {
+export default function IntegrationsTab({ addAlert, data, setData }) {
     useEffect(() => {
         if (!data.integrations) fetchData(addAlert, dataSetter(setData, "integrations"), fetchIntegrations);
         if (!data.subscriptions) fetchData(addAlert, dataSetter(setData, "subscriptions"), fetchSubscriptions);

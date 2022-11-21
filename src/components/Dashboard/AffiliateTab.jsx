@@ -1,12 +1,15 @@
 import { fetchAffiliation, fetchUsersAffiliation, updateAffiliation } from "../../lib/service/affiliation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { dataSetter, fetchData } from "../../lib/service";
 import { Label, TextField } from "../Misc/Fields";
 import { Button } from "../Misc/Button";
 import { LinkIcon } from "@heroicons/react/20/solid";
 import { formatDate } from "../../lib/utils/date";
+import useBeforeUnload from "../../lib/hooks/useBeforeUnload";
 
 export default function AffiliateTab({ user, data, setData, addAlert }) {
+    const form = useRef(null);
+
     useEffect(() => {
         if (!data.affiliation) fetchData(addAlert, dataSetter(setData, "affiliation"), fetchAffiliation);
     }, []);
@@ -14,6 +17,11 @@ export default function AffiliateTab({ user, data, setData, addAlert }) {
     useEffect(() => {
         if (data.affiliation && !data.users_affiliation) fetchData(addAlert, dataSetter(setData, "users_affiliation"), fetchUsersAffiliation);
     }, [data.affiliation]);
+
+    useBeforeUnload({
+        message: "Voulez-vous vraiment quitter cette page ? Les modifications non enregistrées seront perdues.",
+        when: () => form.current ? Array.from(form.current.querySelectorAll("input")).some(a => a.hasAttribute("changed")) : false
+    });
 
     const url = data.affiliation ? `${document.location.origin}/register?affiliateCode=${data.affiliation?.code}` : null;
 
@@ -23,7 +31,7 @@ export default function AffiliateTab({ user, data, setData, addAlert }) {
         </div>
         <div className="px-6 mt-5">
             <p className="text-sm text-gray-800">Pour chaque utilisateur utilisant votre code, vous recevez 10% de sa première commande, directement sur paypal !</p>
-            <form onSubmit={e => handleSave(e, setData, addAlert)} className="mt-5 max-w-xl">
+            <form ref={form} onSubmit={e => handleSave(e, setData, addAlert)} className="mt-5 max-w-xl">
                 <div>
                     <Label>Email Paypal</Label>
                     <div className="flex gap-6">

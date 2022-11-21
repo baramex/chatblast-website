@@ -11,7 +11,9 @@ import { registerUser } from '../../lib/service/authentification'
 export default function Register({ user, setUser }) {
     const [error, setError] = useState(null);
     const history = useHistory();
-    const redirect = new URLSearchParams(document.location.search).get("redirect");
+    const query = new URLSearchParams(document.location.search);
+    const affiliateCode = query.get("affiliateCode");
+    const redirect = query.get("redirect");
     if (redirect && (!redirect.startsWith("/") || redirect.includes("http") || redirect.includes("."))) redirect = "";
 
     useEffect(() => {
@@ -114,6 +116,7 @@ export default function Register({ user, setUser }) {
                         minLength="12"
                         optinal="optionnel"
                         pattern={affiliateCodePattern}
+                        defaultValue={affiliateCode}
                     />
                     {error && <AlertError className="col-span-full" title={typeof error == "string" ? error : error[0]} list={Array.isArray(error) ? error.slice(1) : undefined} canClose={typeof error == "string"} onClose={() => setError(null)} />}
                     <div className="col-span-full">

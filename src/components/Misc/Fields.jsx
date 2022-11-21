@@ -56,7 +56,7 @@ export function TextField({
                     </label>
                 </div>
                 :
-                <Field Element="input" id={id} type={"text"} {...props} />
+                <Field Element="input" id={id} type={type} {...props} />
             }
         </div >
     )

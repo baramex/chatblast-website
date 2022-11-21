@@ -21,7 +21,7 @@ export function AlertSuccess({ border, ...props }) {
 
 export function Alert({ title, list, className, bgColor, iconStyle, titleColor, textColor, Icon, crossStyle, border, canClose = true, onClose, ephemeral, ...props }) {
     return (
-        <div className={clsx("p-4 animate-slide-in", className, bgColor, border ? "rounded-r-md border-l-2" : ephemeral ? "rounded-full sm:mx-auto sm:w-3/12 min-w-[24rem]" : "rounded-md", border)} onAnimationEnd={ephemeral ? a => { if (a.animationName === "slide-in") { a.target.classList.remove("animate-slide-in"); a.target.classList.add("animate-delayed-fade-out"); } if (a.animationName === "fade-out") { onClose(); }; } : null} {...props}>
+        <div className={clsx("p-4 animate-slide-in pointer-events-auto", className, bgColor, border ? "rounded-r-md border-l-2" : ephemeral ? "rounded-full sm:mx-auto sm:w-3/12 min-w-[24rem]" : "rounded-md", border)} onAnimationEnd={ephemeral ? a => { if (a.animationName === "slide-in") { a.target.classList.remove("animate-slide-in"); a.target.classList.add("animate-delayed-fade-out"); } if (a.animationName === "fade-out") { onClose(); }; } : null} {...props}>
             <div className={clsx("flex", list ? "" : "items-center")}>
                 <div className="flex-shrink-0">
                     <Icon className={clsx("h-5 w-5", iconStyle)} aria-hidden="true" />
@@ -57,7 +57,7 @@ export function Alert({ title, list, className, bgColor, iconStyle, titleColor, 
 
 export function AlertContainer({ alerts, setAlerts }) {
     return (
-        <div className="w-[calc(100%-4rem)] flex flex-col gap-5 fixed top-0 left-0 m-8 z-50">
+        <div className="w-[calc(100%-4rem)] flex flex-col gap-5 fixed top-0 left-0 m-8 z-50 pointer-events-none">
             {
                 alerts.map(alert => {
                     const opt = {

@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 export function PaypalIcon(props) {
     return (<svg xmlns="http://www.w3.org/2000/svg"
         aria-label="PayPal"
@@ -19,4 +21,42 @@ export function PaypalLabel(props) {
         <path fill="#179BD7" d="M79.775 13.075h-3.273c-.281 0-.52.204-.562.481l-.145.916-.23-.332c-.709-1.029-2.289-1.373-3.867-1.373-3.619 0-6.709 2.741-7.311 6.586-.312 1.918.131 3.752 1.219 5.031 1 1.176 2.426 1.666 4.125 1.666 2.916 0 4.533-1.875 4.533-1.875l-.146.91c-.055.348.213.66.564.66h2.949c.467 0 .865-.34.938-.803l1.771-11.209C80.394 13.388 80.126 13.075 79.775 13.075zM75.21 19.449c-.314 1.871-1.801 3.127-3.695 3.127-.949 0-1.711-.305-2.199-.883-.484-.574-.666-1.391-.514-2.301.297-1.855 1.805-3.152 3.67-3.152.93 0 1.686.309 2.184.892C75.157 17.721 75.355 18.543 75.21 19.449z" />
         <path fill="#179BD7" d="M83.636 7.23l-2.807 17.858c-.055.346.213.658.562.658h2.822c.469 0 .867-.34.939-.803l2.768-17.536c.055-.346-.213-.659-.562-.659h-3.16C83.919 6.749 83.679 6.953 83.636 7.23z" />
     </svg>)
+}
+
+export function MacaronIntegrationIcon({ className, ...props }) {
+    return (<object className={clsx("h-fit", className)} {...props}>
+        <div className="rounded-lg border border-gray-200 bg-slate-50 aspect-[7/10] p-2 flex flex-col justify-between relative h-20">
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="absolute bottom-1 right-1">
+                <div className="rounded-full h-2.5 w-2.5 bg-emerald-200 flex items-center justify-center">
+                    <div className="h-0.5 w-0.5 bg-white" />
+                </div>
+            </div>
+        </div>
+    </object>);
+}
+
+export function IncontentIntegrationIcon({className, ...props}) {
+    return (<object className={clsx("h-fit", className)} {...props}>
+        <div className="rounded-lg border border-gray-200 bg-slate-50 aspect-[7/10] p-2 flex flex-col justify-between relative h-20">
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-emerald-200 w-full h-4 rounded-sm" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+        </div>
+    </object>);
 }
