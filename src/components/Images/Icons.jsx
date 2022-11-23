@@ -23,9 +23,9 @@ export function PaypalLabel(props) {
     </svg>)
 }
 
-export function MacaronIntegrationIcon({ className, ...props }) {
+export function MacaronIntegrationRightIcon({ className, ...props }) {
     return (<object className={clsx("h-fit", className)} {...props}>
-        <div className="rounded-lg border border-gray-200 bg-slate-50 aspect-[7/10] p-2 flex flex-col justify-between relative h-20">
+        <div className="rounded-lg border border-gray-200 bg-slate-50 aspect-[7/9] p-2 flex flex-col justify-between relative h-20">
             <div className="bg-slate-200 w-full h-0.5 rounded-md" />
             <div className="bg-slate-200 w-full h-0.5 rounded-md" />
             <div className="bg-slate-200 w-full h-0.5 rounded-md" />
@@ -45,9 +45,31 @@ export function MacaronIntegrationIcon({ className, ...props }) {
     </object>);
 }
 
-export function IncontentIntegrationIcon({className, ...props}) {
+export function MacaronIntegrationLeftIcon({ className, ...props }) {
     return (<object className={clsx("h-fit", className)} {...props}>
-        <div className="rounded-lg border border-gray-200 bg-slate-50 aspect-[7/10] p-2 flex flex-col justify-between relative h-20">
+        <div className="rounded-lg border border-gray-200 bg-slate-50 aspect-[7/9] p-2 flex flex-col justify-between relative h-20">
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="bg-slate-200 w-full h-0.5 rounded-md" />
+            <div className="absolute bottom-1 left-1">
+                <div className="rounded-full h-2.5 w-2.5 bg-emerald-200 flex items-center justify-center">
+                    <div className="h-0.5 w-0.5 bg-white" />
+                </div>
+            </div>
+        </div>
+    </object>);
+}
+
+export function IncontentIntegrationIcon({ className, ...props }) {
+    return (<object className={clsx("h-fit", className)} {...props}>
+        <div className="rounded-lg border border-gray-200 bg-slate-50 aspect-[7/9] p-2 flex flex-col justify-between relative h-20">
             <div className="bg-slate-200 w-full h-0.5 rounded-md" />
             <div className="bg-emerald-200 w-full h-4 rounded-sm" />
             <div className="bg-slate-200 w-full h-0.5 rounded-md" />
@@ -59,4 +81,10 @@ export function IncontentIntegrationIcon({className, ...props}) {
             <div className="bg-slate-200 w-full h-0.5 rounded-md" />
         </div>
     </object>);
+}
+
+export function TriangleIcon({ className, ...props }) {
+    return (<svg className={clsx("h-4 w-4", className)} {...props} viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="0,0 5,5 10,0"/>
+    </svg>)
 }
