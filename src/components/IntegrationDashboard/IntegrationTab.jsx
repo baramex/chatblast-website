@@ -95,13 +95,18 @@ export default function IntegrationTab() {
             </div>
             <div>
                 <h3 className="text-lg font-medium">Bulle message</h3>
-                <div className="w-1/2 flex flex-col items-end mt-4">
+                <div className="xl:w-1/2 sm:w-3/4 flex flex-col items-end mt-4">
                     <Bubble className="flex">
-                        <input
-                            type="text"
-                            placeholder="Essaye de mettre un message"
-                            className="text-sm transition-colors border border-transparent hover:border-gray-200 px-1.5 py-1 hover:ring-0 focus:ring-0 focus:outline-none focus:border-gray-300 placeholder:text-gray-400"
-                        />
+                        <div className="relative py-1">
+                            <span aria-hidden="true" className="invisible px-2 whitespace-nowrap">Écrivez quelque chose...</span>
+                            <input
+                                type="text"
+                                className="left-0 top-0 absolute w-full text-sm transition-colors border border-transparent hover:border-gray-200 px-1.5 py-1 hover:ring-0 focus:ring-0 focus:outline-none focus:border-gray-300 placeholder:text-gray-400"
+                                onInput={e => e.target.parentElement.querySelector("span").innerText = e.target.value || e.target.placeholder}
+                                placeholder="Écrivez quelque chose..."
+                                maxLength={52}
+                            />
+                        </div>
                         <button className="outline-none" disabled>
                             <XMarkIcon className="text-gray-500 w-5 ml-2" />
                         </button>
@@ -116,4 +121,22 @@ export default function IntegrationTab() {
             </div>
         </div>
     </>);
+}
+
+function setCaretPosition(elem, caretPos) {
+    if (elem != null) {
+        if (elem.createTextRange) {
+            var range = elem.createTextRange();
+            range.move('character', caretPos);
+            range.select();
+        }
+        else {
+            if (elem.selectionStart) {
+                elem.focus();
+                elem.setSelectionRange(caretPos, caretPos);
+            }
+            else
+                elem.focus();
+        }
+    }
 }
