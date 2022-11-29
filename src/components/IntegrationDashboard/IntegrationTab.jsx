@@ -2,13 +2,12 @@ import { RadioGroup } from "@headlessui/react";
 import clsx from "clsx";
 import logo from '../../images/logo.png'
 import { useState } from "react";
-import { IncontentIntegrationIcon, MacaronIntegrationLeftIcon, MacaronIntegrationRightIcon, TriangleIcon } from "../Images/Icons";
+import { IncontentIntegrationIcon, MacaronIntegrationIcon, MacaronIntegrationSideIcon } from "../Images/Icons";
 import { RadioOptionCustom, RadioOptionRect } from "../Misc/Radio";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { TextField } from "../Misc/Fields";
 
 const types = [
-    { id: "macaron", title: "Macaron", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc sit amet ultricies lacinia, nulla nunc tincidunt augue, eget ultricies lorem ipsum eu nunc. Sed euismod, nunc sit amet ultricies lacinia, nulla nunc tincidunt augue, eget ultricies lorem ipsum eu nunc.", Icon: MacaronIntegrationRightIcon },
+    { id: "macaron", title: "Macaron", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc sit amet ultricies lacinia, nulla nunc tincidunt augue, eget ultricies lorem ipsum eu nunc. Sed euismod, nunc sit amet ultricies lacinia, nulla nunc tincidunt augue, eget ultricies lorem ipsum eu nunc.", Icon: MacaronIntegrationIcon },
     { id: "incontent", title: "Dans le contenu", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc sit amet ultricies lacinia, nulla nunc tincidunt augue, eget ultricies lorem ipsum eu nunc. Sed euismod, nunc sit amet ultricies lacinia, nulla nunc tincidunt augue, eget ultricies lorem ipsum eu nunc.", Icon: IncontentIntegrationIcon }
 ];
 
@@ -23,14 +22,22 @@ const shapes = [
     },
 ];
 
-const places = [
+const appearances = [
     {
-        id: "right", title: "En bas à droite",
-        element: <MacaronIntegrationRightIcon />
+        id: "block", title: "En bloc",
+        element: <MacaronIntegrationIcon />
     },
     {
-        id: "left", title: "En bas à gauche",
-        element: <MacaronIntegrationLeftIcon />
+        id: "side", title: "Semi-caché sur le côté",
+        element: <MacaronIntegrationSideIcon />
+    }
+];
+
+const colors = [
+    {
+        id: "white-emerald",
+        color1: "white",
+        color2: "emerald-500"
     }
 ]
 
@@ -48,7 +55,8 @@ function Bubble({ children, className }) {
 export default function IntegrationTab() {
     const [type, setType] = useState(types[0]);
     const [shape, setShape] = useState(shapes[0]);
-    const [place, setPlace] = useState(places[0]);
+    const [appearance, setAppearance] = useState(appearances[0]);
+    const [color, setColor] = useState(colors[0]);
 
     return (<>
         <div className="px-5">
@@ -81,10 +89,10 @@ export default function IntegrationTab() {
                 </div>
             </div>
             <div>
-                <h3 className="text-lg font-medium">Emplacement</h3>
-                <RadioGroup value={place} onChange={setPlace}>
+                <h3 className="text-lg font-medium">Apparition</h3>
+                <RadioGroup value={appearance} onChange={setAppearance}>
                     <div className="mt-4 grid grid-cols-2 gap-x-12 justify-items-center">
-                        {places.map((p) => <div className="flex flex-col items-center" key={p.id}>
+                        {appearances.map((p) => <div className="flex flex-col items-center" key={p.id}>
                             <RadioOptionCustom value={p} className="rounded-lg">
                                 {p.element}
                             </RadioOptionCustom>
@@ -117,7 +125,23 @@ export default function IntegrationTab() {
                 </div>
             </div>
             <div>
-                <h3 className="text-lg font-medium">Apparition</h3>
+                <h3 className="text-lg font-medium">Couleur</h3>
+                <RadioGroup value={color} onChange={setColor}>
+                    <div className="mt-4 grid gap-x-12 justify-items-center">
+                        {colors.map((p) => <div className="flex flex-col items-center" key={p.id}>
+                            <RadioOptionCustom value={p} className="rounded-full w-12 h-12">
+                                <div className="rotate-45 w-full h-full rounded-full overflow-hidden border border-gray-300">
+                                    <div className="inline-block overflow-hidden w-1/2 h-full">
+                                        <div className={clsx("w-12 h-full", p.color1 === "white" ? "bg-white" : "")}></div>
+                                    </div>
+                                    <div className="inline-block overflow-hidden w-1/2 h-full">
+                                        <div className={clsx("-ml-6 w-12 h-full", p.color2 === "emerald-500" ? "bg-emerald-500" : "")}></div>
+                                    </div>
+                                </div>
+                            </RadioOptionCustom>
+                        </div>)}
+                    </div>
+                </RadioGroup>
             </div>
         </div>
     </>);
